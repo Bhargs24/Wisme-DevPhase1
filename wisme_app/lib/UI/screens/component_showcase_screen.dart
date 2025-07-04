@@ -185,7 +185,7 @@ class _ComponentShowcaseScreenState extends State<ComponentShowcaseScreen> {
         AppSearchField(
           controller: _searchController,
           hintText: 'Search for anything...',
-          onChanged: (value) => print('Search: $value'),
+          onChanged: (value) => debugPrint('Search: $value'),
         ),
         
         const SizedBox(height: AppDimensions.spaceL),
@@ -223,24 +223,17 @@ class _ComponentShowcaseScreenState extends State<ComponentShowcaseScreen> {
   }
 
   Widget _buildCardSection() {
-    final sampleLesson = LessonModel(
-      lessonId: 'sample_1',
-      topic: 'Flutter Development',
-      subtopic: 'State Management',
+    final sampleLesson = ContentBlock(
+      id: 'sample_1',
+      category: 'Flutter Development',
+      topic: 'State Management',
+      contentType: 'concept',
+      difficulty: 'beginner',
       title: 'Understanding Provider Pattern',
-      audioUrl: 'https://example.com/audio.mp3',
-      text: 'This lesson covers the Provider pattern in Flutter, which is one of the most popular state management solutions.',
-      summary: 'Learn how to use Provider for state management in Flutter applications.',
-      wordCount: 150,
-      durationSeconds: 180,
-      length: '3:00',
+      script: 'This lesson covers the Provider pattern in Flutter, which is one of the most popular state management solutions.',
       tags: ['flutter', 'state-management', 'provider'],
-      coachVoice: 'default',
+      duration: const Duration(minutes: 3),
       createdAt: DateTime.now(),
-      accessCount: 42,
-      lastAccessedAt: DateTime.now(),
-      fileSize: 1024 * 1024 * 2, // 2MB
-      storagePath: 'lessons/audio/flutter/state_management.mp3',
     );
 
     return Column(

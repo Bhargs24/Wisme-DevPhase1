@@ -4,6 +4,7 @@ import '../../constants/app_colors.dart';
 import '../../providers/user_provider.dart';
 import '../../providers/lesson_provider.dart';
 import '../../providers/voice_provider.dart';
+import '../../models/topic_model.dart';
 import '../widgets/lesson_card.dart';
 import '../widgets/voice_selector_widget.dart';
 import '../widgets/app_text_field.dart';
@@ -18,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
-  String _selectedTopic = '';
+  TopicAnalysis? _selectedTopic;
 
   @override
   void initState() {
@@ -34,37 +35,75 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _selectedTopic = lessonProvider.topics.first;
       });
-      lessonProvider.loadLessonsByTopic(_selectedTopic);
+      if (_selectedTopic != null) {
+        lessonProvider.loadLessonsByTopic(_selectedTopic!);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Wisme - Learn Anything'),
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () => Navigator.pushNamed(context, '/profile'),
+    return Consumer<UserProvider>(
+      builder: (context, userProvider, child) {
+        // Show loading screen while checking authentication
+        if (userProvider.isLoading) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        
+        // Always show home screen - guest access is allowed
+        return _buildHomeScreen(context);
+      },
+    );
+  }
+
+  Widget _buildHomeScreen(BuildContext context) {
+    return Consumer<UserProvider>(
+      builder: (context, userProvider, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Wisme'),
+            elevation: 0,
+            actions: [
+              if (userProvider.isLoggedIn) ...[
+                // User is logged in - show profile
+                IconButton(
+                  icon: const Icon(Icons.person),
+                  onPressed: () => Navigator.pushNamed(context, '/profile'),
+                ),
+              ] else ...[
+                // User is not logged in - show sign in option
+                TextButton(
+                  onPressed: () => Navigator.pushNamed(context, '/login'),
+                  child: const Text(
+                    'Sign In',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ],
           ),
-        ],
-      ),
-      body: Column(
-        children: [
-          _buildHeader(),
-          _buildSearchBar(),
-          _buildTopicSelector(),
-          _buildVoiceSelector(),
-          Expanded(child: _buildLessonsList()),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showGenerateLessonDialog,
-        backgroundColor: AppColors.primary,
-        child: const Icon(Icons.add),
-      ),
+          body: Column(
+            children: [
+              _buildHeader(),
+              _buildSearchBar(),
+              _buildTopicSelector(),
+              _buildVoiceSelector(),
+              Expanded(child: _buildLessonsList()),
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: _showGenerateLessonDialog,
+            backgroundColor: AppColors.primary,
+            child: const Icon(Icons.add),
+          ),
+        );
+      },
     );
   }
 
@@ -85,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hello, ${user?.name ?? 'Learner'}!',
+                'Hello, ${user?.displayName ?? 'Learner'}!',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: Colors.white,
                 ),
@@ -138,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: FilterChip(
-                  label: Text(topic),
+                  label: Text(topic.originalTopic),
                   selected: isSelected,
                   onSelected: (selected) {
                     if (selected) {
@@ -148,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       lessonProvider.loadLessonsByTopic(topic);
                     }
                   },
-                  selectedColor: AppColors.primary.withOpacity(0.2),
+                  selectedColor: AppColors.primary.withValues(alpha: 0.2),
                   checkmarkColor: AppColors.primary,
                 ),
               );
@@ -169,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const Icon(Icons.record_voice_over, color: AppColors.textSecondary),
               const SizedBox(width: 8),
               Text(
-                'Voice: ${voiceProvider.getVoiceDisplayName(voiceProvider.selectedVoice)}',
+                'Voice: ${voiceProvider.getVoiceDisplayName(voiceProvider.selectedVoice?.voiceId)}',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const Spacer(),
@@ -310,14 +349,11 @@ class _HomeScreenState extends State<HomeScreen> {
     required String subtopic,
     required String userQuery,
   }) async {
-    final voiceProvider = context.read<VoiceProvider>();
     final lessonProvider = context.read<LessonProvider>();
 
     final lesson = await lessonProvider.generateLesson(
-      topic: topic,
-      subtopic: subtopic,
-      userQuery: userQuery,
-      coachVoice: voiceProvider.selectedVoice,
+      topic,
+      userQuery,
     );
 
     if (lesson != null && mounted) {

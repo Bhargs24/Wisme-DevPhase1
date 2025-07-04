@@ -1,135 +1,234 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../services/auth_services.dart';
 import '../models/user_model.dart';
+import '../services/auth_services.dart';
+import '../utils/logger.dart';
 
 class UserProvider extends ChangeNotifier {
   final AuthService _authService;
   final SharedPreferences _prefs;
 
-  UserModel? _user;
+  UserModel? _currentUser;
   bool _isLoading = false;
-  bool _isLoggedIn = false;
+  String? _error;
 
   UserProvider({
     required AuthService authService,
     required SharedPreferences prefs,
-  }) : _authService = authService, _prefs = prefs {
-    _initialize();
+  }) : _authService = authService, 
+       _prefs = prefs {
+    _initializeUser();
   }
 
   // Getters
-  UserModel? get user => _user;
+  UserModel? get currentUser => _currentUser;
+  UserModel? get user => _currentUser; // Alias for UI compatibility
   bool get isLoading => _isLoading;
-  bool get isLoggedIn => _isLoggedIn;
+  String? get error => _error;
+  bool get isLoggedIn => _currentUser != null;
+  
+  // Onboarding state
+  bool get hasSeenOnboarding => _prefs.getBool('has_seen_onboarding') ?? false;
 
-  Future<void> _initialize() async {
+  Future<void> markOnboardingSeen() async {
+    await _prefs.setBool('has_seen_onboarding', true);
+    notifyListeners();
+  }
+
+  void clearError() {
+    _error = null;
+    notifyListeners();
+  }
+
+  void _initializeUser() {
+    // Listen to auth state changes
+    _authService.authStateChanges.listen((user) async {
+      if (user != null) {
+        await _loadUserProfile(user.uid);
+      } else {
+        _currentUser = null;
+        notifyListeners();
+      }
+    });
+  }
+
+  Future<void> _loadUserProfile(String userId) async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      // Check if user is already logged in
-      final userId = _prefs.getString('user_id');
-      if (userId != null) {
-        final userData = await _authService.getCurrentUser(userId);
-        if (userData != null) {
-          _user = UserModel.fromMap(userData);
-          _isLoggedIn = true;
-        }
-      }
+      _currentUser = await _authService.getUserProfile(userId);
+      AppLogger.info('User profile loaded: ${_currentUser?.id}');
     } catch (e) {
-      if (kDebugMode) {
-        print('Error initializing user: $e');
-      }
+      AppLogger.error('Failed to load user profile: $e');
+      _error = 'Failed to load user profile';
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
-  Future<bool> login(String email, String password) async {
+  Future<void> updateUserProfile(UserModel updatedUser) async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      final userData = await _authService.signInWithEmailAndPassword(email, password);
-      if (userData != null) {
-        _user = UserModel.fromMap(userData);
-        _isLoggedIn = true;
-        await _prefs.setString('user_id', _user!.id);
-        notifyListeners();
-        return true;
-      }
+      await _authService.updateUserProfile(updatedUser);
+      _currentUser = updatedUser;
+      AppLogger.info('User profile updated: ${updatedUser.id}');
     } catch (e) {
-      if (kDebugMode) {
-        print('Error logging in: $e');
-      }
+      AppLogger.error('Failed to update user profile: $e');
+      _error = 'Failed to update profile';
     } finally {
       _isLoading = false;
       notifyListeners();
     }
-    return false;
+  }
+
+  Future<void> refreshUserProfile() async {
+    if (_currentUser != null) {
+      await _loadUserProfile(_currentUser!.id);
+    }
+  }
+
+  void clearUser() {
+    _currentUser = null;
+    _error = null;
+    notifyListeners();
+  }
+
+  // User preferences helpers
+  String get preferredLanguage => 
+      _currentUser?.preferences.preferredLanguage ?? 'en';
+
+  String get selectedVoiceId => 
+      _currentUser?.preferences.voiceId ?? 'default';
+
+  List<String> get userInterests => 
+      _currentUser?.preferences.interests ?? [];
+
+  Duration get preferredSessionDuration => 
+      _currentUser?.preferences.sessionDuration ?? const Duration(minutes: 15);
+
+  bool get notificationsEnabled => 
+      _currentUser?.preferences.notificationsEnabled ?? true;
+
+  Future<bool> login(String email, String password) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      final user = await _authService.signInWithEmail(email, password);
+      if (user != null) {
+        _currentUser = user;
+        AppLogger.info('User logged in: ${user.id}');
+        return true;
+      } else {
+        _error = 'Login failed. Please check your credentials.';
+        return false;
+      }
+    } catch (e) {
+      AppLogger.error('Login failed: $e');
+      _error = 'Login failed: ${e.toString()}';
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   Future<bool> register(String email, String password, String name) async {
     _isLoading = true;
+    _error = null;
     notifyListeners();
 
     try {
-      final userData = await _authService.createUserWithEmailAndPassword(email, password, name);
-      if (userData != null) {
-        _user = UserModel.fromMap(userData);
-        _isLoggedIn = true;
-        await _prefs.setString('user_id', _user!.id);
-        notifyListeners();
+      final user = await _authService.registerWithEmail(
+        email: email,
+        password: password,
+        name: name,
+      );
+      if (user != null) {
+        _currentUser = user;
+        AppLogger.info('User registered: ${user.id}');
         return true;
+      } else {
+        _error = 'Registration failed. Please try again.';
+        return false;
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Error registering: $e');
-      }
+      AppLogger.error('Registration failed: $e');
+      _error = 'Registration failed: ${e.toString()}';
+      return false;
     } finally {
       _isLoading = false;
       notifyListeners();
     }
-    return false;
   }
 
-  Future<void> logout() async {
+  Future<bool> signInWithGoogle() async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      final user = await _authService.signInWithGoogle();
+      if (user != null) {
+        _currentUser = user;
+        AppLogger.info('User signed in with Google: ${user.id}');
+        return true;
+      } else {
+        _error = 'Google sign-in failed.';
+        return false;
+      }
+    } catch (e) {
+      AppLogger.error('Google sign-in failed: $e');
+      _error = 'Google sign-in failed: ${e.toString()}';
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> signOut() async {
     _isLoading = true;
     notifyListeners();
 
     try {
       await _authService.signOut();
-      await _prefs.remove('user_id');
-      _user = null;
-      _isLoggedIn = false;
+      clearUser();
+      AppLogger.info('User signed out');
     } catch (e) {
-      if (kDebugMode) {
-        print('Error logging out: $e');
-      }
+      AppLogger.error('Sign out failed: $e');
+      _error = 'Sign out failed';
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
-  Future<void> updateProfile(Map<String, dynamic> data) async {
-    if (_user == null) return;
+  Future<bool> resetPassword(String email) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
 
     try {
-      await _authService.updateUserProfile(_user!.id, data);
-      _user = _user!.copyWith(
-        name: data['name'] ?? _user!.name,
-        email: data['email'] ?? _user!.email,
-        preferredVoice: data['preferredVoice'] ?? _user!.preferredVoice,
-        learningGoals: data['learningGoals'] ?? _user!.learningGoals,
-      );
-      notifyListeners();
+      await _authService.resetPassword(email);
+      AppLogger.info('Password reset email sent to: $email');
+      return true;
     } catch (e) {
-      if (kDebugMode) {
-        print('Error updating profile: $e');
-      }
+      AppLogger.error('Password reset failed: $e');
+      _error = 'Password reset failed: ${e.toString()}';
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
+  }
+
+  Future<void> logout() async {
+    await signOut();
   }
 }

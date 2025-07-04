@@ -158,7 +158,7 @@ class AppTheme {
       // Chip
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.surface,
-        selectedColor: AppColors.primary.withOpacity(0.1),
+        selectedColor: AppColors.primary.withValues(alpha: 0.1),
         labelStyle: const TextStyle(color: AppColors.textPrimary),
         side: const BorderSide(color: AppColors.divider),
         shape: RoundedRectangleBorder(
@@ -185,12 +185,10 @@ class AppTheme {
     primary: AppColors.primary,
     secondary: AppColors.accent,
     surface: AppColors.surface,
-    background: AppColors.background,
     error: AppColors.error,
     onPrimary: AppColors.textOnPrimary,
     onSecondary: AppColors.textPrimary,
     onSurface: AppColors.textPrimary,
-    onBackground: AppColors.textPrimary,
     onError: AppColors.textOnPrimary,
   );
 }

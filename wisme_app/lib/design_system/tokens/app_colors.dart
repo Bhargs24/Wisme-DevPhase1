@@ -101,40 +101,40 @@ class AppColors {
 
   /// Get semantic color with opacity
   static Color withOpacity(Color color, double opacity) {
-    return color.withOpacity(opacity);
+    return color.withValues(alpha: opacity);
   }
 
   /// Generate color palette for a given base color
   static Map<int, Color> generatePalette(Color baseColor) {
     return {
-      50: baseColor.withOpacity(0.1),
-      100: baseColor.withOpacity(0.2),
-      200: baseColor.withOpacity(0.3),
-      300: baseColor.withOpacity(0.4),
-      400: baseColor.withOpacity(0.5),
+      50: baseColor.withValues(alpha: 0.1),
+      100: baseColor.withValues(alpha: 0.2),
+      200: baseColor.withValues(alpha: 0.3),
+      300: baseColor.withValues(alpha: 0.4),
+      400: baseColor.withValues(alpha: 0.5),
       500: baseColor,
       600: Color.fromRGBO(
-        (baseColor.red * 0.8).round(),
-        (baseColor.green * 0.8).round(),
-        (baseColor.blue * 0.8).round(),
+        (baseColor.r * 0.8).round(),
+        (baseColor.g * 0.8).round(),
+        (baseColor.b * 0.8).round(),
         1,
       ),
       700: Color.fromRGBO(
-        (baseColor.red * 0.6).round(),
-        (baseColor.green * 0.6).round(),
-        (baseColor.blue * 0.6).round(),
+        (baseColor.r * 0.6).round(),
+        (baseColor.g * 0.6).round(),
+        (baseColor.b * 0.6).round(),
         1,
       ),
       800: Color.fromRGBO(
-        (baseColor.red * 0.4).round(),
-        (baseColor.green * 0.4).round(),
-        (baseColor.blue * 0.4).round(),
+        (baseColor.r * 0.4).round(),
+        (baseColor.g * 0.4).round(),
+        (baseColor.b * 0.4).round(),
         1,
       ),
       900: Color.fromRGBO(
-        (baseColor.red * 0.2).round(),
-        (baseColor.green * 0.2).round(),
-        (baseColor.blue * 0.2).round(),
+        (baseColor.r * 0.2).round(),
+        (baseColor.g * 0.2).round(),
+        (baseColor.b * 0.2).round(),
         1,
       ),
     };

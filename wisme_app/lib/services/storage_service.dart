@@ -1,18 +1,28 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:crypto/crypto.dart';
-import 'dart:convert';
+import 'package:logger/logger.dart';
 
 class StorageService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
+  late final FirebaseFirestore _firestore;
+  late final FirebaseStorage _storage;
+  final Logger _logger = Logger();
   
   // Collection references
   static const String _lessonsCollection = 'lessons';
   static const String _topicsCollection = 'topics';
   static const String _audioStoragePath = 'generated_audio';
+
+  StorageService() {
+    try {
+      _firestore = FirebaseFirestore.instance;
+      _storage = FirebaseStorage.instance;
+      _logger.i('✅ StorageService: Firebase Storage initialized');
+    } catch (e) {
+      _logger.w('⚠️ StorageService: Firebase not available (this is expected in offline mode): $e');
+      // The app will continue to work, Firebase-dependent features will show errors
+    }
+  }
 
   /// Normalize topic name for consistent storage
   String _normalizeTopicName(String topic) {
@@ -83,7 +93,7 @@ class StorageService {
       
       return null;
     } catch (e) {
-      print('Error finding existing lesson: $e');
+      _logger.e('Error finding existing lesson: $e');
       return null;
     }
   }
@@ -191,7 +201,7 @@ class StorageService {
         'updated_at': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
     } catch (e) {
-      print('Error updating topic metadata: $e');
+      _logger.e('Error updating topic metadata: $e');
     }
   }
 
@@ -223,7 +233,7 @@ class StorageService {
       
       return snapshot.docs.map((doc) => doc.data()).toList();
     } catch (e) {
-      print('Error getting voice variations: $e');
+      _logger.e('Error getting voice variations: $e');
       return [];
     }
   }
@@ -256,7 +266,7 @@ class StorageService {
       
       return null;
     } catch (e) {
-      print('Error getting lesson content: $e');
+      _logger.e('Error getting lesson content: $e');
       return null;
     }
   }
@@ -338,7 +348,7 @@ class StorageService {
         'last_accessed_at': FieldValue.serverTimestamp(),
       });
     } catch (e) {
-      print('Error incrementing access count: $e');
+      _logger.e('Error incrementing access count: $e');
     }
   }
 
@@ -349,13 +359,13 @@ class StorageService {
       
       final snapshot = await _firestore
           .collection(_lessonsCollection)
-          .where('topic', isEqualTo: topic)
+          .where('topic', isEqualTo: normalizedTopic)
           .orderBy('created_at', descending: false)
           .get();
       
       return snapshot.docs.map((doc) => doc.data()).toList();
     } catch (e) {
-      print('Error getting lessons by topic: $e');
+      _logger.e('Error getting lessons by topic: $e');
       return [];
     }
   }
@@ -374,7 +384,7 @@ class StorageService {
       
       return snapshot.docs.map((doc) => doc.data()).toList();
     } catch (e) {
-      print('Error searching lessons: $e');
+      _logger.e('Error searching lessons: $e');
       return [];
     }
   }
@@ -390,7 +400,7 @@ class StorageService {
       
       return snapshot.docs.map((doc) => doc.data()).toList();
     } catch (e) {
-      print('Error getting popular lessons: $e');
+      _logger.e('Error getting popular lessons: $e');
       return [];
     }
   }
@@ -418,7 +428,7 @@ class StorageService {
           .map((doc) => doc.data())
           .toList();
     } catch (e) {
-      print('Error getting related lessons: $e');
+      _logger.e('Error getting related lessons: $e');
       return [];
     }
   }
@@ -433,7 +443,7 @@ class StorageService {
       
       return snapshot.docs.map((doc) => doc.data()).toList();
     } catch (e) {
-      print('Error getting topics: $e');
+      _logger.e('Error getting topics: $e');
       return [];
     }
   }
@@ -458,7 +468,7 @@ class StorageService {
           final ref = _storage.refFromURL(audioUrl);
           await ref.delete();
         } catch (e) {
-          print('Error deleting storage file: $e');
+          _logger.e('Error deleting storage file: $e');
         }
         
         // Delete lesson document
@@ -470,9 +480,9 @@ class StorageService {
         await _removeFromTopicMetadata(topic, lessonId);
       }
       
-      print('Cleaned up ${snapshot.docs.length} unused lessons');
+      _logger.i('Cleaned up ${snapshot.docs.length} unused lessons');
     } catch (e) {
-      print('Error during cleanup: $e');
+      _logger.e('Error during cleanup: $e');
     }
   }
 
@@ -485,7 +495,7 @@ class StorageService {
         'lesson_count': FieldValue.increment(-1),
       });
     } catch (e) {
-      print('Error removing from topic metadata: $e');
+      _logger.e('Error removing from topic metadata: $e');
     }
   }
 }

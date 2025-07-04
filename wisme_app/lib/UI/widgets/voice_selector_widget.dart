@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../providers/voice_provider.dart';
 import '../../providers/audio_provider.dart';
 
 class VoiceSelectorWidget extends StatefulWidget {
@@ -28,23 +29,23 @@ class _VoiceSelectorWidgetState extends State<VoiceSelectorWidget> {
   }
 
   Future<void> _loadAvailableVoices() async {
-    final audioProvider = context.read<AudioProvider>();
-    final available = await audioProvider.getAvailableVoices();
+    final voiceProvider = context.read<VoiceProvider>();
+    await voiceProvider.refreshVoices();
     
     setState(() {
-      _availableForLesson = available;
+      _availableForLesson = voiceProvider.availableVoices.map((v) => v.voiceId).toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AudioProvider>(
-      builder: (context, audioProvider, child) {
-        if (!audioProvider.hasCurrentLesson) {
+    return Consumer2<AudioProvider, VoiceProvider>(
+      builder: (context, audioProvider, voiceProvider, child) {
+        if (!audioProvider.hasCurrentBlock) {
           return const SizedBox.shrink();
         }
 
-        final currentVoice = audioProvider.currentLesson!.coachVoice;
+        final currentVoice = voiceProvider.selectedVoiceId;
 
         return Container(
           padding: const EdgeInsets.all(16),
@@ -64,7 +65,7 @@ class _VoiceSelectorWidgetState extends State<VoiceSelectorWidget> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -94,7 +95,7 @@ class _VoiceSelectorWidgetState extends State<VoiceSelectorWidget> {
                     isCurrent: isCurrent,
                     isAvailable: isAvailable,
                     isLoading: audioProvider.isLoading,
-                    onTap: () => _switchVoice(voiceId, audioProvider),
+                    onTap: () => _switchVoice(voiceId, audioProvider, voiceProvider),
                   );
                 }).toList(),
               ),
@@ -119,19 +120,19 @@ class _VoiceSelectorWidgetState extends State<VoiceSelectorWidget> {
     );
   }
 
-  Future<void> _switchVoice(String voiceId, AudioProvider audioProvider) async {
-    if (audioProvider.isLoading || voiceId == audioProvider.currentLesson?.coachVoice) {
+  Future<void> _switchVoice(String voiceId, AudioProvider audioProvider, VoiceProvider voiceProvider) async {
+    if (audioProvider.isLoading || voiceId == voiceProvider.selectedVoiceId) {
       return;
     }
 
     try {
-      await audioProvider.switchVoice(voiceId);
+      await voiceProvider.selectVoice(voiceId);
       await _loadAvailableVoices(); // Refresh available voices
       
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Switched to ${_availableVoices[voiceId]}'),
+            content: Text('Switched to ${voiceProvider.getVoiceDisplayName(voiceId)}'),
             duration: const Duration(seconds: 2),
           ),
         );
@@ -176,8 +177,8 @@ class _VoiceOption extends StatelessWidget {
           color: isCurrent 
               ? Theme.of(context).primaryColor
               : isAvailable 
-                  ? Colors.green.withOpacity(0.1)
-                  : Colors.grey.withOpacity(0.1),
+                  ? Colors.green.withValues(alpha: 0.1)
+                  : Colors.grey.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isCurrent 

@@ -5,12 +5,14 @@ import 'dart:typed_data';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crypto/crypto.dart';
+import 'package:logger/logger.dart';
 import 'dart:convert';
 
 class CacheService {
   static const String _audioCacheDir = 'audio_cache';
   static const String _metadataCacheKey = 'audio_metadata_cache';
   static const int _maxCacheSizeMB = 500; // 500MB cache limit
+  final Logger _logger = Logger();
   
   /// Generate cache key for topic
   String _generateCacheKey(String topic, String coachVoice) {
@@ -47,7 +49,7 @@ class CacheService {
       
       return null;
     } catch (e) {
-      print('Error checking cached audio: $e');
+      _logger.e('Error checking cached audio: $e');
       return null;
     }
   }
@@ -79,7 +81,7 @@ class CacheService {
       await _enforceCacheLimit();
       
     } catch (e) {
-      print('Error caching audio: $e');
+      _logger.e('Error caching audio: $e');
     }
   }
 
@@ -97,7 +99,7 @@ class CacheService {
       allMetadata[cacheKey] = metadata;
       await prefs.setString(_metadataCacheKey, json.encode(allMetadata));
     } catch (e) {
-      print('Error storing metadata: $e');
+      _logger.e('Error storing metadata: $e');
     }
   }
 
@@ -114,7 +116,7 @@ class CacheService {
       
       return null;
     } catch (e) {
-      print('Error getting metadata: $e');
+      _logger.e('Error getting metadata: $e');
       return null;
     }
   }
@@ -128,7 +130,7 @@ class CacheService {
         await _storeMetadata(cacheKey, metadata);
       }
     } catch (e) {
-      print('Error updating last accessed: $e');
+      _logger.e('Error updating last accessed: $e');
     }
   }
 
@@ -147,7 +149,7 @@ class CacheService {
       
       return totalSize;
     } catch (e) {
-      print('Error calculating cache size: $e');
+      _logger.e('Error calculating cache size: $e');
       return 0;
     }
   }
@@ -162,7 +164,7 @@ class CacheService {
         await _cleanupOldestFiles(cacheSize - limitBytes);
       }
     } catch (e) {
-      print('Error enforcing cache limit: $e');
+      _logger.e('Error enforcing cache limit: $e');
     }
   }
 
@@ -211,9 +213,9 @@ class CacheService {
       
       await prefs.setString(_metadataCacheKey, json.encode(allMetadata));
       
-      print('Cleaned up ${toRemove.length} cached files, freed ${freedBytes ~/ 1024}KB');
+      _logger.i('Cleaned up ${toRemove.length} cached files, freed ${freedBytes ~/ 1024}KB');
     } catch (e) {
-      print('Error cleaning up old files: $e');
+      _logger.e('Error cleaning up old files: $e');
     }
   }
 
@@ -229,9 +231,9 @@ class CacheService {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(_metadataCacheKey);
       
-      print('Cache cleared successfully');
+      _logger.i('Cache cleared successfully');
     } catch (e) {
-      print('Error clearing cache: $e');
+      _logger.e('Error clearing cache: $e');
     }
   }
 
@@ -256,7 +258,7 @@ class CacheService {
         'usagePercentage': ((cacheSize / (_maxCacheSizeMB * 1024 * 1024)) * 100).toStringAsFixed(1),
       };
     } catch (e) {
-      print('Error getting cache stats: $e');
+      _logger.e('Error getting cache stats: $e');
       return {};
     }
   }

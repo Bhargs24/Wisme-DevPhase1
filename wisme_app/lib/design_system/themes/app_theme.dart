@@ -37,12 +37,10 @@ class AppTheme {
     secondary: AppColors.secondary,
     secondaryContainer: AppColors.secondaryLight,
     surface: AppColors.surface,
-    background: AppColors.background,
     error: AppColors.error,
     onPrimary: AppColors.textOnPrimary,
     onSecondary: AppColors.textOnPrimary,
     onSurface: AppColors.textPrimary,
-    onBackground: AppColors.textPrimary,
     onError: AppColors.textOnPrimary,
     outline: AppColors.border,
     outlineVariant: AppColors.borderLight,
@@ -54,12 +52,10 @@ class AppTheme {
     secondary: AppColors.secondary,
     secondaryContainer: AppColors.secondaryDark,
     surface: AppColorsDark.surface,
-    background: AppColorsDark.background,
     error: AppColors.error,
     onPrimary: AppColors.textOnPrimary,
     onSecondary: AppColors.textOnPrimary,
     onSurface: AppColorsDark.textPrimary,
-    onBackground: AppColorsDark.textPrimary,
     onError: AppColors.textOnPrimary,
     outline: AppColorsDark.border,
     outlineVariant: AppColorsDark.divider,
@@ -71,12 +67,10 @@ class AppTheme {
     secondary: Color(0xFF0066CC),
     secondaryContainer: Color(0xFF0099FF),
     surface: Color(0xFFFFFFFF),
-    background: Color(0xFFFFFFFF),
     error: Color(0xFFCC0000),
     onPrimary: Color(0xFFFFFFFF),
     onSecondary: Color(0xFFFFFFFF),
     onSurface: Color(0xFF000000),
-    onBackground: Color(0xFF000000),
     onError: Color(0xFFFFFFFF),
     outline: Color(0xFF000000),
     outlineVariant: Color(0xFF666666),
@@ -115,7 +109,7 @@ class AppTheme {
       ),
       
       // Scaffold Theme
-      scaffoldBackgroundColor: colorScheme.background,
+      scaffoldBackgroundColor: colorScheme.surface,
       
       // Card Theme
       cardTheme: CardTheme(
@@ -216,7 +210,7 @@ class AppTheme {
       
       // Chip Theme
       chipTheme: ChipThemeData(
-        backgroundColor: colorScheme.surfaceVariant,
+        backgroundColor: colorScheme.surfaceContainerHighest,
         selectedColor: colorScheme.primary,
         labelStyle: AppTypography.labelMedium,
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s),
@@ -267,8 +261,8 @@ class AppTheme {
       // Progress Indicator Theme
       progressIndicatorTheme: ProgressIndicatorThemeData(
         color: colorScheme.primary,
-        linearTrackColor: colorScheme.surfaceVariant,
-        circularTrackColor: colorScheme.surfaceVariant,
+        linearTrackColor: colorScheme.surfaceContainerHighest,
+        circularTrackColor: colorScheme.surfaceContainerHighest,
       ),
       
       // Floating Action Button Theme
@@ -291,12 +285,12 @@ class AppTheme {
       primary: theme.colorScheme.primary,
       secondary: theme.colorScheme.secondary,
       surface: theme.colorScheme.surface,
-      background: theme.colorScheme.background,
+      background: theme.colorScheme.surface,
       error: theme.colorScheme.error,
       onPrimary: theme.colorScheme.onPrimary,
       onSecondary: theme.colorScheme.onSecondary,
       onSurface: theme.colorScheme.onSurface,
-      onBackground: theme.colorScheme.onBackground,
+      onBackground: theme.colorScheme.onSurface,
       onError: theme.colorScheme.onError,
     );
   }

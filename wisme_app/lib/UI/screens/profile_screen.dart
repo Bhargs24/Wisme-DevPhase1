@@ -33,9 +33,9 @@ class ProfileScreen extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              _buildProfileHeader(context, user.name, user.email),
+              _buildProfileHeader(context, user.displayName ?? 'User', user.email),
               const SizedBox(height: 24),
-              _buildStatsCard(user.totalLessonsCompleted, user.streakDays),
+              _buildStatsCard(user.progress.completedBlocks, 0),
               const SizedBox(height: 16),
               _buildMenuItems(context, userProvider),
             ],

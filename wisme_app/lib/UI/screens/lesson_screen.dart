@@ -7,7 +7,7 @@ import '../../providers/voice_provider.dart';
 import '../widgets/voice_selector_widget.dart';
 
 class LessonScreen extends StatefulWidget {
-  final LessonModel lesson;
+  final ContentBlock lesson;
 
   const LessonScreen({
     super.key,
@@ -87,7 +87,7 @@ class _LessonScreenState extends State<LessonScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            widget.lesson.summary,
+            widget.lesson.title,
             style: AppTextStyles.textTheme.bodyMedium?.copyWith(
               color: Colors.white70,
             ),
@@ -99,7 +99,7 @@ class _LessonScreenState extends State<LessonScreen> {
             children: [
               _buildInfoChip(
                 icon: Icons.access_time,
-                label: widget.lesson.length,
+                label: "${widget.lesson.duration.inMinutes} min",
               ),
               const SizedBox(width: 12),
               _buildInfoChip(
@@ -111,7 +111,7 @@ class _LessonScreenState extends State<LessonScreen> {
                 builder: (context, voiceProvider, child) {
                   return _buildInfoChip(
                     icon: Icons.record_voice_over,
-                    label: voiceProvider.getVoiceDisplayName(widget.lesson.coachVoice),
+                    label: voiceProvider.getVoiceDisplayName('default'),
                   );
                 },
               ),
@@ -129,7 +129,7 @@ class _LessonScreenState extends State<LessonScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
+        color: Colors.white.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -164,7 +164,7 @@ class _LessonScreenState extends State<LessonScreen> {
               Expanded(
                 child: Slider(
                   value: _playbackPosition,
-                  max: widget.lesson.durationSeconds.toDouble(),
+                  max: widget.lesson.duration.inSeconds.toDouble(),
                   onChanged: (value) {
                     setState(() {
                       _playbackPosition = value;
@@ -175,7 +175,7 @@ class _LessonScreenState extends State<LessonScreen> {
                 ),
               ),
               Text(
-                widget.lesson.length,
+                "${widget.lesson.duration.inMinutes} min",
                 style: AppTextStyles.textTheme.bodySmall,
               ),
             ],
@@ -332,7 +332,7 @@ class _LessonScreenState extends State<LessonScreen> {
               border: Border.all(color: AppColors.divider),
             ),
             child: Text(
-              widget.lesson.text,
+              widget.lesson.script,
               style: AppTextStyles.textTheme.bodyLarge?.copyWith(
                 height: 1.6,
               ),
@@ -356,7 +356,7 @@ class _LessonScreenState extends State<LessonScreen> {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
@@ -410,13 +410,13 @@ class _LessonScreenState extends State<LessonScreen> {
 
   void _rewind10Seconds() {
     setState(() {
-      _playbackPosition = (_playbackPosition - 10).clamp(0, widget.lesson.durationSeconds.toDouble());
+      _playbackPosition = (_playbackPosition - 10).clamp(0, widget.lesson.duration.inSeconds.toDouble());
     });
   }
 
   void _forward10Seconds() {
     setState(() {
-      _playbackPosition = (_playbackPosition + 10).clamp(0, widget.lesson.durationSeconds.toDouble());
+      _playbackPosition = (_playbackPosition + 10).clamp(0, widget.lesson.duration.inSeconds.toDouble());
     });
   }
 

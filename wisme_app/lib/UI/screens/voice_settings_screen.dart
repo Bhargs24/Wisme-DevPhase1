@@ -24,7 +24,7 @@ class VoiceSettingsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               ...voiceProvider.availableVoices.map((voice) {
-                final isSelected = voice == voiceProvider.selectedVoice;
+                final isSelected = voice.voiceId == voiceProvider.selectedVoiceId;
                 return Card(
                   margin: const EdgeInsets.only(bottom: 8),
                   child: ListTile(
@@ -32,8 +32,8 @@ class VoiceSettingsScreen extends StatelessWidget {
                       Icons.record_voice_over,
                       color: isSelected ? AppColors.primary : AppColors.textSecondary,
                     ),
-                    title: Text(voiceProvider.getVoiceDisplayName(voice)),
-                    subtitle: Text(voiceProvider.getVoiceDescription(voice)),
+                    title: Text(voice.name),
+                    subtitle: Text(voice.description),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -41,14 +41,14 @@ class VoiceSettingsScreen extends StatelessWidget {
                           icon: const Icon(Icons.play_arrow),
                           onPressed: () {
                             voiceProvider.previewVoice(
-                              voice,
-                              'Hello! This is how I sound. I hope you enjoy learning with me.',
+                              voice.voiceId,
+                              sampleText: 'Hello! This is how I sound. I hope you enjoy learning with me.',
                             );
                           },
                         ),
                         Radio<String>(
-                          value: voice,
-                          groupValue: voiceProvider.selectedVoice,
+                          value: voice.voiceId,
+                          groupValue: voiceProvider.selectedVoiceId,
                           onChanged: (value) {
                             if (value != null) {
                               voiceProvider.selectVoice(value);
@@ -59,7 +59,7 @@ class VoiceSettingsScreen extends StatelessWidget {
                     ),
                   ),
                 );
-              }).toList(),
+              }),
             ],
           );
         },

@@ -286,7 +286,7 @@ class _AppTextFieldState extends State<AppTextField> {
 
   Color _getFillColor(ThemeData theme) {
     if (widget.variant == AppTextFieldVariant.filled) {
-      return theme.colorScheme.surfaceVariant;
+      return theme.colorScheme.surfaceContainerHighest;
     }
     return Colors.transparent;
   }

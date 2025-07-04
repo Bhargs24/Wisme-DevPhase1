@@ -1,185 +1,267 @@
-import 'dart:typed_data';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:typed_data';
+import 'package:http/http.dart' as http;
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:logger/logger.dart';
 import '../utils/api_keys.dart';
-import '../models/api_response_model.dart';
+import '../models/coach_model.dart';
 
 class TTSService {
+  static const String _baseUrl = 'https://api.elevenlabs.io/v1';
   final FlutterTts _flutterTts = FlutterTts();
+  final Logger _logger = Logger();
   bool _isInitialized = false;
 
   TTSService() {
     _initialize();
   }
 
+  static Map<String, String> get _headers => {
+    'xi-api-key': ApiKeys.elevenLabsApiKey,
+    'Content-Type': 'application/json',
+  };
+
   Future<void> _initialize() async {
     if (_isInitialized) return;
 
-    await _flutterTts.setLanguage("en-US");
-    await _flutterTts.setSpeechRate(0.5);
-    await _flutterTts.setVolume(1.0);
-    await _flutterTts.setPitch(1.0);
-
-    _isInitialized = true;
-  }
-
-  // Local TTS for voice previews
-  Future<void> speak(String text, {String voice = 'default'}) async {
-    await _initialize();
-    
-    // Set voice parameters based on voice type
-    switch (voice) {
-      case 'female':
-        await _flutterTts.setPitch(1.2);
-        await _flutterTts.setSpeechRate(0.5);
-        break;
-      case 'male':
-        await _flutterTts.setPitch(0.8);
-        await _flutterTts.setSpeechRate(0.45);
-        break;
-      case 'robot':
-        await _flutterTts.setPitch(0.6);
-        await _flutterTts.setSpeechRate(0.3);
-        break;
-      case 'child':
-        await _flutterTts.setPitch(1.5);
-        await _flutterTts.setSpeechRate(0.6);
-        break;
-      default:
-        await _flutterTts.setPitch(1.0);
-        await _flutterTts.setSpeechRate(0.5);
+    try {
+      await _flutterTts.setLanguage("en-US");
+      await _flutterTts.setSpeechRate(0.5);
+      await _flutterTts.setVolume(1.0);
+      await _flutterTts.setPitch(1.0);
+      _isInitialized = true;
+    } catch (e) {
+      _logger.e('Error initializing TTS: $e');
     }
-
-    await _flutterTts.speak(text);
   }
 
-  Future<void> stop() async {
-    await _flutterTts.stop();
-  }
-
-  Future<void> pause() async {
-    await _flutterTts.pause();
-  }
-
-  // Generate high-quality audio for lessons using external API
-  Future<ApiResponse<TTSResponse>> generateAudio(
-    String text, {
-    String voice = 'default',
-    String format = 'mp3',
+  /// Generate speech using ElevenLabs API
+  Future<Uint8List> generateSpeech({
+    required String text,
+    required String coachId,
+    String? customVoiceId,
   }) async {
     try {
-      // This would be replaced with actual TTS API integration
-      // For now, using a mock implementation
-      final response = await _mockTTSAPI(text, voice, format);
+      final coach = _getCoachById(coachId);
+      final voiceId = customVoiceId ?? coach.voiceId;
       
-      if (response.success && response.data != null) {
-        return ApiResponse.success(response.data!);
-      } else {
-        return ApiResponse.error(response.error ?? 'TTS generation failed');
-      }
-    } catch (e) {
-      return ApiResponse.error('TTS service error: $e');
-    }
-  }
-
-  // Mock TTS API - replace with actual service integration
-  Future<ApiResponse<TTSResponse>> _mockTTSAPI(String text, String voice, String format) async {
-    try {
-      // Simulate API call delay
-      await Future.delayed(const Duration(seconds: 2));
-      
-      // Generate mock audio data (in real implementation, this would be actual audio)
-      final mockAudioData = List.generate(1000, (index) => index % 256);
-      final estimatedDuration = (text.length / 10).ceil(); // Rough estimate
-      
-      final ttsResponse = TTSResponse(
-        audioData: mockAudioData,
-        durationSeconds: estimatedDuration,
-        format: format,
-        sampleRate: 22050,
-      );
-      
-      return ApiResponse.success(ttsResponse);
-    } catch (e) {
-      return ApiResponse.error('Mock TTS error: $e');
-    }
-  }
-
-  // Real TTS API integration example (commented out)
-  /*
-  Future<ApiResponse<TTSResponse>> _callExternalTTSAPI(String text, String voice, String format) async {
-    try {
       final response = await http.post(
-        Uri.parse('https://api.elevenlabs.io/v1/text-to-speech'),
-        headers: {
-          'Accept': 'audio/mpeg',
-          'Content-Type': 'application/json',
-          'xi-api-key': ApiKeys.elevenLabsApiKey,
-        },
+        Uri.parse('$_baseUrl/text-to-speech/$voiceId'),
+        headers: _headers,
         body: jsonEncode({
           'text': text,
-          'model_id': 'eleven_monolingual_v1',
           'voice_settings': {
-            'stability': 0.5,
-            'similarity_boost': 0.5,
-          }
+            'stability': double.parse(coach.voiceSettings['stability'] ?? '0.6'),
+            'similarity_boost': double.parse(coach.voiceSettings['similarity_boost'] ?? '0.7'),
+            'style': double.parse(coach.voiceSettings['style'] ?? '0.2'),
+          },
+          'model_id': 'eleven_monolingual_v1',
         }),
       );
 
       if (response.statusCode == 200) {
-        final audioData = response.bodyBytes;
-        final ttsResponse = TTSResponse(
-          audioData: audioData,
-          durationSeconds: _estimateDuration(text),
-          format: format,
-          sampleRate: 22050,
-        );
-        return ApiResponse.success(ttsResponse);
+        return response.bodyBytes;
       } else {
-        return ApiResponse.error('TTS API error: ${response.statusCode}');
+        throw Exception('Failed to generate speech: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
-      return ApiResponse.error('Network error: $e');
+      throw Exception('Error generating speech: $e');
     }
   }
-  */
 
-  int _estimateDuration(String text) {
-    // Rough estimation: ~150 words per minute, ~5 characters per word
-    const wordsPerMinute = 150;
-    const charactersPerWord = 5;
-    final estimatedWords = text.length / charactersPerWord;
-    final estimatedMinutes = estimatedWords / wordsPerMinute;
-    return (estimatedMinutes * 60).ceil();
+  /// Generate complete episode audio with multiple blocks
+  Future<Uint8List> generateEpisodeAudio({
+    required List<String> scriptBlocks,
+    required String coachId,
+    bool addTransitions = true,
+  }) async {
+    try {
+      final audioSegments = <Uint8List>[];
+      
+      for (int i = 0; i < scriptBlocks.length; i++) {
+        // Generate audio for each block
+        final audioData = await generateSpeech(
+          text: scriptBlocks[i],
+          coachId: coachId,
+        );
+        audioSegments.add(audioData);
+        
+        // Add transition pause between blocks
+        if (addTransitions && i < scriptBlocks.length - 1) {
+          final pauseAudio = await _generateSilence(milliseconds: 1000);
+          audioSegments.add(pauseAudio);
+        }
+      }
+      
+      // Combine all audio segments
+      return _combineAudioSegments(audioSegments);
+    } catch (e) {
+      throw Exception('Error generating episode audio: $e');
+    }
   }
 
-  // Get available voices
-  Future<List<String>> getAvailableVoices() async {
+  /// Generate silence for transitions
+  Future<Uint8List> _generateSilence({required int milliseconds}) async {
+    // Create empty audio data for silence
+    // In a real implementation, you'd generate proper silence audio
+    final silenceData = Uint8List(milliseconds * 44); // Approximate size
+    return silenceData;
+  }
+
+  /// Combine multiple audio segments into one
+  Uint8List _combineAudioSegments(List<Uint8List> segments) {
+    // Simple concatenation - in production, use proper audio mixing
+    final totalLength = segments.fold<int>(0, (sum, segment) => sum + segment.length);
+    final combined = Uint8List(totalLength);
+    
+    int offset = 0;
+    for (final segment in segments) {
+      combined.setRange(offset, offset + segment.length, segment);
+      offset += segment.length;
+    }
+    
+    return combined;
+  }
+
+  /// Preview voice using local TTS (for coach selection)
+  Future<void> previewVoice(String text, String coachId) async {
     await _initialize();
-    return ['default', 'female', 'male', 'robot', 'child'];
+    
+    try {
+      final coach = _getCoachById(coachId);
+      
+      // Adjust local TTS settings to approximate the coach's style
+      if (coach.id == 'kai') {
+        await _flutterTts.setSpeechRate(0.45); // Slower, more measured
+        await _flutterTts.setPitch(0.9); // Slightly lower pitch
+      } else if (coach.id == 'vee') {
+        await _flutterTts.setSpeechRate(0.55); // Faster, more energetic
+        await _flutterTts.setPitch(1.1); // Slightly higher pitch
+      } else {
+        await _flutterTts.setSpeechRate(0.5); // Default
+        await _flutterTts.setPitch(1.0); // Default
+      }
+      
+      await _flutterTts.speak(text);
+    } catch (e) {
+      throw Exception('Error previewing voice: $e');
+    }
   }
 
-  // Set TTS settings
-  Future<void> setSettings({
+  /// Stop TTS playback
+  Future<void> stop() async {
+    try {
+      await _flutterTts.stop();
+    } catch (e) {
+      _logger.e('Error stopping TTS: $e');
+    }
+  }
+
+  /// Get available voices from ElevenLabs
+  Future<List<Map<String, dynamic>>> getAvailableVoices() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl/voices'),
+        headers: {
+          'xi-api-key': ApiKeys.elevenLabsApiKey,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return List<Map<String, dynamic>>.from(data['voices']);
+      } else {
+        throw Exception('Failed to get voices: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error getting voices: $e');
+    }
+  }
+
+  /// Check if ElevenLabs API key is valid
+  Future<bool> validateApiKey() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl/user'),
+        headers: {
+          'xi-api-key': ApiKeys.elevenLabsApiKey,
+        },
+      );
+
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Get user's subscription info from ElevenLabs
+  Future<Map<String, dynamic>?> getUserSubscription() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl/user/subscription'),
+        headers: {
+          'xi-api-key': ApiKeys.elevenLabsApiKey,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Calculate estimated cost for text-to-speech
+  double estimateGenerationCost(String text) {
+    // ElevenLabs pricing is approximately $0.18 per 1K characters
+    final characterCount = text.length;
+    return (characterCount / 1000) * 0.18;
+  }
+
+  /// Get the appropriate coach model
+  CoachModel _getCoachById(String coachId) {
+    switch (coachId) {
+      case 'kai':
+        return CoachModel.kai;
+      case 'vee':
+        return CoachModel.vee;
+      default:
+        return CoachModel.kai; // Default fallback
+    }
+  }
+
+  /// Clean up resources
+  void dispose() {
+    _flutterTts.stop();
+  }
+
+  /// Check if TTS is currently speaking
+  Future<bool> get isSpeaking async {
+    try {
+      return await _flutterTts.getEngines != null;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Set voice settings for local TTS
+  Future<void> setVoiceSettings({
     double? speechRate,
-    double? volume,
     double? pitch,
+    double? volume,
   }) async {
     await _initialize();
     
     if (speechRate != null) {
       await _flutterTts.setSpeechRate(speechRate);
     }
-    if (volume != null) {
-      await _flutterTts.setVolume(volume);
-    }
     if (pitch != null) {
       await _flutterTts.setPitch(pitch);
     }
-  }
-
-  void dispose() {
-    _flutterTts.stop();
+    if (volume != null) {
+      await _flutterTts.setVolume(volume);
+    }
   }
 }

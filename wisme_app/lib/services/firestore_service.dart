@@ -1,261 +1,264 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:logger/logger.dart';
 import '../models/lesson_model.dart';
-import '../models/user_model.dart';
+import '../models/user_model.dart' hide UserProgress;
 
+/// Service for Firestore database operations
 class FirestoreService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseFirestore? _firestore;
+  bool _isFirebaseAvailable = false;
+  final Logger _logger = Logger();
 
-  // Collections
-  static const String _usersCollection = 'users';
-  static const String _lessonsCollection = 'lessons';
-  static const String _topicsCollection = 'topics';
-  static const String _userProgressCollection = 'user_progress';
-
-  // User methods
-  Future<UserModel?> getUser(String userId) async {
-    try {
-      final doc = await _firestore.collection(_usersCollection).doc(userId).get();
-      if (doc.exists && doc.data() != null) {
-        return UserModel.fromMap(doc.data()!);
-      }
-    } catch (e) {
-      throw Exception('Failed to get user: $e');
-    }
-    return null;
+  FirestoreService() {
+    _initializeFirestore();
   }
 
-  Future<void> createUser(UserModel user) async {
+  void _initializeFirestore() {
     try {
-      await _firestore.collection(_usersCollection).doc(user.id).set(user.toMap());
+      // Check if Firebase is initialized
+      if (Firebase.apps.isNotEmpty) {
+        _firestore = FirebaseFirestore.instance;
+        _isFirebaseAvailable = true;
+        _logger.i('✅ FirestoreService: Firebase is available');
+      } else {
+        _logger.w('⚠️ FirestoreService: Firebase not initialized - Firestore features disabled');
+        _isFirebaseAvailable = false;
+      }
     } catch (e) {
-      throw Exception('Failed to create user: $e');
+      _logger.w('⚠️ FirestoreService: Firebase initialization check failed: $e');
+      _isFirebaseAvailable = false;
     }
+  }
+
+  void _checkFirebaseAvailability() {
+    if (!_isFirebaseAvailable || _firestore == null) {
+      throw Exception('Firestore is not available. Please configure Firebase to use this feature.');
+    }
+  }
+
+  // User operations
+  Future<void> createUser(UserModel user) async {
+    _checkFirebaseAvailability();
+    await _firestore!.collection('users').doc(user.id).set(user.toFirestore());
+  }
+
+  Future<UserModel?> getUser(String userId) async {
+    _checkFirebaseAvailability();
+    final doc = await _firestore!.collection('users').doc(userId).get();
+    if (doc.exists) {
+      return UserModel.fromFirestore(doc);
+    }
+    return null;
   }
 
   Future<void> updateUser(String userId, Map<String, dynamic> data) async {
-    try {
-      await _firestore.collection(_usersCollection).doc(userId).update(data);
-    } catch (e) {
-      throw Exception('Failed to update user: $e');
-    }
+    _checkFirebaseAvailability();
+    await _firestore!.collection('users').doc(userId).update(data);
   }
 
-  // Lesson methods
-  Future<List<LessonModel>> getLessonsByTopic(String topic) async {
-    try {
-      final query = await _firestore
-          .collection(_lessonsCollection)
-          .where('topic', isEqualTo: topic)
-          .orderBy('created_at', descending: true)
-          .get();
-
-      return query.docs
-          .map((doc) => LessonModel.fromJson(doc.data()))
-          .toList();
-    } catch (e) {
-      throw Exception('Failed to get lessons: $e');
-    }
+  Future<void> deleteUser(String userId) async {
+    _checkFirebaseAvailability();
+    await _firestore!.collection('users').doc(userId).delete();
   }
 
-  Future<List<LessonModel>> searchLessons(String searchQuery) async {
-    try {
-      final keywords = searchQuery.toLowerCase().split(' ');
-      final query = await _firestore
-          .collection(_lessonsCollection)
-          .where('tags', arrayContainsAny: keywords)
-          .limit(20)
-          .get();
-
-      return query.docs
-          .map((doc) => LessonModel.fromJson(doc.data()))
-          .toList();
-    } catch (e) {
-      throw Exception('Failed to search lessons: $e');
-    }
+  // Content Block operations
+  Future<String> createContentBlock(ContentBlock block) async {
+    _checkFirebaseAvailability();
+    final docRef = await _firestore!.collection('content_blocks').add(block.toFirestore());
+    return docRef.id;
   }
 
-  Future<LessonModel?> getLesson(String lessonId, String coachVoice) async {
-    try {
-      final docId = '${coachVoice}_${lessonId}';
-      final doc = await _firestore.collection(_lessonsCollection).doc(docId).get();
-      
-      if (doc.exists && doc.data() != null) {
-        return LessonModel.fromJson(doc.data()!);
-      }
-    } catch (e) {
-      throw Exception('Failed to get lesson: $e');
+  Future<ContentBlock?> getContentBlock(String blockId) async {
+    _checkFirebaseAvailability();
+    final doc = await _firestore!.collection('content_blocks').doc(blockId).get();
+    if (doc.exists) {
+      return ContentBlock.fromFirestore(doc);
     }
     return null;
   }
 
-  // User progress tracking
-  Future<void> recordLessonCompletion(String userId, String lessonId, String coachVoice) async {
-    try {
-      final progressData = {
-        'user_id': userId,
-        'lesson_id': lessonId,
-        'coach_voice': coachVoice,
-        'completed_at': FieldValue.serverTimestamp(),
-        'progress': 100,
-      };
-
-      await _firestore
-          .collection(_userProgressCollection)
-          .doc('${userId}_${lessonId}_${coachVoice}')
-          .set(progressData);
-
-      // Update user stats
-      await _firestore.collection(_usersCollection).doc(userId).update({
-        'total_lessons_completed': FieldValue.increment(1),
-        'last_active_at': FieldValue.serverTimestamp(),
-      });
-    } catch (e) {
-      throw Exception('Failed to record lesson completion: $e');
-    }
+  Future<void> updateContentBlock(String blockId, Map<String, dynamic> data) async {
+    _checkFirebaseAvailability();
+    await _firestore!.collection('content_blocks').doc(blockId).update(data);
   }
 
-  Future<List<Map<String, dynamic>>> getUserProgress(String userId) async {
-    try {
-      final query = await _firestore
-          .collection(_userProgressCollection)
-          .where('user_id', isEqualTo: userId)
-          .orderBy('completed_at', descending: true)
-          .limit(50)
-          .get();
-
-      return query.docs.map((doc) => doc.data()).toList();
-    } catch (e) {
-      throw Exception('Failed to get user progress: $e');
-    }
+  Future<void> deleteContentBlock(String blockId) async {
+    _checkFirebaseAvailability();
+    await _firestore!.collection('content_blocks').doc(blockId).delete();
   }
 
-  Future<List<String>> getCompletedLessonIds(String userId) async {
-    try {
-      final query = await _firestore
-          .collection(_userProgressCollection)
-          .where('user_id', isEqualTo: userId)
-          .where('progress', isEqualTo: 100)
-          .get();
-
-      return query.docs
-          .map((doc) => doc.data()['lesson_id'] as String)
-          .toList();
-    } catch (e) {
-      throw Exception('Failed to get completed lessons: $e');
+  Future<List<ContentBlock>> getContentBlocks({
+    String? category,
+    String? level,
+    int? limit,
+  }) async {
+    _checkFirebaseAvailability();
+    Query query = _firestore!.collection('content_blocks');
+    
+    if (category != null) {
+      query = query.where('category', isEqualTo: category);
     }
+    if (level != null) {
+      query = query.where('level', isEqualTo: level);
+    }
+    if (limit != null) {
+      query = query.limit(limit);
+    }
+
+    final snapshot = await query.get();
+    return snapshot.docs
+        .map((doc) => ContentBlock.fromFirestore(doc))
+        .toList();
   }
 
-  // Topic methods
-  Future<List<Map<String, dynamic>>> getAllTopics() async {
-    try {
-      final query = await _firestore
-          .collection(_topicsCollection)
-          .orderBy('lesson_count', descending: true)
-          .get();
-
-      return query.docs.map((doc) => doc.data()).toList();
-    } catch (e) {
-      throw Exception('Failed to get topics: $e');
-    }
+  // Learning Journey operations
+  Future<String> createLearningJourney(LearningJourney journey) async {
+    _checkFirebaseAvailability();
+    final docRef = await _firestore!.collection('learning_journeys').add(journey.toFirestore());
+    return docRef.id;
   }
 
-  // Analytics
+  Future<LearningJourney?> getLearningJourney(String journeyId) async {
+    _checkFirebaseAvailability();
+    final doc = await _firestore!.collection('learning_journeys').doc(journeyId).get();
+    if (doc.exists) {
+      return LearningJourney.fromFirestore(doc);
+    }
+    return null;
+  }
+
+  Future<void> updateLearningJourney(String journeyId, Map<String, dynamic> data) async {
+    _checkFirebaseAvailability();
+    await _firestore!.collection('learning_journeys').doc(journeyId).update(data);
+  }
+
+  Future<void> deleteLearningJourney(String journeyId) async {
+    _checkFirebaseAvailability();
+    await _firestore!.collection('learning_journeys').doc(journeyId).delete();
+  }
+
+  Future<List<LearningJourney>> getUserJourneys(String userId) async {
+    _checkFirebaseAvailability();
+    final snapshot = await _firestore!
+        .collection('learning_journeys')
+        .where('userId', isEqualTo: userId)
+        .orderBy('createdAt', descending: true)
+        .get();
+    
+    return snapshot.docs
+        .map((doc) => LearningJourney.fromFirestore(doc))
+        .toList();
+  }
+
+  // User Progress operations
+  Future<void> updateUserProgress(UserProgress progress) async {
+    _checkFirebaseAvailability();
+    await _firestore!
+        .collection('users')
+        .doc(progress.userId)
+        .collection('progress')
+        .doc(progress.id)
+        .set(progress.toMap());
+  }
+
+  Future<UserProgress?> getUserProgress(String userId, String progressId) async {
+    _checkFirebaseAvailability();
+    final doc = await _firestore!
+        .collection('users')
+        .doc(userId)
+        .collection('progress')
+        .doc(progressId)
+        .get();
+    
+    if (doc.exists) {
+      return UserProgress.fromMap(doc.data() as Map<String, dynamic>);
+    }
+    return null;
+  }
+
+  // Block Progress operations
+  Future<void> saveBlockProgress(String userId, String blockId, BlockProgress progress) async {
+    _checkFirebaseAvailability();
+    await _firestore!
+        .collection('users')
+        .doc(userId)
+        .collection('block_progress')
+        .doc(blockId)
+        .set(progress.toMap());
+  }
+
+  Future<BlockProgress?> getBlockProgress(String userId, String blockId) async {
+    _checkFirebaseAvailability();
+    final doc = await _firestore!
+        .collection('users')
+        .doc(userId)
+        .collection('block_progress')
+        .doc(blockId)
+        .get();
+    
+    if (doc.exists) {
+      return BlockProgress.fromMap(doc.data() as Map<String, dynamic>);
+    }
+    return null;
+  }
+
+  Future<List<BlockProgress>> getUserBlockProgress(String userId) async {
+    _checkFirebaseAvailability();
+    final snapshot = await _firestore!
+        .collection('users')
+        .doc(userId)
+        .collection('block_progress')
+        .get();
+    
+    return snapshot.docs
+        .map((doc) => BlockProgress.fromMap(doc.data()))
+        .toList();
+  }
+
+  // Analytics and Metrics
   Future<Map<String, dynamic>> getUserAnalytics(String userId) async {
-    try {
-      final progressQuery = await _firestore
-          .collection(_userProgressCollection)
-          .where('user_id', isEqualTo: userId)
-          .get();
+    final userProgress = await getUserBlockProgress(userId);
+    final completedBlocks = userProgress.where((p) => p.isCompleted).length;
+    final totalListeningTime = userProgress
+        .map((p) => p.listeningTime)
+        .fold(Duration.zero, (prev, curr) => prev + curr);
 
-      final completedLessons = progressQuery.docs.length;
-      final thisWeekStart = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
-      
-      final thisWeekProgress = progressQuery.docs.where((doc) {
-        final completedAt = (doc.data()['completed_at'] as Timestamp).toDate();
-        return completedAt.isAfter(thisWeekStart);
-      }).length;
-
-      return {
-        'total_lessons_completed': completedLessons,
-        'lessons_this_week': thisWeekProgress,
-        'streak_days': await _calculateStreak(userId),
-        'favorite_topics': await _getFavoriteTopics(userId),
-      };
-    } catch (e) {
-      throw Exception('Failed to get user analytics: $e');
-    }
+    return {
+      'totalBlocks': userProgress.length,
+      'completedBlocks': completedBlocks,
+      'completionRate': userProgress.isNotEmpty ? completedBlocks / userProgress.length : 0.0,
+      'totalListeningTime': totalListeningTime.inMinutes,
+      'averageSessionLength': userProgress.isNotEmpty 
+          ? totalListeningTime.inMinutes / userProgress.length 
+          : 0.0,
+    };
   }
 
-  Future<int> _calculateStreak(String userId) async {
-    // Implementation for calculating learning streak
-    // This is a simplified version
-    try {
-      final query = await _firestore
-          .collection(_userProgressCollection)
-          .where('user_id', isEqualTo: userId)
-          .orderBy('completed_at', descending: true)
-          .limit(30)
-          .get();
-
-      if (query.docs.isEmpty) return 0;
-
-      int streak = 0;
-      DateTime? lastDate;
-
-      for (final doc in query.docs) {
-        final completedAt = (doc.data()['completed_at'] as Timestamp).toDate();
-        final dateOnly = DateTime(completedAt.year, completedAt.month, completedAt.day);
-
-        if (lastDate == null) {
-          lastDate = dateOnly;
-          streak = 1;
-        } else {
-          final daysDifference = lastDate.difference(dateOnly).inDays;
-          if (daysDifference == 1) {
-            streak++;
-            lastDate = dateOnly;
-          } else {
-            break;
-          }
-        }
-      }
-
-      return streak;
-    } catch (e) {
-      return 0;
+  // Batch operations
+  Future<void> batchUpdateBlocks(List<ContentBlock> blocks) async {
+    _checkFirebaseAvailability();
+    final batch = _firestore!.batch();
+    
+    for (final block in blocks) {
+      final docRef = _firestore!.collection('content_blocks').doc(block.id);
+      batch.set(docRef, block.toFirestore());
     }
+    
+    await batch.commit();
   }
 
-  Future<List<String>> _getFavoriteTopics(String userId) async {
-    try {
-      final query = await _firestore
-          .collection(_userProgressCollection)
-          .where('user_id', isEqualTo: userId)
-          .get();
-
-      final topicCounts = <String, int>{};
-      
-      for (final doc in query.docs) {
-        final lessonId = doc.data()['lesson_id'] as String;
-        // Get the lesson to find its topic
-        final lessonDoc = await _firestore
-            .collection(_lessonsCollection)
-            .where('lesson_id', isEqualTo: lessonId)
-            .limit(1)
-            .get();
-        
-        if (lessonDoc.docs.isNotEmpty) {
-          final topic = lessonDoc.docs.first.data()['topic'] as String;
-          topicCounts[topic] = (topicCounts[topic] ?? 0) + 1;
-        }
-      }
-
-      final sortedTopics = topicCounts.entries.toList()
-        ..sort((a, b) => b.value.compareTo(a.value));
-
-      return sortedTopics.take(5).map((e) => e.key).toList();
-    } catch (e) {
-      return [];
-    }
+  // Search operations
+  Future<List<ContentBlock>> searchContentBlocks(String query) async {
+    _checkFirebaseAvailability();
+    final snapshot = await _firestore!
+        .collection('content_blocks')
+        .where('title', isGreaterThanOrEqualTo: query)
+        .where('title', isLessThanOrEqualTo: '$query\uf8ff')
+        .get();
+    
+    return snapshot.docs
+        .map((doc) => ContentBlock.fromFirestore(doc))
+        .toList();
   }
 }
