@@ -1,30 +1,67 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+// Basic Flutter widget test for Wisme app
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:wisme_app/main.dart';
+import 'package:wisme_app/app.dart';
+import 'package:wisme_app/providers/user_provider.dart';
+import 'package:wisme_app/providers/voice_provider.dart';
+import 'package:wisme_app/providers/lesson_provider.dart';
+import 'package:wisme_app/providers/audio_provider.dart';
+import 'package:wisme_app/services/auth_services.dart';
+import 'package:wisme_app/services/firestore_service.dart';
+import 'package:wisme_app/services/storage_service.dart';
+import 'package:wisme_app/services/gpt_service.dart';
+import 'package:wisme_app/services/tts_service.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Wisme app smoke test', (WidgetTester tester) async {
+    // Initialize SharedPreferences for testing
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Build our app with providers
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          Provider<StorageService>(create: (_) => StorageService()),
+          Provider<FirestoreService>(create: (_) => FirestoreService()),
+          Provider<AuthService>(create: (_) => AuthService()),
+          Provider<GPTService>(create: (_) => GPTService()),
+          Provider<TTSService>(create: (_) => TTSService()),
+          Provider<SharedPreferences>.value(value: prefs),
+          ChangeNotifierProvider<UserProvider>(
+            create: (context) => UserProvider(
+              authService: context.read<AuthService>(),
+              prefs: prefs,
+            ),
+          ),
+          ChangeNotifierProvider<VoiceProvider>(
+            create: (context) => VoiceProvider(
+              ttsService: context.read<TTSService>(),
+              prefs: prefs,
+            ),
+          ),
+          ChangeNotifierProvider<LessonProvider>(
+            create: (context) => LessonProvider(
+              storageService: context.read<StorageService>(),
+              firestoreService: context.read<FirestoreService>(),
+              gptService: context.read<GPTService>(),
+            ),
+          ),
+          ChangeNotifierProvider<AudioProvider>(
+            create: (context) => AudioProvider(),
+          ),
+        ],
+        child: const WismeApp(),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Verify that the app loads without crashing
     await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    
+    // Should show either login or home screen
+    expect(find.byType(MaterialApp), findsOneWidget);
   });
 }
