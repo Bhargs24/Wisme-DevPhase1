@@ -1,53 +1,253 @@
-# Wisme – AI-Powered Microlearning That Feels Like a Podcast
+# 🧠 Wisme – AI-Powered Microlearning Platform
 
-*Learn anything daily in 10–15 minutes with your personal AI voice coaches — curated like Spotify, delivered like your favorite podcast.*
+*Transform any topic into personalized podcast-style learning experiences in minutes*
 
----
-
-## 🚀 The Big Idea
-
-### 🎧 The Problem
-We're overwhelmed with information but starved for actual learning.
-- Long courses are boring and time-consuming
-- Articles are scattered, generic, and impersonal  
-- People want bite-sized, meaningful knowledge — fast
-
-### 💡 The Solution
-Wisme is your personal AI-powered learning studio.
-- Type any topic
-- Wisme generates a smart curriculum based on your interest & level
-- Learn daily through short, high-quality audio episodes — tailored to you by unique AI coaches
+[![Flutter](https://img.shields.io/badge/Flutter-3.29.3-blue.svg)](https://flutter.dev/)
+[![Dart](https://img.shields.io/badge/Dart-3.7.2-blue.svg)](https://dart.dev/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
-## 🧠 How Wisme Works
+## 🎯 **Project Overview**
 
-### 1. User Inputs a Topic
-- You type any topic in a text field (e.g., "Startup Funding" or "Dogs")
-- Wisme uses intent detection to understand the context
+Wisme is a world-class AI-powered microlearning platform that transforms any learning topic into engaging, personalized podcast-style audio experiences. Built with Flutter and featuring premium UI/UX, the app delivers professional-grade learning content through AI coaches with distinct personalities.
 
-### 2. AI Categorizes the Topic
-Wisme maps it to one of 9 predefined categories like:
-- 📊 Business & Finance
-- 🌐 Technology  
-- 🧠 Psychology & Mind
-- *(and more — see full list below)*
+### **✨ Key Features**
+- 🤖 **AI Content Generation** - GPT-powered lesson creation and personalization
+- 🎙️ **Voice Coach System** - Multiple AI personalities (Kai, Vee) with TTS integration
+- 📊 **Advanced Analytics** - Comprehensive learning progress tracking and insights
+- 🏆 **Social Learning** - Leaderboards, achievements, and community features
+- 🎨 **Premium UI/UX** - Modern Material Design 3 with micro-interactions
+- 📱 **Cross-Platform** - iOS, Android, Web, and Desktop support
+- 🔄 **Offline Learning** - Download content for learning anywhere
 
-Each category comes with predefined knowledge levels, such as:
-- 💡 Fundamentals
-- 💼 Case Studies
-- 📈 Growth & Strategy
-- 🎛 Bit of Everything
+---
 
-### 3. User Selects Knowledge Level
-Based on their intent, users pick how they want to learn:
-- Core concepts
-- Real-world stories
-- Tools & frameworks
-- Or a blended mix of all
+## 🚀 **Quick Start**
 
-### 4. Choose Your AI Coach
-Pick from preset personalities or create a custom one:
+### **Prerequisites**
+- Flutter SDK 3.29.3+
+- Dart 3.7.2+
+- VS Code or Android Studio
+- Java 17 (for Android development)
+
+### **Installation**
+```bash
+# Clone the repository
+git clone [repository-url]
+cd wisme_app
+
+# Install dependencies
+flutter pub get
+
+# Run the app
+flutter run
+```
+
+### **Development Setup**
+```bash
+# Clean and reset
+flutter clean
+flutter pub get
+
+# Run code analysis
+flutter analyze
+
+# Run tests
+flutter test
+```
+
+---
+
+## 📁 **Project Structure**
+
+```
+lib/
+├── main.dart                    # App entry point
+├── app.dart                     # Main app configuration
+├── routes.dart                  # Navigation and routing
+├── constants/                   # App-wide constants
+├── design_system/              # Design tokens and themes
+├── models/                     # Data models
+├── providers/                  # State management
+├── services/                   # External APIs and services
+├── UI/
+│   ├── screens/               # Application screens
+│   └── widgets/               # Reusable components
+└── utils/                     # Helper functions
+```
+
+---
+
+## �️ **Architecture & Tech Stack**
+
+### **Frontend**
+- **Flutter 3.29.3** - Cross-platform UI framework
+- **Provider** - State management pattern
+- **Material Design 3** - Modern UI components
+- **Custom Design System** - Consistent UI/UX components
+
+### **Backend & Services**
+- **Firebase** - Authentication, Firestore, Cloud Storage
+- **OpenAI GPT** - AI content generation
+- **ElevenLabs** - Text-to-speech voice synthesis
+- **SharedPreferences** - Local data persistence
+
+### **Development Tools**
+- **VS Code** - Primary IDE with Flutter extensions
+- **Flutter Inspector** - UI debugging and performance
+- **Firebase Console** - Backend management
+- **Git** - Version control
+
+---
+
+## 🎨 **Design System**
+
+The app features a comprehensive design system with:
+- **Design Tokens** - Colors, typography, spacing, shadows
+- **Component Library** - Reusable UI components
+- **Theme Support** - Light/dark mode with system adaptation
+- **Responsive Design** - Adaptive layouts for all screen sizes
+
+Access the component showcase: `Navigator.pushNamed(context, '/component-showcase')`
+
+---
+
+## 📱 **Features Overview**
+
+### **Core Learning Features**
+- Smart topic analysis and categorization
+- Knowledge level assessment
+- AI coach selection and personalization
+- Learning journey planning
+- Enhanced audio player with visualizations
+- Progress tracking and analytics
+
+### **Social & Gamification**
+- Friend connections and leaderboards
+- Achievement system with badges
+- Learning streaks and challenges
+- Progress sharing and celebrations
+
+### **Premium Features**
+- Advanced analytics dashboard
+- Offline content management
+- Social learning platform
+- Achievement gallery
+- Enhanced audio controls
+- Custom coach creation
+
+See [Features.md](Features.md) for complete feature breakdown.
+
+---
+
+## 📖 **Documentation**
+
+- **[CODEBASE_DOCUMENTATION.md](CODEBASE_DOCUMENTATION.md)** - Complete code documentation
+- **[Features.md](Features.md)** - Comprehensive feature overview
+- **[docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md)** - Design system guide
+- **[docs/UX_FLOW.md](docs/UX_FLOW.md)** - User experience flow
+- **[docs/API_GUIDE.md](docs/API_GUIDE.md)** - API integration guide
+- **[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)** - Development setup and architecture
+- **[docs/TEAM_ONBOARDING.md](docs/TEAM_ONBOARDING.md)** - Team onboarding guide
+
+---
+
+## 🧪 **Testing**
+
+```bash
+# Run unit tests
+flutter test
+
+# Run integration tests
+flutter test integration_test/
+
+# Run specific test files
+flutter test test/widget_test.dart
+```
+
+---
+
+## 🔧 **Configuration**
+
+### **API Keys Setup**
+1. Create `lib/utils/api_keys.dart`
+2. Add your API keys:
+```dart
+class ApiKeys {
+  static const String openAI = 'your-openai-api-key';
+  static const String elevenLabs = 'your-elevenlabs-api-key';
+}
+```
+
+### **Firebase Setup**
+1. Create Firebase project
+2. Add `google-services.json` (Android) and `GoogleService-Info.plist` (iOS)
+3. Update Firebase configuration files
+
+---
+
+## � **Deployment**
+
+### **Android**
+```bash
+flutter build apk --release
+flutter build appbundle --release
+```
+
+### **iOS**
+```bash
+flutter build ios --release
+```
+
+### **Web**
+```bash
+flutter build web --release
+```
+
+---
+
+## 🤝 **Contributing**
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+### **Development Guidelines**
+- Follow Flutter/Dart conventions
+- Use the existing design system components
+- Add tests for new features
+- Update documentation for significant changes
+
+---
+
+## 📄 **License**
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 **Acknowledgments**
+
+- Flutter team for the amazing framework
+- Material Design for design inspiration
+- OpenAI for GPT integration capabilities
+- ElevenLabs for voice synthesis technology
+
+---
+
+## 📞 **Contact & Support**
+
+For questions, suggestions, or support:
+- 📧 Email: [contact@wisme.app](mailto:contact@wisme.app)
+- 🐛 Issues: [GitHub Issues](https://github.com/wisme/wisme-app/issues)
+- 📖 Documentation: [Project Wiki](https://github.com/wisme/wisme-app/wiki)
+
+---
+
+*Built with ❤️ using Flutter for learners worldwide*
 
 🧠 **Kai** - Strategic, calm mentor-like (perfect for business topics)
 
@@ -192,6 +392,48 @@ AI pulls related blocks based on hashtags, user preferences, and learning histor
 - 🧭 Strategic Moves
 - 🎛 Holistic Journey
 
+### 🏛 Law & Governance
+- 📜 Legal Foundations
+- 🧭 Governance & Policy
+- ⚖️ Case Law & Precedents
+- 🎛 Civic Systems Mix
+
+### 🗺 Geopolitics & Global Affairs
+- 🌐 Power Dynamics
+- 🤝 Diplomacy & Alliances
+- 💣 Conflicts & Security
+- 🎛 Global Narrative Mix
+
+### 🌿 Environment & Sustainability
+- 🌱 Climate & Ecology
+- 🔋 Sustainable Systems
+- 🧪 Environmental Tech
+- 🎛 Eco-Strategy Blend
+
+### 📐 Mathematics & Logic
+- 🧮 Foundational Concepts
+- 🔢 Applied Techniques
+- 🧠 Logic & Formal Systems
+- 🎛 Mathematical Narrative
+
+### 🎮 Gaming & Interactive Media
+- 🎮 Game Design Principles
+- 🧠 Player Experience
+- 📚 Iconic Games & Genres
+- 🎛 Gaming Culture Mix
+
+### 🌍 Society & Ethics
+- 🧭 Social Structures
+- 🧬 Moral Frameworks
+- 💬 Real-World Ethics
+- 🎛 Reflective Society Blend
+
+### 🚀 Futurism & Exploration
+- 🌌 Space & Cosmos
+- 🤖 Emerging Futures
+- 🔭 Exploration Scenarios
+- 🎛 Futuristic Outlooks
+
 ---
 
 ## 🎉 User Delight Moments
@@ -247,18 +489,18 @@ Each episode: ~12 minutes, story-driven, actionable insights.
 ## 📋 Documentation Hub
 
 ### **📚 For Everyone**
-- **[🚀 Team Onboarding](TEAM_ONBOARDING.md)** - Quick start guide for new team members
-- **[🎯 Features Overview](FEATURES_OVERVIEW.md)** - Complete feature breakdown with AI learning system details
+- **[docs/TEAM_ONBOARDING.md](docs/TEAM_ONBOARDING.md)** - Quick start guide for new team members
+- **[docs/FEATURES_OVERVIEW.md](docs/FEATURES_OVERVIEW.md)** - Complete feature breakdown with AI learning system details
 
 ### **🛠️ For Developers**  
-- **[📖 Development Guide](DEVELOPMENT.md)** - Setup, architecture, and technical documentation
-- **[🔌 API Integration Guide](API_GUIDE.md)** - OpenAI, ElevenLabs, Firebase, and internal APIs
-- **[🎨 Design System](lib/design_system/README.md)** - UI components, tokens, and theming
+- **[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)** - Setup, architecture, and technical documentation
+- **[docs/API_GUIDE.md](docs/API_GUIDE.md)** - OpenAI, ElevenLabs, Firebase, and internal APIs
+- **[docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md)** - UI components, tokens, and theming
 
 ### **⚡ Quick Links**
-- **Getting Started:** Check [Team Onboarding](TEAM_ONBOARDING.md) for 30-minute setup
-- **Understanding the Product:** Read [Features Overview](FEATURES_OVERVIEW.md) for complete vision
-- **Building Features:** Follow [Development Guide](DEVELOPMENT.md) and [API Guide](API_GUIDE.md)
+- **Getting Started:** Check [docs/TEAM_ONBOARDING.md](docs/TEAM_ONBOARDING.md) for 30-minute setup
+- **Understanding the Product:** Read [docs/FEATURES_OVERVIEW.md](docs/FEATURES_OVERVIEW.md) for complete vision
+- **Building Features:** Follow [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) and [docs/API_GUIDE.md](docs/API_GUIDE.md)
 
 ---
 

@@ -1,375 +1,289 @@
 import 'package:flutter/material.dart';
-import '../../design_system/design_system.dart';
+import '../../constants/app_colors.dart';
+import '../../constants/app_text_styles.dart';
+import '../widgets/modern_components.dart';
 
-/// Component showcase demonstrating all available components
-/// UI/UX developers: Use this as a reference for component capabilities
-class ComponentShowcaseScreen extends StatefulWidget {
-  const ComponentShowcaseScreen({super.key});
+/// Interactive feature showcase highlighting app capabilities
+class ShowcaseScreen extends StatefulWidget {
+  const ShowcaseScreen({super.key});
 
   @override
-  State<ComponentShowcaseScreen> createState() => _ComponentShowcaseScreenState();
+  State<ShowcaseScreen> createState() => _ShowcaseScreenState();
 }
 
-class _ComponentShowcaseScreenState extends State<ComponentShowcaseScreen> {
-  final _textController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _searchController = TextEditingController();
+class _ShowcaseScreenState extends State<ShowcaseScreen>
+    with TickerProviderStateMixin {
+  late PageController _pageController;
+  late AnimationController _animationController;
+  late Animation<double> _slideAnimation;
+  late Animation<double> _fadeAnimation;
+  
+  int _currentPage = 0;
+  final int _totalPages = 4;
+
+  final List<ShowcaseFeature> _features = [
+    ShowcaseFeature(
+      title: 'AI-Powered Learning',
+      subtitle: 'Personalized lessons that adapt to your pace',
+      icon: Icons.psychology,
+      color: AppColors.primary,
+      description: 'Our advanced AI creates custom learning paths tailored to your knowledge level and learning style.',
+    ),
+    ShowcaseFeature(
+      title: 'Smart Audio Coach',
+      subtitle: 'Your personal AI voice assistant',
+      icon: Icons.record_voice_over,
+      color: Colors.purple,
+      description: 'Natural voice interactions with advanced text-to-speech and real-time feedback.',
+    ),
+    ShowcaseFeature(
+      title: 'Social Learning',
+      subtitle: 'Learn together, achieve more',
+      icon: Icons.groups,
+      color: Colors.orange,
+      description: 'Join a community of learners, compete on leaderboards, and share achievements.',
+    ),
+    ShowcaseFeature(
+      title: 'Offline Ready',
+      subtitle: 'Learn anywhere, anytime',
+      icon: Icons.offline_pin,
+      color: Colors.green,
+      description: 'Download lessons for offline access and sync progress when you\'re back online.',
+    ),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    _setupAnimations();
+    _animationController.forward();
+  }
+
+  void _setupAnimations() {
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+    
+    _slideAnimation = Tween<double>(begin: 50.0, end: 0.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+    );
+    
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void _nextPage() {
+    if (_currentPage < _totalPages - 1) {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      Navigator.of(context).pushReplacementNamed('/auth-wrapper');
+    }
+  }
+
+  void _previousPage() {
+    if (_currentPage > 0) {
+      _pageController.previousPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Component Showcase'),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+      backgroundColor: AppColors.background,
+      body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSection('Buttons', _buildButtons()),
+            _buildHeader(),
+            Expanded(
+              child: PageView.builder(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPage = index;
+                  });
+                  _animationController.reset();
+                  _animationController.forward();
+                },
+                itemCount: _totalPages,
+                itemBuilder: (context, index) => _buildFeaturePage(_features[index]),
+              ),
+            ),
+            _buildBottomNavigation(),
             const SizedBox(height: 32),
-            _buildSection('Text Fields', _buildTextFields()),
-            const SizedBox(height: 32),
-            _buildSection('Colors', _buildColors()),
-            const SizedBox(height: 32),
-            _buildSection('Typography', _buildTypography()),
-            const SizedBox(height: 64),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSection(String title, Widget content) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 16),
-        content,
-      ],
-    );
-  }
-
-  Widget _buildButtons() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Primary Buttons
-        Text('Primary Buttons', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: AppButton(
-                text: 'Primary',
-                onPressed: () => _showSnackBar('Primary button pressed'),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: AppButton(
-                text: 'Loading',
-                isLoading: true,
-                onPressed: () {},
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        
-        // Button Variants
-        Text('Button Variants', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        AppButton(
-          text: 'Secondary',
-          variant: AppButtonVariant.secondary,
-          onPressed: () => _showSnackBar('Secondary button pressed'),
-        ),
-        const SizedBox(height: 8),
-        AppButton(
-          text: 'Ghost',
-          variant: AppButtonVariant.ghost,
-          onPressed: () => _showSnackBar('Ghost button pressed'),
-        ),
-        const SizedBox(height: 8),
-        AppButton(
-          text: 'Danger',
-          variant: AppButtonVariant.danger,
-          onPressed: () => _showSnackBar('Danger button pressed'),
-        ),
-        const SizedBox(height: 16),
-
-        // Button with Icons
-        Text('Buttons with Icons', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        AppButton(
-          text: 'Save',
-          icon: Icons.save,
-          onPressed: () => _showSnackBar('Save button pressed'),
-        ),
-        const SizedBox(height: 8),
-        AppButton(
-          text: 'Download',
-          icon: Icons.download,
-          trailingIcon: Icons.arrow_drop_down,
-          variant: AppButtonVariant.secondary,
-          onPressed: () => _showSnackBar('Download button pressed'),
-        ),
-        const SizedBox(height: 16),
-
-        // Button Sizes
-        Text('Button Sizes', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            AppButton(
-              text: 'Small',
-              size: AppButtonSize.small,
-              isFullWidth: false,
-              onPressed: () => _showSnackBar('Small button'),
-            ),
-            const SizedBox(width: 8),
-            AppButton(
-              text: 'Medium',
-              size: AppButtonSize.medium,
-              isFullWidth: false,
-              onPressed: () => _showSnackBar('Medium button'),
-            ),
-            const SizedBox(width: 8),
-            AppButton(
-              text: 'Large',
-              size: AppButtonSize.large,
-              isFullWidth: false,
-              onPressed: () => _showSnackBar('Large button'),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-
-        // Icon Buttons
-        Text('Icon Buttons', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            AppIconButton(
-              icon: Icons.favorite,
-              onPressed: () => _showSnackBar('Favorite'),
-              tooltip: 'Add to favorites',
-            ),
-            const SizedBox(width: 8),
-            AppIconButton(
-              icon: Icons.share,
-              onPressed: () => _showSnackBar('Share'),
-              tooltip: 'Share',
-              backgroundColor: AppColors.primary,
-              color: AppColors.textOnPrimary,
-            ),
-            const SizedBox(width: 8),
-            AppIconButton(
-              icon: Icons.settings,
-              onPressed: () => _showSnackBar('Settings'),
-              tooltip: 'Settings',
-              size: AppButtonSize.large,
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-
-        // Custom Styled Button
-        Text('Custom Styled', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        AppButton(
-          text: 'Gradient Button',
-          variant: AppButtonVariant.custom,
-          customGradient: const LinearGradient(
-            colors: [Colors.purple, Colors.blue],
-          ),
-          customBorderRadius: BorderRadius.circular(20),
-          icon: Icons.star,
-          onPressed: () => _showSnackBar('Custom gradient button'),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTextFields() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Basic Text Fields
-        Text('Basic Text Fields', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        const AppTextField(
-          labelText: 'Name',
-          hintText: 'Enter your name',
-          isRequired: true,
-        ),
-        const SizedBox(height: 8),
-        AppTextField(
-          labelText: 'Email',
-          hintText: 'Enter your email',
-          keyboardType: TextInputType.emailAddress,
-          controller: _textController,
-          helperText: 'We will never share your email',
-        ),
-        const SizedBox(height: 16),
-
-        // Text Field Variants
-        Text('Text Field Variants', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        const AppTextField(
-          labelText: 'Outlined (Default)',
-          hintText: 'Outlined border',
-          variant: AppTextFieldVariant.outlined,
-        ),
-        const SizedBox(height: 8),
-        const AppTextField(
-          labelText: 'Filled',
-          hintText: 'Filled background',
-          variant: AppTextFieldVariant.filled,
-        ),
-        const SizedBox(height: 8),
-        const AppTextField(
-          labelText: 'Underlined',
-          hintText: 'Underline border',
-          variant: AppTextFieldVariant.underlined,
-        ),
-        const SizedBox(height: 16),
-
-        // Specialized Fields
-        Text('Specialized Fields', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        AppSearchField(
-          hintText: 'Search anything...',
-          controller: _searchController,
-          onChanged: (value) => debugPrint('Searching: $value'),
-        ),
-        const SizedBox(height: 8),
-        AppPasswordField(
-          labelText: 'Password',
-          controller: _passwordController,
-          showStrengthIndicator: true,
-          isRequired: true,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildColors() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Brand Colors', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            _buildColorSwatch('Primary', AppColors.primary),
-            const SizedBox(width: 8),
-            _buildColorSwatch('Secondary', AppColors.secondary),
-          ],
-        ),
-        const SizedBox(height: 8),
-        
-        Text('Semantic Colors', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            _buildColorSwatch('Success', AppColors.success),
-            const SizedBox(width: 8),
-            _buildColorSwatch('Warning', AppColors.warning),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            _buildColorSwatch('Error', AppColors.error),
-            const SizedBox(width: 8),
-            _buildColorSwatch('Info', AppColors.info),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildColorSwatch(String name, Color color) {
-    return Expanded(
-      child: Column(
+  Widget _buildHeader() {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            height: 60,
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(8),
+          Text(
+            'Discover Wisme',
+            style: AppTextStyles.textTheme.headlineMedium?.copyWith(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            name,
-            style: Theme.of(context).textTheme.bodySmall,
-            textAlign: TextAlign.center,
+          TextButton(
+            onPressed: () => Navigator.of(context).pushReplacementNamed('/auth-wrapper'),
+            child: Text(
+              'Skip',
+              style: AppTextStyles.textTheme.bodyLarge?.copyWith(color: AppColors.textSecondary),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildTypography() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Display Large',
-          style: AppTypography.displayLarge,
-        ),
-        Text(
-          'Headline Large',
-          style: AppTypography.headlineLarge,
-        ),
-        Text(
-          'Title Large',
-          style: AppTypography.titleLarge,
-        ),
-        Text(
-          'Body Large - Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          style: AppTypography.bodyLarge,
-        ),
-        Text(
-          'Body Medium - Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          style: AppTypography.bodyMedium,
-        ),
-        Text(
-          'Body Small - Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          style: AppTypography.bodySmall,
-        ),
-        Text(
-          'Caption - Additional information',
-          style: AppTypography.caption,
-        ),
-      ],
+  Widget _buildFeaturePage(ShowcaseFeature feature) {
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, _slideAnimation.value),
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      color: feature.color.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      feature.icon,
+                      size: 60,
+                      color: feature.color,
+                    ),
+                  ),
+                  const SizedBox(height: 48),
+                  Text(
+                    feature.title,
+                    style: AppTextStyles.textTheme.headlineMedium?.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    feature.subtitle,
+                    style: AppTextStyles.textTheme.titleLarge?.copyWith(
+                      color: feature.color,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    feature.description,
+                    style: AppTextStyles.textTheme.bodyLarge?.copyWith(
+                      color: AppColors.textSecondary,
+                      height: 1.6,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: const Duration(seconds: 1),
+  Widget _buildBottomNavigation() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+      child: Column(
+        children: [
+          // Page indicators
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              _totalPages,
+              (index) => Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                width: _currentPage == index ? 24 : 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: _currentPage == index
+                      ? AppColors.primary
+                      : AppColors.textSecondary.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
+          
+          // Navigation buttons
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (_currentPage > 0)
+                ModernButton(
+                  text: 'Previous',
+                  onPressed: _previousPage,
+                  width: 120,
+                  isPrimary: false,
+                )
+              else
+                const SizedBox(width: 120),
+              
+              ModernButton(
+                text: _currentPage == _totalPages - 1 ? 'Get Started' : 'Next',
+                onPressed: _nextPage,
+                width: 140,
+                isPrimary: true,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
+}
 
-  @override
-  void dispose() {
-    _textController.dispose();
-    _passwordController.dispose();
-    _searchController.dispose();
-    super.dispose();
-  }
+class ShowcaseFeature {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color color;
+  final String description;
+
+  const ShowcaseFeature({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.color,
+    required this.description,
+  });
 }

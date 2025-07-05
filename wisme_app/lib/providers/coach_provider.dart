@@ -49,6 +49,30 @@ class CoachProvider extends ChangeNotifier {
     AppLogger.info('Selected coach: ${coach.name}');
   }
 
+  // Set selected coach from Map data
+  void setSelectedCoach(Map<String, dynamic> coachData) {
+    try {
+      final coach = CoachModel(
+        id: coachData['id'] ?? '',
+        name: coachData['name'] ?? '',
+        personality: coachData['personality'] ?? '',
+        voiceId: coachData['id'] ?? 'default',
+        avatarUrl: coachData['avatar'] ?? '👨‍🏫',
+        description: coachData['description'] ?? '',
+        specialties: List<String>.from(coachData['specialties'] ?? []),
+        isCustom: false,
+        createdAt: DateTime.now(),
+      );
+      _selectedCoach = coach;
+      notifyListeners();
+      AppLogger.info('Selected coach from data: ${coach.name}');
+    } catch (e) {
+      AppLogger.error('Failed to set selected coach: $e');
+      _error = 'Failed to set selected coach';
+      notifyListeners();
+    }
+  }
+
   // Get coach by ID
   Future<CoachModel?> getCoach(String coachId) async {
     try {

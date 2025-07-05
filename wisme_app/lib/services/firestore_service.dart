@@ -261,4 +261,62 @@ class FirestoreService {
         .map((doc) => ContentBlock.fromFirestore(doc))
         .toList();
   }
+
+  // Content matching operations
+  Future<void> saveUserListeningHistory(String userId, dynamic history) async {
+    _checkFirebaseAvailability();
+    await _firestore!
+        .collection('users')
+        .doc(userId)
+        .collection('listening_history')
+        .doc('current')
+        .set(history.toMap());
+  }
+
+  Future<dynamic> getUserListeningHistory(String userId) async {
+    _checkFirebaseAvailability();
+    final doc = await _firestore!
+        .collection('users')
+        .doc(userId)
+        .collection('listening_history')
+        .doc('current')
+        .get();
+    
+    if (doc.exists) {
+      // Return the UserListeningHistory - we'll need to import the model
+      return doc.data();
+    }
+    
+    // Return empty history if not found
+    return {
+      'userId': userId,
+      'playedContentIds': [],
+      'lastPlayedDates': {},
+      'playCount': {},
+      'userRatings': {},
+      'bookmarkedContent': [],
+      'dislikedContent': [],
+    };
+  }
+
+  Future<void> saveContentTags(String contentId, dynamic tags) async {
+    _checkFirebaseAvailability();
+    await _firestore!
+        .collection('content_tags')
+        .doc(contentId)
+        .set(tags.toMap());
+  }
+
+  Future<dynamic> getContentTags(String contentId) async {
+    _checkFirebaseAvailability();
+    final doc = await _firestore!
+        .collection('content_tags')
+        .doc(contentId)
+        .get();
+    
+    if (doc.exists) {
+      return doc.data();
+    }
+    return null;
+  }
 }

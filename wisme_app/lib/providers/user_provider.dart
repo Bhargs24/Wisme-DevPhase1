@@ -6,7 +6,6 @@ import '../utils/logger.dart';
 
 class UserProvider extends ChangeNotifier {
   final AuthService _authService;
-  final SharedPreferences _prefs;
 
   UserModel? _currentUser;
   bool _isLoading = false;
@@ -15,8 +14,7 @@ class UserProvider extends ChangeNotifier {
   UserProvider({
     required AuthService authService,
     required SharedPreferences prefs,
-  }) : _authService = authService, 
-       _prefs = prefs {
+  }) : _authService = authService {
     _initializeUser();
   }
 
@@ -26,14 +24,7 @@ class UserProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get isLoggedIn => _currentUser != null;
-  
-  // Onboarding state
-  bool get hasSeenOnboarding => _prefs.getBool('has_seen_onboarding') ?? false;
-
-  Future<void> markOnboardingSeen() async {
-    await _prefs.setBool('has_seen_onboarding', true);
-    notifyListeners();
-  }
+  bool get hasCompletedOnboarding => _currentUser?.hasCompletedOnboarding ?? false;
 
   void clearError() {
     _error = null;
@@ -230,5 +221,79 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> logout() async {
     await signOut();
+  }
+
+  // New methods for personalization
+  void updateKnowledgeLevel(String level) {
+    if (_currentUser != null) {
+      // Update user's knowledge level preference
+      // This would typically be saved to the backend
+      AppLogger.info('Knowledge level updated to: $level');
+      notifyListeners();
+    }
+  }
+
+  void updateLearningGoals(List<String> goals) {
+    if (_currentUser != null) {
+      // Update user's learning goals
+      AppLogger.info('Learning goals updated: $goals');
+      notifyListeners();
+    }
+  }
+
+  void updateInterests(List<String> interests) {
+    if (_currentUser != null) {
+      // Update user's interests
+      AppLogger.info('Interests updated: $interests');
+      notifyListeners();
+    }
+  }
+
+  void updatePreferredSessionDuration(Duration duration) {
+    if (_currentUser != null) {
+      // Update preferred session duration
+      AppLogger.info('Session duration updated to: ${duration.inMinutes} minutes');
+      notifyListeners();
+    }
+  }
+
+  void updateLearningStreak(int streak) {
+    if (_currentUser != null) {
+      // Update learning streak
+      AppLogger.info('Learning streak updated to: $streak days');
+      notifyListeners();
+    }
+  }
+
+  void addCompletedLesson(String lessonId) {
+    if (_currentUser != null) {
+      // Add completed lesson to user profile
+      AppLogger.info('Lesson completed: $lessonId');
+      notifyListeners();
+    }
+  }
+
+  void updateLearningTime(Duration timeSpent) {
+    if (_currentUser != null) {
+      // Update total learning time
+      AppLogger.info('Learning time updated: ${timeSpent.inMinutes} minutes');
+      notifyListeners();
+    }
+  }
+
+  // Complete onboarding
+  Future<void> completeOnboarding() async {
+    if (_currentUser != null) {
+      try {
+        _currentUser = _currentUser!.copyWith(hasCompletedOnboarding: true);
+        await _authService.updateUserProfile(_currentUser!);
+        AppLogger.info('Onboarding completed');
+        notifyListeners();
+      } catch (e) {
+        _error = 'Failed to complete onboarding';
+        AppLogger.error('Failed to complete onboarding: $e');
+        notifyListeners();
+      }
+    }
   }
 }

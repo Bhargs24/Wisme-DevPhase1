@@ -1,12 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'dart:io';
 import '../models/lesson_model.dart';
 import '../services/firestore_service.dart';
+import '../services/cache_service.dart';
+import '../services/performance_service.dart';
+import '../services/analytics_service.dart';
 import '../utils/logger.dart';
 
 class AudioProvider extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
   final FirestoreService _firestoreService;
+  final CacheService? _cacheService;
 
   // Current state
   ContentBlock? _currentBlock;
@@ -21,9 +26,15 @@ class AudioProvider extends ChangeNotifier {
   // Progress tracking
   BlockProgress? _currentProgress;
   DateTime? _sessionStartTime;
+  
+  // Performance tracking
+  DateTime? _loadStartTime;
 
-  AudioProvider({required FirestoreService firestoreService}) 
-      : _firestoreService = firestoreService {
+  AudioProvider({
+    required FirestoreService firestoreService,
+    CacheService? cacheService,
+  }) : _firestoreService = firestoreService,
+       _cacheService = cacheService {
     _initializeAudioPlayer();
   }
 
@@ -97,12 +108,36 @@ class AudioProvider extends ChangeNotifier {
       return;
     }
 
+    _loadStartTime = DateTime.now();
     _isLoading = true;
     _error = null;
     notifyListeners();
 
     try {
-      await _audioPlayer.setSourceUrl(_currentBlock!.audioUrl!);
+      // Check cache first
+      File? cachedFile;
+      if (_cacheService != null) {
+        cachedFile = await _cacheService.getCachedAudio(
+          _currentBlock!.title, 
+          'default' // Use default coach voice for now
+        );
+      }
+
+      if (cachedFile != null) {
+        // Load from cache
+        await _audioPlayer.setSource(DeviceFileSource(cachedFile.path));
+        AppLogger.info('Audio loaded from cache for block: ${_currentBlock!.id}');
+        
+        // Track cache hit
+        PerformanceService.recordMetric('cache_hit', 1.0);
+      } else {
+        // Load from network
+        await _audioPlayer.setSource(UrlSource(_currentBlock!.audioUrl!));
+        AppLogger.info('Audio loaded from network for block: ${_currentBlock!.id}');
+        
+        // Track cache miss
+        PerformanceService.recordMetric('cache_miss', 1.0);
+      }
       
       // Set playback speed
       await _audioPlayer.setPlaybackRate(_playbackSpeed);
@@ -112,10 +147,30 @@ class AudioProvider extends ChangeNotifier {
         await _audioPlayer.seek(_currentProgress!.lastPosition);
       }
 
-      AppLogger.info('Audio loaded for block: ${_currentBlock!.id}');
+      // Track load time
+      if (_loadStartTime != null) {
+        final loadTime = DateTime.now().difference(_loadStartTime!);
+        PerformanceService.recordMetric('audio_load_time_ms', loadTime.inMilliseconds.toDouble());
+      }
+
+      // Track analytics
+      AnalyticsService.trackEvent('audio_loaded', {
+        'block_id': _currentBlock!.id,
+        'cached': cachedFile != null,
+        'load_time_ms': _loadStartTime != null 
+            ? DateTime.now().difference(_loadStartTime!).inMilliseconds 
+            : 0,
+      });
+
     } catch (e) {
       _error = 'Failed to load audio: $e';
       AppLogger.error('Failed to load audio: $e');
+      
+      // Track error
+      AnalyticsService.trackEvent('audio_load_error', {
+        'error': e.toString(),
+        'block_id': _currentBlock?.id,
+      });
     } finally {
       _isLoading = false;
       notifyListeners();

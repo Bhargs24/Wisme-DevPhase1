@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_text_styles.dart';
 import '../../providers/user_provider.dart';
+import '../../routes.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -16,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () => Navigator.pushNamed(context, '/voice-settings'),
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.voiceSettings),
           ),
         ],
       ),
@@ -147,34 +148,34 @@ class ProfileScreen extends StatelessWidget {
         _buildMenuItem(
           icon: Icons.record_voice_over,
           title: 'Voice Settings',
-          onTap: () => Navigator.pushNamed(context, '/voice-settings'),
+          onTap: () => Navigator.pushNamed(context, AppRoutes.voiceSettings),
         ),
         _buildMenuItem(
           icon: Icons.download,
           title: 'Downloaded Lessons',
           onTap: () {
-            // TODO: Navigate to downloads
+            Navigator.pushNamed(context, AppRoutes.downloads);
           },
         ),
         _buildMenuItem(
           icon: Icons.favorite,
           title: 'Favorites',
           onTap: () {
-            // TODO: Navigate to favorites
+            Navigator.pushNamed(context, AppRoutes.favorites);
           },
         ),
         _buildMenuItem(
           icon: Icons.history,
           title: 'Learning History',
           onTap: () {
-            // TODO: Navigate to history
+            Navigator.pushNamed(context, AppRoutes.learningHistory);
           },
         ),
         _buildMenuItem(
           icon: Icons.help,
           title: 'Help & Support',
           onTap: () {
-            // TODO: Navigate to help
+            Navigator.pushNamed(context, AppRoutes.helpSupport);
           },
         ),
         _buildMenuItem(

@@ -14,6 +14,7 @@ class UserModel {
   final List<String> favoriteTopics;
   final List<String> completedJourneys;
   final Map<String, dynamic> metadata;
+  final bool hasCompletedOnboarding;
 
   UserModel({
     required this.id,
@@ -29,6 +30,7 @@ class UserModel {
     this.favoriteTopics = const [],
     this.completedJourneys = const [],
     this.metadata = const {},
+    this.hasCompletedOnboarding = false,
   });
 
   factory UserModel.fromFirestore(DocumentSnapshot doc) {
@@ -47,6 +49,7 @@ class UserModel {
       favoriteTopics: List<String>.from(data['favoriteTopics'] ?? []),
       completedJourneys: List<String>.from(data['completedJourneys'] ?? []),
       metadata: Map<String, dynamic>.from(data['metadata'] ?? {}),
+      hasCompletedOnboarding: data['hasCompletedOnboarding'] ?? false,
     );
   }
 
@@ -69,6 +72,7 @@ class UserModel {
       favoriteTopics: List<String>.from(data['favoriteTopics'] ?? []),
       completedJourneys: List<String>.from(data['completedJourneys'] ?? []),
       metadata: Map<String, dynamic>.from(data['metadata'] ?? {}),
+      hasCompletedOnboarding: data['hasCompletedOnboarding'] ?? false,
     );
   }
 
@@ -85,6 +89,7 @@ class UserModel {
         'favoriteTopics': favoriteTopics,
         'completedJourneys': completedJourneys,
         'metadata': metadata,
+        'hasCompletedOnboarding': hasCompletedOnboarding,
       };
 
   Map<String, dynamic> toMap() => {
@@ -101,6 +106,7 @@ class UserModel {
         'favoriteTopics': favoriteTopics,
         'completedJourneys': completedJourneys,
         'metadata': metadata,
+        'hasCompletedOnboarding': hasCompletedOnboarding,
       };
 
   UserModel copyWith({
@@ -114,6 +120,7 @@ class UserModel {
     List<String>? favoriteTopics,
     List<String>? completedJourneys,
     Map<String, dynamic>? metadata,
+    bool? hasCompletedOnboarding,
   }) {
     return UserModel(
       id: id,
@@ -129,6 +136,7 @@ class UserModel {
       favoriteTopics: favoriteTopics ?? this.favoriteTopics,
       completedJourneys: completedJourneys ?? this.completedJourneys,
       metadata: metadata ?? this.metadata,
+      hasCompletedOnboarding: hasCompletedOnboarding ?? this.hasCompletedOnboarding,
     );
   }
 }

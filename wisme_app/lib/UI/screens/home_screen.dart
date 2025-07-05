@@ -5,6 +5,7 @@ import '../../providers/user_provider.dart';
 import '../../providers/lesson_provider.dart';
 import '../../providers/voice_provider.dart';
 import '../../models/topic_model.dart';
+import '../../routes.dart';
 import '../widgets/lesson_card.dart';
 import '../widgets/voice_selector_widget.dart';
 import '../widgets/app_text_field.dart';
@@ -43,67 +44,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(
-      builder: (context, userProvider, child) {
-        // Show loading screen while checking authentication
-        if (userProvider.isLoading) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-        
-        // Always show home screen - guest access is allowed
-        return _buildHomeScreen(context);
-      },
-    );
+    return _buildHomeScreen(context);
   }
 
   Widget _buildHomeScreen(BuildContext context) {
-    return Consumer<UserProvider>(
-      builder: (context, userProvider, child) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Wisme'),
-            elevation: 0,
-            actions: [
-              if (userProvider.isLoggedIn) ...[
-                // User is logged in - show profile
-                IconButton(
-                  icon: const Icon(Icons.person),
-                  onPressed: () => Navigator.pushNamed(context, '/profile'),
-                ),
-              ] else ...[
-                // User is not logged in - show sign in option
-                TextButton(
-                  onPressed: () => Navigator.pushNamed(context, '/login'),
-                  child: const Text(
-                    'Sign In',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Wisme - Learn Anything'),
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.profile),
           ),
-          body: Column(
-            children: [
-              _buildHeader(),
-              _buildSearchBar(),
-              _buildTopicSelector(),
-              _buildVoiceSelector(),
-              Expanded(child: _buildLessonsList()),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: _showGenerateLessonDialog,
-            backgroundColor: AppColors.primary,
-            child: const Icon(Icons.add),
-          ),
-        );
-      },
+        ],
+      ),
+      body: Column(
+        children: [
+          _buildHeader(),
+          _buildSearchBar(),
+          _buildTopicSelector(),
+          _buildVoiceSelector(),
+          Expanded(child: _buildLessonsList()),
+        ],
+      ),
     );
   }
 
@@ -327,13 +291,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  void _showGenerateLessonDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => const GenerateLessonDialog(),
     );
   }
 

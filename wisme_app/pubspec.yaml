@@ -35,11 +35,13 @@ dependencies:
   shared_preferences: ^2.3.2
   path_provider: ^2.1.4
   flutter_secure_storage: ^9.2.2
+  sqflite: ^2.3.3
   
   # Utilities
   crypto: ^3.0.5
   intl: ^0.19.0
   uuid: ^4.5.1
+  connectivity_plus: ^6.0.5
   
   # Google Sign In
   google_sign_in: ^6.2.1
