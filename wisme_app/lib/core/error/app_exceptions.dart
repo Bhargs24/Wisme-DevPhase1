@@ -69,3 +69,8 @@ class NoInternetException extends NetworkException {
 class TimeoutException extends NetworkException {
   const TimeoutException() : super('Request timed out');
 }
+
+/// Offline related exceptions
+class OfflineException extends AppException {
+  const OfflineException(super.message, {super.code, super.originalError});
+}

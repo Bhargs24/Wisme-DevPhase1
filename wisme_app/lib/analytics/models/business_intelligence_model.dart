@@ -36,17 +36,19 @@ class ContentRecommendation extends BaseModel {
   });
 
   @override
-  Map<String, dynamic> toJson() => {
-        ...super.toJson(),
+  Map<String, dynamic> toMap() => {
+        'id': id,
         'contentId': contentId,
         'score': score,
         'reason': reason,
         'algorithm': algorithm,
         'features': features,
+        'createdAt': createdAt?.toIso8601String(),
+        'updatedAt': updatedAt?.toIso8601String(),
       };
 
   factory ContentRecommendation.fromJson(Map<String, dynamic> json) => ContentRecommendation(
-        id: json['id'] as String,
+        id: json['id'] as String?,
         contentId: json['contentId'] as String,
         score: (json['score'] as num).toDouble(),
         reason: json['reason'] as String,
@@ -98,17 +100,19 @@ class CostOptimizationStats extends BaseModel {
   });
 
   @override
-  Map<String, dynamic> toJson() => {
-        ...super.toJson(),
+  Map<String, dynamic> toMap() => {
+        'id': id,
         'totalApiCalls': totalApiCalls,
         'totalCost': totalCost,
         'costSavings': costSavings,
         'reuseRate': reuseRate,
         'breakdown': breakdown,
+        'createdAt': createdAt?.toIso8601String(),
+        'updatedAt': updatedAt?.toIso8601String(),
       };
 
   factory CostOptimizationStats.fromJson(Map<String, dynamic> json) => CostOptimizationStats(
-        id: json['id'] as String,
+        id: json['id'] as String?,
         totalApiCalls: json['totalApiCalls'] as int,
         totalCost: (json['totalCost'] as num).toDouble(),
         costSavings: (json['costSavings'] as num).toDouble(),
@@ -158,16 +162,18 @@ class BusinessAnalytics extends BaseModel {
   });
 
   @override
-  Map<String, dynamic> toJson() => {
-        ...super.toJson(),
+  Map<String, dynamic> toMap() => {
+        'id': id,
         'userEngagement': userEngagement,
         'contentPerformance': contentPerformance,
         'revenueMetrics': revenueMetrics,
         'operationalMetrics': operationalMetrics,
+        'createdAt': createdAt?.toIso8601String(),
+        'updatedAt': updatedAt?.toIso8601String(),
       };
 
   factory BusinessAnalytics.fromJson(Map<String, dynamic> json) => BusinessAnalytics(
-        id: json['id'] as String,
+        id: json['id'] as String?,
         userEngagement: json['userEngagement'] as Map<String, dynamic>,
         contentPerformance: json['contentPerformance'] as Map<String, dynamic>,
         revenueMetrics: json['revenueMetrics'] as Map<String, dynamic>,
@@ -214,16 +220,18 @@ class SystemHealthReport extends BaseModel {
   });
 
   @override
-  Map<String, dynamic> toJson() => {
-        ...super.toJson(),
+  Map<String, dynamic> toMap() => {
+        'id': id,
         'overallHealth': overallHealth,
         'componentStatus': componentStatus,
         'alerts': alerts,
         'metrics': metrics,
+        'createdAt': createdAt?.toIso8601String(),
+        'updatedAt': updatedAt?.toIso8601String(),
       };
 
   factory SystemHealthReport.fromJson(Map<String, dynamic> json) => SystemHealthReport(
-        id: json['id'] as String,
+        id: json['id'] as String?,
         overallHealth: json['overallHealth'] as String,
         componentStatus: Map<String, String>.from(json['componentStatus'] as Map),
         alerts: (json['alerts'] as List<dynamic>).cast<String>(),

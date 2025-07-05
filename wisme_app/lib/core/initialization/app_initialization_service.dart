@@ -1,4 +1,4 @@
-/// Production-Ready App Initialization Service
+﻿/// Production-Ready App Initialization Service
 /// 
 /// Handles all startup concerns for deployment to thousands of users
 library;
@@ -32,7 +32,7 @@ class AppInitializationService {
     if (_isInitialized) return;
 
     final stopwatch = Stopwatch()..start();
-    _log('🚀 Starting Wisme production initialization...');
+    _log('ðŸš€ Starting Wisme production initialization...');
 
     try {
       // 1. Initialize core infrastructure
@@ -65,7 +65,7 @@ class AppInitializationService {
       _isInitialized = true;
       
       final initTime = stopwatch.elapsedMilliseconds;
-      _log('✅ Wisme initialization completed in ${initTime}ms');
+      _log('âœ… Wisme initialization completed in ${initTime}ms');
       
       // Track successful initialization
       AnalyticsService.trackEvent('app_initialization_completed', {
@@ -76,7 +76,7 @@ class AppInitializationService {
       });
 
     } catch (e, stackTrace) {
-      _log('❌ Initialization failed: $e');
+      _log('âŒ Initialization failed: $e');
       AppLogger.error('App initialization failed', e, stackTrace);
       
       // Track initialization failure
@@ -94,7 +94,7 @@ class AppInitializationService {
 
   /// Initialize core infrastructure
   static Future<void> _initializeInfrastructure() async {
-    _log('🔧 Initializing core infrastructure...');
+    _log('ðŸ”§ Initializing core infrastructure...');
     
     // Ensure widget binding is initialized
     WidgetsFlutterBinding.ensureInitialized();
@@ -113,25 +113,25 @@ class AppInitializationService {
       ),
     );
     
-    _log('✅ Core infrastructure initialized');
+    _log('âœ… Core infrastructure initialized');
   }
 
   /// Initialize security and privacy features
   static Future<void> _initializeSecurity() async {
-    _log('🔒 Initializing security services...');
+    _log('ðŸ”’ Initializing security services...');
     
     try {
       await SecurityService.initialize();
-      _log('✅ Security services initialized');
+      _log('âœ… Security services initialized');
     } catch (e) {
-      _log('⚠️ Security initialization partial failure: $e');
+      _log('âš ï¸ Security initialization partial failure: $e');
       // Continue - app can function with reduced security
     }
   }
 
   /// Initialize performance monitoring
   static Future<void> _initializePerformanceMonitoring() async {
-    _log('📊 Initializing performance monitoring...');
+    _log('ðŸ“Š Initializing performance monitoring...');
     
     try {
       await PerformanceService.initialize();
@@ -139,16 +139,16 @@ class AppInitializationService {
       // Start collecting system metrics
       PerformanceService.recordMetric('app_start_time', DateTime.now().millisecondsSinceEpoch.toDouble());
       
-      _log('✅ Performance monitoring initialized');
+      _log('âœ… Performance monitoring initialized');
     } catch (e) {
-      _log('⚠️ Performance monitoring initialization failed: $e');
+      _log('âš ï¸ Performance monitoring initialization failed: $e');
       // Continue - app can function without detailed monitoring
     }
   }
 
   /// Initialize analytics and telemetry
   static Future<void> _initializeAnalytics() async {
-    _log('📈 Initializing analytics...');
+    _log('ðŸ“ˆ Initializing analytics...');
     
     try {
       await AnalyticsService.initialize();
@@ -161,29 +161,29 @@ class AppInitializationService {
         'timestamp': DateTime.now().toIso8601String(),
       });
       
-      _log('✅ Analytics initialized');
+      _log('âœ… Analytics initialized');
     } catch (e) {
-      _log('⚠️ Analytics initialization failed: $e');
+      _log('âš ï¸ Analytics initialization failed: $e');
       // Continue - app can function without analytics
     }
   }
 
   /// Initialize offline support and sync
   static Future<void> _initializeOfflineSupport() async {
-    _log('📱 Initializing offline support...');
+    _log('ðŸ“± Initializing offline support...');
     
     try {
       await OfflineService.initialize();
-      _log('✅ Offline support initialized');
+      _log('âœ… Offline support initialized');
     } catch (e) {
-      _log('⚠️ Offline support initialization failed: $e');
+      _log('âš ï¸ Offline support initialization failed: $e');
       // Continue - app can function in online mode only
     }
   }
 
   /// Initialize background services
   static Future<void> _initializeBackgroundServices() async {
-    _log('⚙️ Initializing background services...');
+    _log('âš™ï¸ Initializing background services...');
     
     try {
       // Start periodic background sync
@@ -192,15 +192,15 @@ class AppInitializationService {
         (timer) => _performBackgroundSync(),
       );
       
-      _log('✅ Background services initialized');
+      _log('âœ… Background services initialized');
     } catch (e) {
-      _log('⚠️ Background services initialization failed: $e');
+      _log('âš ï¸ Background services initialization failed: $e');
     }
   }
 
   /// Initialize connectivity monitoring
   static Future<void> _initializeConnectivityMonitoring() async {
-    _log('🌐 Initializing connectivity monitoring...');
+    _log('ðŸŒ Initializing connectivity monitoring...');
     
     try {
       final connectivity = Connectivity();
@@ -217,15 +217,15 @@ class AppInitializationService {
         },
       );
       
-      _log('✅ Connectivity monitoring initialized');
+      _log('âœ… Connectivity monitoring initialized');
     } catch (e) {
-      _log('⚠️ Connectivity monitoring initialization failed: $e');
+      _log('âš ï¸ Connectivity monitoring initialization failed: $e');
     }
   }
 
   /// Perform system health check
   static Future<void> _performSystemHealthCheck() async {
-    _log('🏥 Performing system health check...');
+    _log('ðŸ¥ Performing system health check...');
     
     try {
       final healthStatus = <String, dynamic>{};
@@ -252,21 +252,21 @@ class AppInitializationService {
       // Track health status
       AnalyticsService.trackEvent('system_health_check', healthStatus);
       
-      _log('✅ System health check completed');
+      _log('âœ… System health check completed');
       
       // Log critical issues
       if (!healthStatus['api_configured']) {
-        _log('⚠️ Warning: API keys not configured for production');
+        _log('âš ï¸ Warning: API keys not configured for production');
       }
       
     } catch (e) {
-      _log('⚠️ Health check failed: $e');
+      _log('âš ï¸ Health check failed: $e');
     }
   }
 
   /// Initialize error handling and resilience
   static Future<void> _initializeErrorHandling() async {
-    _log('🛡️ Initializing error handling...');
+    _log('ðŸ›¡ï¸ Initializing error handling...');
     
     try {
       ResilienceService.initialize();
@@ -299,9 +299,9 @@ class AppInitializationService {
         return true;
       };
       
-      _log('✅ Error handling initialized');
+      _log('âœ… Error handling initialized');
     } catch (e) {
-      _log('⚠️ Error handling initialization failed: $e');
+      _log('âš ï¸ Error handling initialization failed: $e');
     }
   }
 
@@ -356,7 +356,7 @@ class AppInitializationService {
 
   /// Cleanup resources on app termination
   static Future<void> cleanup() async {
-    _log('🧹 Cleaning up app resources...');
+    _log('ðŸ§¹ Cleaning up app resources...');
     
     try {
       // Cancel timers
@@ -371,7 +371,7 @@ class AppInitializationService {
         'timestamp': DateTime.now().toIso8601String(),
       });
       
-      _log('✅ Cleanup completed');
+      _log('âœ… Cleanup completed');
     } catch (e) {
       AppLogger.error('Cleanup failed: $e');
     }
@@ -391,3 +391,5 @@ class AppInitializationService {
     'build_info': AppVersion.buildInfo,
   };
 }
+
+

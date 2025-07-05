@@ -1,377 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 /// App routes enumeration
 enum AppRoute {
-  splash('/'),
-  onboarding('/onboarding'),
-  login('/login'),
-  register('/register'),
-  forgotPassword('/forgot-password'),
+  splash,
+  onboarding,
+  login,
+  register,
+  forgotPassword,
   
   // Main app routes
-  home('/home'),
-  dashboard('/dashboard'),
-  profile('/profile'),
-  settings('/settings'),
+  home,
+  dashboard,
+  profile,
+  settings,
   
   // Learning routes
-  lessons('/lessons'),
-  lessonDetail('/lessons/:lessonId'),
-  learningSession('/learning-session/:sessionId'),
-  learningProgress('/learning-progress'),
-  learningPath('/learning-path/:pathId'),
+  lessons,
+  lessonDetail,
+  learningSession,
+  learningProgress,
+  learningPath,
   
   // Coach routes
-  coach('/coach'),
-  coachChat('/coach/chat/:coachId'),
-  coachHistory('/coach/history'),
+  coach,
+  coachChat,
+  coachHistory,
   
   // Audio routes
-  audioLibrary('/audio'),
-  audioPlayer('/audio/player/:audioId'),
-  audioGenerator('/audio/generator'),
+  audioLibrary,
+  audioPlayer,
+  audioGenerator,
   
   // Content routes
-  curriculum('/curriculum'),
-  contentItem('/content/:contentId'),
+  curriculum,
+  contentItem,
   
   // Analytics routes
-  analytics('/analytics'),
-  insights('/insights'),
+  analytics,
+  insights,
   
   // Subscription routes
-  subscription('/subscription'),
-  billing('/billing'),
+  subscription,
+  billing,
   
   // Error routes
-  notFound('/404'),
-  error('/error'),
+  notFound,
+  error,
 }
 
-/// Route configuration
-class AppRoutes {
-  static final _navigatorKey = GlobalKey<NavigatorState>();
-  
-  /// Get navigator key
-  static GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
-  
-  /// Get current context
-  static BuildContext? get context => _navigatorKey.currentContext;
-  
-  /// Router configuration
-  static final GoRouter router = GoRouter(
-    navigatorKey: _navigatorKey,
-    initialLocation: AppRoute.splash.path,
-    debugLogDiagnostics: true,
-    routes: [
-      // Auth routes
-      GoRoute(
-        path: AppRoute.splash.path,
-        name: AppRoute.splash.name,
-        builder: (context, state) => const SplashScreen(),
-      ),
-      GoRoute(
-        path: AppRoute.onboarding.path,
-        name: AppRoute.onboarding.name,
-        builder: (context, state) => const OnboardingScreen(),
-      ),
-      GoRoute(
-        path: AppRoute.login.path,
-        name: AppRoute.login.name,
-        builder: (context, state) => const LoginScreen(),
-      ),
-      GoRoute(
-        path: AppRoute.register.path,
-        name: AppRoute.register.name,
-        builder: (context, state) => const RegisterScreen(),
-      ),
-      GoRoute(
-        path: AppRoute.forgotPassword.path,
-        name: AppRoute.forgotPassword.name,
-        builder: (context, state) => const ForgotPasswordScreen(),
-      ),
-      
-      // Main app routes with shell
-      ShellRoute(
-        builder: (context, state, child) => MainShell(child: child),
-        routes: [
-          GoRoute(
-            path: AppRoute.home.path,
-            name: AppRoute.home.name,
-            builder: (context, state) => const HomeScreen(),
-          ),
-          GoRoute(
-            path: AppRoute.dashboard.path,
-            name: AppRoute.dashboard.name,
-            builder: (context, state) => const DashboardScreen(),
-          ),
-          
-          // Learning routes
-          GoRoute(
-            path: AppRoute.lessons.path,
-            name: AppRoute.lessons.name,
-            builder: (context, state) => const LessonsScreen(),
-            routes: [
-              GoRoute(
-                path: '/:lessonId',
-                name: AppRoute.lessonDetail.name,
-                builder: (context, state) => LessonDetailScreen(
-                  lessonId: state.pathParameters['lessonId']!,
-                ),
-              ),
-            ],
-          ),
-          GoRoute(
-            path: AppRoute.learningSession.path,
-            name: AppRoute.learningSession.name,
-            builder: (context, state) => LearningSessionScreen(
-              sessionId: state.pathParameters['sessionId']!,
-            ),
-          ),
-          GoRoute(
-            path: AppRoute.learningProgress.path,
-            name: AppRoute.learningProgress.name,
-            builder: (context, state) => const LearningProgressScreen(),
-          ),
-          GoRoute(
-            path: AppRoute.learningPath.path,
-            name: AppRoute.learningPath.name,
-            builder: (context, state) => LearningPathScreen(
-              pathId: state.pathParameters['pathId']!,
-            ),
-          ),
-          
-          // Coach routes
-          GoRoute(
-            path: AppRoute.coach.path,
-            name: AppRoute.coach.name,
-            builder: (context, state) => const CoachScreen(),
-            routes: [
-              GoRoute(
-                path: '/chat/:coachId',
-                name: AppRoute.coachChat.name,
-                builder: (context, state) => CoachChatScreen(
-                  coachId: state.pathParameters['coachId']!,
-                ),
-              ),
-              GoRoute(
-                path: '/history',
-                name: AppRoute.coachHistory.name,
-                builder: (context, state) => const CoachHistoryScreen(),
-              ),
-            ],
-          ),
-          
-          // Audio routes
-          GoRoute(
-            path: AppRoute.audioLibrary.path,
-            name: AppRoute.audioLibrary.name,
-            builder: (context, state) => const AudioLibraryScreen(),
-            routes: [
-              GoRoute(
-                path: '/player/:audioId',
-                name: AppRoute.audioPlayer.name,
-                builder: (context, state) => AudioPlayerScreen(
-                  audioId: state.pathParameters['audioId']!,
-                ),
-              ),
-              GoRoute(
-                path: '/generator',
-                name: AppRoute.audioGenerator.name,
-                builder: (context, state) => const AudioGeneratorScreen(),
-              ),
-            ],
-          ),
-          
-          // Content routes
-          GoRoute(
-            path: AppRoute.curriculum.path,
-            name: AppRoute.curriculum.name,
-            builder: (context, state) => const CurriculumScreen(),
-          ),
-          GoRoute(
-            path: AppRoute.contentItem.path,
-            name: AppRoute.contentItem.name,
-            builder: (context, state) => ContentItemScreen(
-              contentId: state.pathParameters['contentId']!,
-            ),
-          ),
-          
-          // Analytics routes
-          GoRoute(
-            path: AppRoute.analytics.path,
-            name: AppRoute.analytics.name,
-            builder: (context, state) => const AnalyticsScreen(),
-          ),
-          GoRoute(
-            path: AppRoute.insights.path,
-            name: AppRoute.insights.name,
-            builder: (context, state) => const InsightsScreen(),
-          ),
-          
-          // Profile and settings
-          GoRoute(
-            path: AppRoute.profile.path,
-            name: AppRoute.profile.name,
-            builder: (context, state) => const ProfileScreen(),
-          ),
-          GoRoute(
-            path: AppRoute.settings.path,
-            name: AppRoute.settings.name,
-            builder: (context, state) => const SettingsScreen(),
-          ),
-          
-          // Subscription routes
-          GoRoute(
-            path: AppRoute.subscription.path,
-            name: AppRoute.subscription.name,
-            builder: (context, state) => const SubscriptionScreen(),
-          ),
-          GoRoute(
-            path: AppRoute.billing.path,
-            name: AppRoute.billing.name,
-            builder: (context, state) => const BillingScreen(),
-          ),
-        ],
-      ),
-      
-      // Error routes
-      GoRoute(
-        path: AppRoute.notFound.path,
-        name: AppRoute.notFound.name,
-        builder: (context, state) => const NotFoundScreen(),
-      ),
-      GoRoute(
-        path: AppRoute.error.path,
-        name: AppRoute.error.name,
-        builder: (context, state) => ErrorScreen(
-          error: state.extra as String?,
-        ),
-      ),
-    ],
-    errorBuilder: (context, state) => ErrorScreen(
-      error: state.error?.toString(),
-    ),
-  );
-}
-
-/// Navigation service for programmatic navigation
-class NavigationService {
-  static final NavigationService _instance = NavigationService._internal();
-  factory NavigationService() => _instance;
-  NavigationService._internal();
-  
-  /// Navigate to route
-  void go(AppRoute route, {Map<String, String>? pathParameters, Map<String, dynamic>? queryParameters, Object? extra}) {
-    String path = route.path;
-    
-    // Replace path parameters
-    if (pathParameters != null) {
-      pathParameters.forEach((key, value) {
-        path = path.replaceAll(':$key', value);
-      });
-    }
-    
-    AppRoutes.router.go(path, extra: extra);
-  }
-  
-  /// Push route
-  void push(AppRoute route, {Map<String, String>? pathParameters, Map<String, dynamic>? queryParameters, Object? extra}) {
-    String path = route.path;
-    
-    // Replace path parameters
-    if (pathParameters != null) {
-      pathParameters.forEach((key, value) {
-        path = path.replaceAll(':$key', value);
-      });
-    }
-    
-    AppRoutes.router.push(path, extra: extra);
-  }
-  
-  /// Pop current route
-  void pop([Object? result]) {
-    if (AppRoutes.router.canPop()) {
-      AppRoutes.router.pop(result);
-    }
-  }
-  
-  /// Replace current route
-  void replace(AppRoute route, {Map<String, String>? pathParameters, Map<String, dynamic>? queryParameters, Object? extra}) {
-    String path = route.path;
-    
-    // Replace path parameters
-    if (pathParameters != null) {
-      pathParameters.forEach((key, value) {
-        path = path.replaceAll(':$key', value);
-      });
-    }
-    
-    AppRoutes.router.pushReplacement(path, extra: extra);
-  }
-  
-  /// Go to lesson detail
-  void goToLessonDetail(String lessonId) {
-    go(AppRoute.lessonDetail, pathParameters: {'lessonId': lessonId});
-  }
-  
-  /// Go to learning session
-  void goToLearningSession(String sessionId) {
-    go(AppRoute.learningSession, pathParameters: {'sessionId': sessionId});
-  }
-  
-  /// Go to learning path
-  void goToLearningPath(String pathId) {
-    go(AppRoute.learningPath, pathParameters: {'pathId': pathId});
-  }
-  
-  /// Go to coach chat
-  void goToCoachChat(String coachId) {
-    go(AppRoute.coachChat, pathParameters: {'coachId': coachId});
-  }
-  
-  /// Go to audio player
-  void goToAudioPlayer(String audioId) {
-    go(AppRoute.audioPlayer, pathParameters: {'audioId': audioId});
-  }
-  
-  /// Go to content item
-  void goToContentItem(String contentId) {
-    go(AppRoute.contentItem, pathParameters: {'contentId': contentId});
-  }
-  
-  /// Navigate to home
-  void goToHome() => go(AppRoute.home);
-  
-  /// Navigate to dashboard
-  void goToDashboard() => go(AppRoute.dashboard);
-  
-  /// Navigate to profile
-  void goToProfile() => go(AppRoute.profile);
-  
-  /// Navigate to settings
-  void goToSettings() => go(AppRoute.settings);
-  
-  /// Navigate to login
-  void goToLogin() => go(AppRoute.login);
-  
-  /// Navigate to register
-  void goToRegister() => go(AppRoute.register);
-  
-  /// Navigate to onboarding
-  void goToOnboarding() => go(AppRoute.onboarding);
-  
-  /// Get current location
-  String get currentLocation => AppRoutes.router.routerDelegate.currentConfiguration.uri.toString();
-  
-  /// Check if can pop
-  bool get canPop => AppRoutes.router.canPop();
-}
-
-/// Extension on AppRoute for convenience
+/// Extension to get route paths and names
 extension AppRouteExtension on AppRoute {
-  /// Get route path
   String get path {
     switch (this) {
       case AppRoute.splash:
@@ -395,29 +73,29 @@ extension AppRouteExtension on AppRoute {
       case AppRoute.lessons:
         return '/lessons';
       case AppRoute.lessonDetail:
-        return '/lessons/:lessonId';
+        return '/lessons/detail';
       case AppRoute.learningSession:
-        return '/learning-session/:sessionId';
+        return '/learning-session';
       case AppRoute.learningProgress:
         return '/learning-progress';
       case AppRoute.learningPath:
-        return '/learning-path/:pathId';
+        return '/learning-path';
       case AppRoute.coach:
         return '/coach';
       case AppRoute.coachChat:
-        return '/coach/chat/:coachId';
+        return '/coach/chat';
       case AppRoute.coachHistory:
         return '/coach/history';
       case AppRoute.audioLibrary:
         return '/audio';
       case AppRoute.audioPlayer:
-        return '/audio/player/:audioId';
+        return '/audio/player';
       case AppRoute.audioGenerator:
         return '/audio/generator';
       case AppRoute.curriculum:
         return '/curriculum';
       case AppRoute.contentItem:
-        return '/content/:contentId';
+        return '/content';
       case AppRoute.analytics:
         return '/analytics';
       case AppRoute.insights:
@@ -433,189 +111,507 @@ extension AppRouteExtension on AppRoute {
     }
   }
   
-  /// Get route name
   String get name => toString().split('.').last;
 }
 
-/// Placeholder screens - these will be implemented in the UI layer
+/// Route configuration using standard Flutter navigation
+class AppRoutes {
+  static final _navigatorKey = GlobalKey<NavigatorState>();
+  
+  /// Get navigator key
+  static GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
+  
+  /// Get current context
+  static BuildContext? get context => _navigatorKey.currentContext;
+  
+  /// Route generator for named routes
+  static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/':
+        return MaterialPageRoute(
+          builder: (_) => const SplashScreen(),
+          settings: settings,
+        );
+      case '/onboarding':
+        return MaterialPageRoute(
+          builder: (_) => const OnboardingScreen(),
+          settings: settings,
+        );
+      case '/login':
+        return MaterialPageRoute(
+          builder: (_) => const LoginScreen(),
+          settings: settings,
+        );
+      case '/register':
+        return MaterialPageRoute(
+          builder: (_) => const RegisterScreen(),
+          settings: settings,
+        );
+      case '/forgot-password':
+        return MaterialPageRoute(
+          builder: (_) => const ForgotPasswordScreen(),
+          settings: settings,
+        );
+      case '/home':
+        return MaterialPageRoute(
+          builder: (_) => const HomeScreen(),
+          settings: settings,
+        );
+      case '/dashboard':
+        return MaterialPageRoute(
+          builder: (_) => const DashboardScreen(),
+          settings: settings,
+        );
+      case '/profile':
+        return MaterialPageRoute(
+          builder: (_) => const ProfileScreen(),
+          settings: settings,
+        );
+      case '/settings':
+        return MaterialPageRoute(
+          builder: (_) => const SettingsScreen(),
+          settings: settings,
+        );
+      case '/lessons':
+        return MaterialPageRoute(
+          builder: (_) => const LessonsScreen(),
+          settings: settings,
+        );
+      case '/lessons/detail':
+        final lessonId = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (_) => LessonDetailScreen(lessonId: lessonId ?? ''),
+          settings: settings,
+        );
+      case '/learning-session':
+        final sessionId = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (_) => LearningSessionScreen(sessionId: sessionId ?? ''),
+          settings: settings,
+        );
+      case '/learning-progress':
+        return MaterialPageRoute(
+          builder: (_) => const LearningProgressScreen(),
+          settings: settings,
+        );
+      case '/learning-path':
+        final pathId = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (_) => LearningPathScreen(pathId: pathId ?? ''),
+          settings: settings,
+        );
+      case '/coach':
+        return MaterialPageRoute(
+          builder: (_) => const CoachScreen(),
+          settings: settings,
+        );
+      case '/coach/chat':
+        final coachId = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (_) => CoachChatScreen(coachId: coachId ?? ''),
+          settings: settings,
+        );
+      case '/coach/history':
+        return MaterialPageRoute(
+          builder: (_) => const CoachHistoryScreen(),
+          settings: settings,
+        );
+      case '/audio':
+        return MaterialPageRoute(
+          builder: (_) => const AudioLibraryScreen(),
+          settings: settings,
+        );
+      case '/audio/player':
+        final audioId = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (_) => AudioPlayerScreen(audioId: audioId ?? ''),
+          settings: settings,
+        );
+      case '/audio/generator':
+        return MaterialPageRoute(
+          builder: (_) => const AudioGeneratorScreen(),
+          settings: settings,
+        );
+      case '/curriculum':
+        return MaterialPageRoute(
+          builder: (_) => const CurriculumScreen(),
+          settings: settings,
+        );
+      case '/content':
+        final contentId = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (_) => ContentItemScreen(contentId: contentId ?? ''),
+          settings: settings,
+        );
+      case '/analytics':
+        return MaterialPageRoute(
+          builder: (_) => const AnalyticsScreen(),
+          settings: settings,
+        );
+      case '/insights':
+        return MaterialPageRoute(
+          builder: (_) => const InsightsScreen(),
+          settings: settings,
+        );
+      case '/subscription':
+        return MaterialPageRoute(
+          builder: (_) => const SubscriptionScreen(),
+          settings: settings,
+        );
+      case '/billing':
+        return MaterialPageRoute(
+          builder: (_) => const BillingScreen(),
+          settings: settings,
+        );
+      case '/404':
+        return MaterialPageRoute(
+          builder: (_) => const NotFoundScreen(),
+          settings: settings,
+        );
+      case '/error':
+        final error = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (_) => ErrorScreen(error: error),
+          settings: settings,
+        );
+      default:
+        return MaterialPageRoute(
+          builder: (_) => const NotFoundScreen(),
+          settings: settings,
+        );
+    }
+  }
+  
+  /// Get all route names
+  static List<String> get allRoutes => AppRoute.values.map((e) => e.path).toList();
+}
+
+/// Navigation service for programmatic navigation
+class NavigationService {
+  static final NavigationService _instance = NavigationService._internal();
+  factory NavigationService() => _instance;
+  NavigationService._internal();
+  
+  /// Navigate to route
+  void navigateTo(AppRoute route, {Object? arguments}) {
+    AppRoutes.navigatorKey.currentState?.pushNamed(route.path, arguments: arguments);
+  }
+  
+  /// Push route
+  void push(AppRoute route, {Object? arguments}) {
+    AppRoutes.navigatorKey.currentState?.pushNamed(route.path, arguments: arguments);
+  }
+  
+  /// Pop current route
+  void pop([Object? result]) {
+    AppRoutes.navigatorKey.currentState?.pop(result);
+  }
+  
+  /// Replace current route
+  void pushReplacement(AppRoute route, {Object? arguments}) {
+    AppRoutes.navigatorKey.currentState?.pushReplacementNamed(route.path, arguments: arguments);
+  }
+  
+  /// Push and remove until
+  void pushAndRemoveUntil(AppRoute route, {Object? arguments}) {
+    AppRoutes.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+      route.path,
+      (route) => false,
+      arguments: arguments,
+    );
+  }
+  
+  /// Go to lesson detail
+  void goToLessonDetail(String lessonId) {
+    navigateTo(AppRoute.lessonDetail, arguments: lessonId);
+  }
+  
+  /// Go to learning session
+  void goToLearningSession(String sessionId) {
+    navigateTo(AppRoute.learningSession, arguments: sessionId);
+  }
+  
+  /// Go to learning path
+  void goToLearningPath(String pathId) {
+    navigateTo(AppRoute.learningPath, arguments: pathId);
+  }
+  
+  /// Go to coach chat
+  void goToCoachChat(String coachId) {
+    navigateTo(AppRoute.coachChat, arguments: coachId);
+  }
+  
+  /// Go to audio player
+  void goToAudioPlayer(String audioId) {
+    navigateTo(AppRoute.audioPlayer, arguments: audioId);
+  }
+  
+  /// Go to content item
+  void goToContentItem(String contentId) {
+    navigateTo(AppRoute.contentItem, arguments: contentId);
+  }
+  
+  /// Navigate to home
+  void goToHome() => navigateTo(AppRoute.home);
+  
+  /// Navigate to dashboard
+  void goToDashboard() => navigateTo(AppRoute.dashboard);
+  
+  /// Navigate to profile
+  void goToProfile() => navigateTo(AppRoute.profile);
+  
+  /// Navigate to settings
+  void goToSettings() => navigateTo(AppRoute.settings);
+  
+  /// Navigate to login
+  void goToLogin() => navigateTo(AppRoute.login);
+  
+  /// Navigate to register
+  void goToRegister() => navigateTo(AppRoute.register);
+  
+  /// Navigate to onboarding
+  void goToOnboarding() => navigateTo(AppRoute.onboarding);
+  
+  /// Check if can pop
+  bool get canPop => AppRoutes.navigatorKey.currentState?.canPop() ?? false;
+}
+
+/// Placeholder screens - these will be replaced with actual UI implementations
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Splash')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Splash Screen')),
+  );
 }
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Onboarding')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Onboarding Screen')),
+  );
 }
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Login')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Login Screen')),
+  );
 }
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Register')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Register Screen')),
+  );
 }
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Forgot Password')));
-}
-
-class MainShell extends StatelessWidget {
-  final Widget child;
-  const MainShell({required this.child, super.key});
-  @override
-  Widget build(BuildContext context) => Scaffold(body: child);
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Forgot Password Screen')),
+  );
 }
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Home')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Home Screen')),
+  );
 }
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Dashboard')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Dashboard Screen')),
+  );
+}
+
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Profile Screen')),
+  );
+}
+
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+  @override
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Settings Screen')),
+  );
 }
 
 class LessonsScreen extends StatelessWidget {
   const LessonsScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Lessons')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Lessons Screen')),
+  );
 }
 
 class LessonDetailScreen extends StatelessWidget {
   final String lessonId;
   const LessonDetailScreen({required this.lessonId, super.key});
   @override
-  Widget build(BuildContext context) => Scaffold(body: Center(child: Text('Lesson Detail: $lessonId')));
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(child: Text('Lesson Detail: $lessonId')),
+  );
 }
 
 class LearningSessionScreen extends StatelessWidget {
   final String sessionId;
   const LearningSessionScreen({required this.sessionId, super.key});
   @override
-  Widget build(BuildContext context) => Scaffold(body: Center(child: Text('Learning Session: $sessionId')));
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(child: Text('Learning Session: $sessionId')),
+  );
 }
 
 class LearningProgressScreen extends StatelessWidget {
   const LearningProgressScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Learning Progress')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Learning Progress Screen')),
+  );
 }
 
 class LearningPathScreen extends StatelessWidget {
   final String pathId;
   const LearningPathScreen({required this.pathId, super.key});
   @override
-  Widget build(BuildContext context) => Scaffold(body: Center(child: Text('Learning Path: $pathId')));
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(child: Text('Learning Path: $pathId')),
+  );
 }
 
 class CoachScreen extends StatelessWidget {
   const CoachScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Coach')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Coach Screen')),
+  );
 }
 
 class CoachChatScreen extends StatelessWidget {
   final String coachId;
   const CoachChatScreen({required this.coachId, super.key});
   @override
-  Widget build(BuildContext context) => Scaffold(body: Center(child: Text('Coach Chat: $coachId')));
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(child: Text('Coach Chat: $coachId')),
+  );
 }
 
 class CoachHistoryScreen extends StatelessWidget {
   const CoachHistoryScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Coach History')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Coach History Screen')),
+  );
 }
 
 class AudioLibraryScreen extends StatelessWidget {
   const AudioLibraryScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Audio Library')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Audio Library Screen')),
+  );
 }
 
 class AudioPlayerScreen extends StatelessWidget {
   final String audioId;
   const AudioPlayerScreen({required this.audioId, super.key});
   @override
-  Widget build(BuildContext context) => Scaffold(body: Center(child: Text('Audio Player: $audioId')));
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(child: Text('Audio Player: $audioId')),
+  );
 }
 
 class AudioGeneratorScreen extends StatelessWidget {
   const AudioGeneratorScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Audio Generator')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Audio Generator Screen')),
+  );
 }
 
 class CurriculumScreen extends StatelessWidget {
   const CurriculumScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Curriculum')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Curriculum Screen')),
+  );
 }
 
 class ContentItemScreen extends StatelessWidget {
   final String contentId;
   const ContentItemScreen({required this.contentId, super.key});
   @override
-  Widget build(BuildContext context) => Scaffold(body: Center(child: Text('Content Item: $contentId')));
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(child: Text('Content Item: $contentId')),
+  );
 }
 
 class AnalyticsScreen extends StatelessWidget {
   const AnalyticsScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Analytics')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Analytics Screen')),
+  );
 }
 
 class InsightsScreen extends StatelessWidget {
   const InsightsScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Insights')));
-}
-
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
-  @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Profile')));
-}
-
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
-  @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Settings')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Insights Screen')),
+  );
 }
 
 class SubscriptionScreen extends StatelessWidget {
   const SubscriptionScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Subscription')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Subscription Screen')),
+  );
 }
 
 class BillingScreen extends StatelessWidget {
   const BillingScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('Billing')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('Billing Screen')),
+  );
 }
 
 class NotFoundScreen extends StatelessWidget {
   const NotFoundScreen({super.key});
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('404 - Not Found')));
+  Widget build(BuildContext context) => const Scaffold(
+    body: Center(child: Text('404 - Page Not Found')),
+  );
 }
 
 class ErrorScreen extends StatelessWidget {
   final String? error;
   const ErrorScreen({this.error, super.key});
   @override
-  Widget build(BuildContext context) => Scaffold(body: Center(child: Text('Error: ${error ?? 'Unknown error'}')));
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('Error Screen'),
+          if (error != null) Text('Error: $error'),
+        ],
+      ),
+    ),
+  );
 }

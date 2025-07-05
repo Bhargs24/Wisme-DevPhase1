@@ -2,7 +2,40 @@
 library;
 
 import 'dart:typed_data';
-import '../../shared/models/base_model.dart';
+
+/// Base class for models with equality comparison
+abstract class BaseModel {
+  const BaseModel();
+  
+  /// Properties used for equality comparison
+  List<Object?> get props;
+  
+  /// Convert to map for serialization
+  Map<String, dynamic> toMap();
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! BaseModel) return false;
+    if (runtimeType != other.runtimeType) return false;
+    final otherProps = other.props;
+    if (props.length != otherProps.length) return false;
+    for (int i = 0; i < props.length; i++) {
+      if (props[i] != otherProps[i]) return false;
+    }
+    return true;
+  }
+  
+  @override
+  int get hashCode {
+    return Object.hashAll(props);
+  }
+  
+  @override
+  String toString() {
+    return '$runtimeType(${props.join(', ')})';
+  }
+}
 
 /// Hashtag-based content matching system for intelligent content reuse
 class ContentHashtag extends BaseModel {
@@ -19,7 +52,6 @@ class ContentHashtag extends BaseModel {
   @override
   String toString() => '#${value.toLowerCase().replaceAll(' ', '_')}';
 
-  @override
   Map<String, dynamic> toMap() {
     return {
       'type': type,
@@ -36,7 +68,6 @@ class ContentHashtag extends BaseModel {
     );
   }
 
-  @override
   List<Object?> get props => [type, value, weight];
 }
 

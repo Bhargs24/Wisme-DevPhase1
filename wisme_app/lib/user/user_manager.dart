@@ -5,7 +5,7 @@ import 'data/user_data_service.dart';
 import 'services/auth_service.dart';
 import 'services/personalization_service.dart';
 import 'services/gamification_service.dart' as gamification;
-import '../shared/models/shared_models.dart';
+import '../shared/models/result.dart';
 import '../utils/logger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -78,7 +78,7 @@ class UserManager {
       return Result.success(null);
     } catch (e) {
       AppLogger.error('❌ UserManager: Failed to initialize: $e');
-      return Result.failure('Failed to initialize UserManager: $e');
+      return Result.failure(Exception('Failed to initialize UserManager: $e'));
     }
   }
 
@@ -232,7 +232,7 @@ class UserManager {
     await _ensureInitialized();
     
     if (!isAuthenticated || currentUserId == null) {
-      return Result.failure('User not authenticated');
+      return Result.failure(Exception('User not authenticated'));
     }
 
     // Delete user data first

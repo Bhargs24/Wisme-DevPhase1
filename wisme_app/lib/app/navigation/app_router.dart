@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../user/ui/screens/auth_screens.dart';
-import '../../user/ui/screens/user_screens.dart';
-import '../../learning/ui/screens/learning_screens.dart';
-import '../../coach/ui/screens/coach_screens.dart';
-import '../../content/ui/screens/content_screens.dart';
-import '../../analytics/ui/screens/analytics_screens.dart';
-import '../../audio/ui/screens/audio_screens.dart';
+import '../screens/splash_screen.dart';
+import '../../UI/screens/onboarding_screen.dart';
+import '../../UI/screens/home_screen.dart';
+import '../../UI/screens/dashboard_screen.dart';
+import '../../UI/screens/login_screen.dart';
+import '../../UI/screens/profile_screen.dart';
+import '../../UI/screens/lesson_screen.dart';
+import '../../UI/screens/coach_selection_screen.dart';
+import '../../UI/screens/topic_selection_screen.dart';
+import '../../UI/screens/settings_screen.dart';
 
 /// App route names
 class AppRoutes {
@@ -82,7 +85,7 @@ class AppRouter {
       
       // Onboarding routes
       case AppRoutes.welcome:
-        return _buildRoute(const WelcomeScreen(), settings);
+        return _buildRoute(const OnboardingScreen(), settings);
       case AppRoutes.onboarding:
         return _buildRoute(const OnboardingScreen(), settings);
       case AppRoutes.assessment:
@@ -187,8 +190,8 @@ class AppNavigation {
   }
 
   /// Replace current route with a named route
-  static Future<T?> pushReplacementNamed<T>(String routeName, {Object? arguments}) {
-    return navigator!.pushReplacementNamed<T>(routeName, arguments: arguments);
+  static Future<T?> pushReplacementNamed<T extends Object?>(String routeName, {Object? arguments}) {
+    return navigator!.pushReplacementNamed<T?, T>(routeName, arguments: arguments);
   }
 
   /// Clear stack and navigate to a named route

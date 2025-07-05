@@ -11,7 +11,6 @@ import 'models/content_models.dart';
 import 'models/content_matching_model.dart';
 import 'data/content_data_service.dart';
 import 'services/smart_content_engine.dart';
-import 'services/gpt_service.dart';
 
 /// Central content management service with advanced AI capabilities
 class ContentManager {
@@ -22,7 +21,6 @@ class ContentManager {
 
   final ContentDataService _dataService = ContentDataService();
   final SmartContentEngine _smartEngine = SmartContentEngine.instance;
-  final GPTService _gptService = GPTService();
   bool _isInitialized = false;
 
   /// Initialize content manager with advanced features
@@ -31,10 +29,7 @@ class ContentManager {
       if (_isInitialized) return Result.success(null);
 
       // Initialize data service
-      final dataResult = await _dataService.initialize();
-      if (dataResult.isFailure) {
-        return Result.failure(dataResult.error);
-      }
+      await _dataService.initialize();
 
       _isInitialized = true;
       AppLogger.info('📚 Content manager initialized with advanced AI features');
@@ -84,7 +79,8 @@ class ContentManager {
         throw const ContentException('Content manager not initialized');
       }
 
-      return await _dataService.getContentItem(contentId);
+      final result = await _dataService.getContentItem(contentId);
+      return Result.success(result);
     } catch (e) {
       AppLogger.error('❌ Failed to get content item: $e');
       return Result.failure(ContentException('Failed to get content item'));
@@ -98,7 +94,8 @@ class ContentManager {
         throw const ContentException('Content manager not initialized');
       }
 
-      return await _dataService.createContentItem(item);
+      await _dataService.createContentItem(item);
+      return Result.success(null);
     } catch (e) {
       AppLogger.error('❌ Failed to create content item: $e');
       return Result.failure(ContentException('Failed to create content item'));
@@ -112,7 +109,7 @@ class ContentManager {
         throw const ContentException('Content manager not initialized');
       }
 
-      return await _dataService.updateContentItem(item);
+      await _dataService.updateContentItem(item); return Result.success(null);
     } catch (e) {
       AppLogger.error('❌ Failed to update content item: $e');
       return Result.failure(ContentException('Failed to update content item'));
@@ -126,7 +123,7 @@ class ContentManager {
         throw const ContentException('Content manager not initialized');
       }
 
-      return await _dataService.deleteContentItem(contentId);
+      await _dataService.deleteContentItem(contentId); return Result.success(null);
     } catch (e) {
       AppLogger.error('❌ Failed to delete content item: $e');
       return Result.failure(ContentException('Failed to delete content item'));
@@ -140,7 +137,7 @@ class ContentManager {
         throw const ContentException('Content manager not initialized');
       }
 
-      return await _dataService.getContentByCategory(category);
+      final result = await _dataService.getContentByCategory(category); return Result.success(result);
     } catch (e) {
       AppLogger.error('❌ Failed to get content by category: $e');
       return Result.failure(ContentException('Failed to get content by category'));
@@ -154,7 +151,8 @@ class ContentManager {
         throw const ContentException('Content manager not initialized');
       }
 
-      return await _dataService.searchContent(query);
+      final result = await _dataService.searchContent(query: query);
+      return Result.success(result);
     } catch (e) {
       AppLogger.error('❌ Failed to search content: $e');
       return Result.failure(ContentException('Failed to search content'));
@@ -168,7 +166,7 @@ class ContentManager {
         throw const ContentException('Content manager not initialized');
       }
 
-      return await _dataService.getRecommendations(userId);
+      final result = await _dataService.getRecommendations(userId); return Result.success(result);
     } catch (e) {
       AppLogger.error('❌ Failed to get recommendations: $e');
       return Result.failure(ContentException('Failed to get recommendations'));
@@ -201,17 +199,11 @@ class ContentManager {
     _isInitialized = false;
     AppLogger.info('📚 Content manager disposed');
   }
-}
-      if (contentItem != null && useCache) {
-        _contentCache[contentId] = contentItem;
-      }
 
-      return contentItem;
-    } catch (e, stack) {
-      _logger.error('Failed to get content item', error: e, stackTrace: stack);
-      rethrow;
-    }
-  }
+  // Content access methods
+  final Map<String, ContentItem> _contentCache = {};
+  final Map<String, List<ContentItem>> _contentByTypeCache = {};
+  final Map<String, Curriculum> _curriculumCache = {};
 
   /// Get multiple content items
   Future<List<ContentItem>> getContentItems(List<String> contentIds) async {
@@ -241,7 +233,7 @@ class ContentManager {
 
       return items;
     } catch (e, stack) {
-      _logger.error('Failed to get content items', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get content items: $e', e, stack);
       rethrow;
     }
   }
@@ -270,7 +262,7 @@ class ContentManager {
 
       return content;
     } catch (e, stack) {
-      _logger.error('Failed to get content by type', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get content by type: $e', e, stack);
       rethrow;
     }
   }
@@ -280,7 +272,7 @@ class ContentManager {
     try {
       return await _dataService.getContentByDifficulty(difficulty);
     } catch (e, stack) {
-      _logger.error('Failed to get content by difficulty', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get content by difficulty: $e', e, stack);
       rethrow;
     }
   }
@@ -290,13 +282,13 @@ class ContentManager {
     try {
       return await _dataService.getContentByTags(tags);
     } catch (e, stack) {
-      _logger.error('Failed to get content by tags', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get content by tags: $e', e, stack);
       rethrow;
     }
   }
 
   /// Search content with advanced filtering
-  Future<List<ContentItem>> searchContent({
+  Future<List<ContentItem>> searchContentAdvanced({
     String? query,
     ContentType? type,
     DifficultyLevel? difficulty,
@@ -312,7 +304,7 @@ class ContentManager {
         limit: limit,
       );
     } catch (e, stack) {
-      _logger.error('Failed to search content', error: e, stackTrace: stack);
+      AppLogger.error('Failed to search content: $e', e, stack);
       rethrow;
     }
   }
@@ -362,7 +354,7 @@ class ContentManager {
 
       return candidates.take(limit).toList();
     } catch (e, stack) {
-      _logger.error('Failed to get recommended content', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get recommended content: $e', e, stack);
       rethrow;
     }
   }
@@ -386,7 +378,7 @@ class ContentManager {
 
       return curriculum;
     } catch (e, stack) {
-      _logger.error('Failed to get curriculum', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get curriculum: $e', e, stack);
       rethrow;
     }
   }
@@ -396,7 +388,7 @@ class ContentManager {
     try {
       return await _dataService.getPublishedCurricula();
     } catch (e, stack) {
-      _logger.error('Failed to get published curricula', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get published curricula: $e', e, stack);
       rethrow;
     }
   }
@@ -406,7 +398,7 @@ class ContentManager {
     try {
       return await _dataService.getCurriculaByLevel(level);
     } catch (e, stack) {
-      _logger.error('Failed to get curricula by level', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get curricula by level: $e', e, stack);
       rethrow;
     }
   }
@@ -416,7 +408,7 @@ class ContentManager {
     try {
       return await _dataService.getContentForCurriculum(curriculumId);
     } catch (e, stack) {
-      _logger.error('Failed to get content for curriculum', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get content for curriculum: $e', e, stack);
       rethrow;
     }
   }
@@ -434,7 +426,7 @@ class ContentManager {
         content: content,
       );
     } catch (e, stack) {
-      _logger.error('Failed to get curriculum with content', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get curriculum with content: $e', e, stack);
       rethrow;
     }
   }
@@ -468,7 +460,7 @@ class ContentManager {
 
       return curricula.take(limit).toList();
     } catch (e, stack) {
-      _logger.error('Failed to get recommended curricula', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get recommended curricula: $e', e, stack);
       rethrow;
     }
   }
@@ -480,7 +472,7 @@ class ContentManager {
     try {
       return await _dataService.getContentStatistics();
     } catch (e, stack) {
-      _logger.error('Failed to get content statistics', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get content statistics: $e', e, stack);
       rethrow;
     }
   }
@@ -493,7 +485,7 @@ class ContentManager {
     try {
       final curriculum = await getCurriculum(curriculumId);
       if (curriculum == null) {
-        throw ServiceException('Curriculum not found: $curriculumId');
+        throw ContentException('Curriculum not found: $curriculumId');
       }
 
       final totalProgress = curriculum.calculateProgress(completedContentIds);
@@ -522,7 +514,7 @@ class ContentManager {
         completedContentItems: completedContentIds.length,
       );
     } catch (e, stack) {
-      _logger.error('Failed to get curriculum progress', error: e, stackTrace: stack);
+      AppLogger.error('Failed to get curriculum progress: $e', e, stack);
       rethrow;
     }
   }
@@ -534,7 +526,7 @@ class ContentManager {
     _contentCache.clear();
     _curriculumCache.clear();
     _contentByTypeCache.clear();
-    _logger.info('Content cache cleared');
+    AppLogger.info('Content cache cleared');
   }
 
   /// Clear specific content from cache
@@ -675,3 +667,5 @@ class CurriculumProgress {
     return null;
   }
 }
+
+

@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import '../../shared/models/result.dart';
 import '../../core/utils/logger.dart';
-import '../../core/utils/api_keys.dart';
+import '../../utils/api_keys.dart';
 
 /// Production-grade ElevenLabs API service for premium voice synthesis
 class ElevenLabsService {
@@ -37,11 +37,11 @@ class ElevenLabsService {
         return Result.success(response.bodyBytes);
       } else {
         AppLogger.error('❌ ElevenLabs API failed: ${response.statusCode} - ${response.body}');
-        return Result.failure('ElevenLabs API failed: ${response.statusCode}');
+        return Result.failure(Exception('ElevenLabs API failed: ${response.statusCode}'));
       }
     } catch (e) {
       AppLogger.error('❌ Error generating speech with ElevenLabs: $e');
-      return Result.failure('Error generating speech: $e');
+      return Result.failure(Exception('Error generating speech: $e'));
     }
   }
 
@@ -65,11 +65,11 @@ class ElevenLabsService {
         return Result.success(voices);
       } else {
         AppLogger.error('❌ Failed to get voices: ${response.statusCode}');
-        return Result.failure('Failed to get voices: ${response.statusCode}');
+        return Result.failure(Exception('Failed to get voices: ${response.statusCode}'));
       }
     } catch (e) {
       AppLogger.error('❌ Error getting voices: $e');
-      return Result.failure('Error getting voices: $e');
+      return Result.failure(Exception('Error getting voices: $e'));
     }
   }
 
@@ -109,7 +109,7 @@ class ElevenLabsService {
       return Result.success(null);
     } catch (e) {
       AppLogger.error('❌ Error getting subscription: $e');
-      return Result.failure('Error getting subscription: $e');
+      return Result.failure(Exception('Error getting subscription: $e'));
     }
   }
 
@@ -129,11 +129,11 @@ class ElevenLabsService {
         return Result.success(settings);
       } else {
         AppLogger.error('❌ Failed to get voice settings: ${response.statusCode}');
-        return Result.failure('Failed to get voice settings: ${response.statusCode}');
+        return Result.failure(Exception('Failed to get voice settings: ${response.statusCode}'));
       }
     } catch (e) {
       AppLogger.error('❌ Error getting voice settings: $e');
-      return Result.failure('Error getting voice settings: $e');
+      return Result.failure(Exception('Error getting voice settings: $e'));
     }
   }
 
@@ -162,11 +162,11 @@ class ElevenLabsService {
         return Result.success(voiceId);
       } else {
         AppLogger.error('❌ Voice cloning failed: ${response.statusCode}');
-        return Result.failure('Voice cloning failed: ${response.statusCode}');
+        return Result.failure(Exception('Voice cloning failed: ${response.statusCode}'));
       }
     } catch (e) {
       AppLogger.error('❌ Error cloning voice: $e');
-      return Result.failure('Error cloning voice: $e');
+      return Result.failure(Exception('Error cloning voice: $e'));
     }
   }
 
@@ -185,11 +185,11 @@ class ElevenLabsService {
         return Result.success(null);
       } else {
         AppLogger.error('❌ Voice deletion failed: ${response.statusCode}');
-        return Result.failure('Voice deletion failed: ${response.statusCode}');
+        return Result.failure(Exception('Voice deletion failed: ${response.statusCode}'));
       }
     } catch (e) {
       AppLogger.error('❌ Error deleting voice: $e');
-      return Result.failure('Error deleting voice: $e');
+      return Result.failure(Exception('Error deleting voice: $e'));
     }
   }
 }

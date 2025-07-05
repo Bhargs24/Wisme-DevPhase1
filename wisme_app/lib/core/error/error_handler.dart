@@ -65,7 +65,7 @@ class ErrorHandler {
     if (result.shouldReport && _onError != null) {
       final wismeException = error is WismeException 
           ? error 
-          : WismeException('Unexpected error: ${error.toString()}', originalError: error);
+          : DataException('Unexpected error: ${error.toString()}', originalError: error);
       _onError!(wismeException, stackTrace);
     }
     

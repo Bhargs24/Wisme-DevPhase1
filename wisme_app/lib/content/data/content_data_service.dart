@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/content_item.dart';
 import '../models/curriculum.dart';
-import '../../core/exceptions/app_exceptions.dart';
+import '../../core/error/app_exceptions.dart';
 import '../../core/utils/logger.dart';
 
 /// Data service for content and curriculum operations with Firestore
@@ -10,13 +10,36 @@ class ContentDataService {
   static const String _curriculumCollection = 'curricula';
 
   final FirebaseFirestore _firestore;
-  final AppLogger _logger;
 
   ContentDataService({
     FirebaseFirestore? firestore,
-    AppLogger? logger,
-  }) : _firestore = firestore ?? FirebaseFirestore.instance,
-       _logger = logger ?? AppLogger();
+  }) : _firestore = firestore ?? FirebaseFirestore.instance;
+
+  // === INITIALIZATION AND LIFECYCLE ===
+
+  /// Initialize the data service
+  Future<void> initialize() async {
+    try {
+      AppLogger.info('ContentDataService initialized');
+    } catch (e, stack) {
+      AppLogger.error('Failed to initialize ContentDataService: $e', e, stack);
+      throw ContentException('Failed to initialize content data service: $e');
+    }
+  }
+
+  /// Get the status of the data service
+  String getStatus() {
+    return 'active';
+  }
+
+  /// Dispose of resources
+  Future<void> dispose() async {
+    try {
+      AppLogger.info('ContentDataService disposed');
+    } catch (e, stack) {
+      AppLogger.error('Failed to dispose ContentDataService: $e', e, stack);
+    }
+  }
 
   // === CONTENT ITEM OPERATIONS ===
 
@@ -35,8 +58,8 @@ class ContentDataService {
         ...doc.data()!,
       });
     } catch (e, stack) {
-      _logger.error('Failed to get content item: $contentId', error: e, stackTrace: stack);
-      throw DataException('Failed to fetch content item: $e');
+      AppLogger.error('Failed to get content item: $contentId: $e', e, stack);
+      throw ContentException('Failed to fetch content item: $e');
     }
   }
 
@@ -66,8 +89,8 @@ class ContentDataService {
 
       return items;
     } catch (e, stack) {
-      _logger.error('Failed to get content items', error: e, stackTrace: stack);
-      throw DataException('Failed to fetch content items: $e');
+      AppLogger.error('Failed to get content items: $e', e, stack);
+      throw ContentException('Failed to fetch content items: $e');
     }
   }
 
@@ -86,8 +109,8 @@ class ContentDataService {
         ...doc.data(),
       })).toList();
     } catch (e, stack) {
-      _logger.error('Failed to get content by type', error: e, stackTrace: stack);
-      throw DataException('Failed to fetch content by type: $e');
+      AppLogger.error('Failed to get content by type: $e', e, stack);
+      throw ContentException('Failed to fetch content by type: $e');
     }
   }
 
@@ -106,8 +129,8 @@ class ContentDataService {
         ...doc.data(),
       })).toList();
     } catch (e, stack) {
-      _logger.error('Failed to get content by difficulty', error: e, stackTrace: stack);
-      throw DataException('Failed to fetch content by difficulty: $e');
+      AppLogger.error('Failed to get content by difficulty: $e', e, stack);
+      throw ContentException('Failed to fetch content by difficulty: $e');
     }
   }
 
@@ -126,8 +149,8 @@ class ContentDataService {
         ...doc.data(),
       })).toList();
     } catch (e, stack) {
-      _logger.error('Failed to get content by tags', error: e, stackTrace: stack);
-      throw DataException('Failed to fetch content by tags: $e');
+      AppLogger.error('Failed to get content by tags: $e', e, stack);
+      throw ContentException('Failed to fetch content by tags: $e');
     }
   }
 
@@ -181,8 +204,8 @@ class ContentDataService {
 
       return results;
     } catch (e, stack) {
-      _logger.error('Failed to search content', error: e, stackTrace: stack);
-      throw DataException('Failed to search content: $e');
+      AppLogger.error('Failed to search content: $e', e, stack);
+      throw ContentException('Failed to search content: $e');
     }
   }
 
@@ -197,10 +220,10 @@ class ContentDataService {
           .doc(contentItem.id)
           .set(data, SetOptions(merge: true));
 
-      _logger.info('Content item saved: ${contentItem.id}');
+      AppLogger.info('Content item saved: ${contentItem.id}');
     } catch (e, stack) {
-      _logger.error('Failed to save content item', error: e, stackTrace: stack);
-      throw DataException('Failed to save content item: $e');
+      AppLogger.error('Failed to save content item: $e', e, stack);
+      throw ContentException('Failed to save content item: $e');
     }
   }
 
@@ -221,8 +244,8 @@ class ContentDataService {
         ...doc.data()!,
       });
     } catch (e, stack) {
-      _logger.error('Failed to get curriculum: $curriculumId', error: e, stackTrace: stack);
-      throw DataException('Failed to fetch curriculum: $e');
+      AppLogger.error('Failed to get curriculum: $curriculumId: $e', e, stack);
+      throw ContentException('Failed to fetch curriculum: $e');
     }
   }
 
@@ -240,8 +263,8 @@ class ContentDataService {
         ...doc.data(),
       })).toList();
     } catch (e, stack) {
-      _logger.error('Failed to get published curricula', error: e, stackTrace: stack);
-      throw DataException('Failed to fetch published curricula: $e');
+      AppLogger.error('Failed to get published curricula: $e', e, stack);
+      throw ContentException('Failed to fetch published curricula: $e');
     }
   }
 
@@ -260,8 +283,8 @@ class ContentDataService {
         ...doc.data(),
       })).toList();
     } catch (e, stack) {
-      _logger.error('Failed to get curricula by level', error: e, stackTrace: stack);
-      throw DataException('Failed to fetch curricula by level: $e');
+      AppLogger.error('Failed to get curricula by level: $e', e, stack);
+      throw ContentException('Failed to fetch curricula by level: $e');
     }
   }
 
@@ -276,10 +299,10 @@ class ContentDataService {
           .doc(curriculum.id)
           .set(data, SetOptions(merge: true));
 
-      _logger.info('Curriculum saved: ${curriculum.id}');
+      AppLogger.info('Curriculum saved: ${curriculum.id}');
     } catch (e, stack) {
-      _logger.error('Failed to save curriculum', error: e, stackTrace: stack);
-      throw DataException('Failed to save curriculum: $e');
+      AppLogger.error('Failed to save curriculum: $e', e, stack);
+      throw ContentException('Failed to save curriculum: $e');
     }
   }
 
@@ -288,7 +311,7 @@ class ContentDataService {
     try {
       final curriculum = await getCurriculum(curriculumId);
       if (curriculum == null) {
-        throw DataException('Curriculum not found: $curriculumId');
+        throw ContentException('Curriculum not found: $curriculumId');
       }
 
       // Collect all content IDs from all modules
@@ -301,8 +324,8 @@ class ContentDataService {
 
       return await getContentItems(contentIds);
     } catch (e, stack) {
-      _logger.error('Failed to get content for curriculum', error: e, stackTrace: stack);
-      throw DataException('Failed to fetch content for curriculum: $e');
+      AppLogger.error('Failed to get content for curriculum: $e', e, stack);
+      throw ContentException('Failed to fetch content for curriculum: $e');
     }
   }
 
@@ -327,7 +350,7 @@ class ContentDataService {
             .where('isPublished', isEqualTo: true)
             .count()
             .get();
-        typeCounts[type.name] = typeQuery.count;
+        typeCounts[type.name] = typeQuery.count ?? 0;
       }
 
       // Get count by difficulty
@@ -339,7 +362,7 @@ class ContentDataService {
             .where('isPublished', isEqualTo: true)
             .count()
             .get();
-        difficultyCounts[difficulty.name] = difficultyQuery.count;
+        difficultyCounts[difficulty.name] = difficultyQuery.count ?? 0;
       }
 
       return {
@@ -348,8 +371,113 @@ class ContentDataService {
         'byDifficulty': difficultyCounts,
       };
     } catch (e, stack) {
-      _logger.error('Failed to get content statistics', error: e, stackTrace: stack);
-      throw DataException('Failed to fetch content statistics: $e');
+      AppLogger.error('Failed to get content statistics: $e', e, stack);
+      throw ContentException('Failed to fetch content statistics: $e');
+    }
+  }
+
+  // === CRUD OPERATIONS ===
+
+  /// Create a new content item
+  Future<ContentItem> createContentItem(ContentItem item) async {
+    try {
+      final docRef = _firestore.collection(_contentCollection).doc();
+      
+      // Create a new ContentItem with the generated ID
+      final itemWithId = ContentItem(
+        id: docRef.id,
+        title: item.title,
+        description: item.description,
+        type: item.type,
+        content: item.content,
+        format: item.format,
+        tags: item.tags,
+        difficulty: item.difficulty,
+        estimatedDuration: item.estimatedDuration,
+        resources: item.resources,
+        metadata: item.metadata,
+        isPublished: item.isPublished,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        creatorId: item.creatorId,
+        configuration: item.configuration,
+      );
+      
+      await docRef.set(itemWithId.toJson());
+      return itemWithId;
+    } catch (e, stack) {
+      AppLogger.error('Failed to create content item: $e', e, stack);
+      throw ContentException('Failed to create content item: $e');
+    }
+  }
+
+  /// Update an existing content item
+  Future<ContentItem> updateContentItem(ContentItem item) async {
+    try {
+      await _firestore
+          .collection(_contentCollection)
+          .doc(item.id)
+          .update(item.toJson());
+      return item;
+    } catch (e, stack) {
+      AppLogger.error('Failed to update content item: $e', e, stack);
+      throw ContentException('Failed to update content item: $e');
+    }
+  }
+
+  /// Delete a content item
+  Future<void> deleteContentItem(String contentId) async {
+    try {
+      await _firestore
+          .collection(_contentCollection)
+          .doc(contentId)
+          .delete();
+    } catch (e, stack) {
+      AppLogger.error('Failed to delete content item: $e', e, stack);
+      throw ContentException('Failed to delete content item: $e');
+    }
+  }
+
+  /// Get content by category (alias for getContentByType)
+  Future<List<ContentItem>> getContentByCategory(String category) async {
+    try {
+      // Convert string to ContentType enum if possible
+      final contentType = ContentType.values
+          .cast<ContentType?>()
+          .firstWhere((type) => type?.name == category, orElse: () => null);
+      
+      if (contentType != null) {
+        return await getContentByType(contentType);
+      } else {
+        // Fallback: search by tags or custom field
+        return await getContentByTags([category]);
+      }
+    } catch (e, stack) {
+      AppLogger.error('Failed to get content by category: $e', e, stack);
+      throw ContentException('Failed to get content by category: $e');
+    }
+  }
+
+  /// Get recommendations for a user
+  Future<List<ContentItem>> getRecommendations(String userId) async {
+    try {
+      // Simple recommendation: get most recent content
+      // This could be enhanced with AI-based recommendations later
+      final query = await _firestore
+          .collection(_contentCollection)
+          .orderBy('createdAt', descending: true)
+          .limit(10)
+          .get();
+
+      return query.docs
+          .map((doc) => ContentItem.fromJson({
+                'id': doc.id,
+                ...doc.data(),
+              }))
+          .toList();
+    } catch (e, stack) {
+      AppLogger.error('Failed to get recommendations: $e', e, stack);
+      throw ContentException('Failed to get recommendations: $e');
     }
   }
 
@@ -363,3 +491,4 @@ class ContentDataService {
     return chunks;
   }
 }
+

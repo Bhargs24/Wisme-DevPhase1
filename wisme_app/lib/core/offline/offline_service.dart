@@ -19,7 +19,7 @@ import '../../core/error/app_exceptions.dart';
 import '../../core/storage/local_storage_service.dart';
 
 /// Offline data item
-class OfflineDataItem extends BaseModel {
+class OfflineDataItem extends BaseModel with EquatableMixin {
   final String id;
   final String type;
   final Map<String, dynamic> data;
@@ -81,7 +81,7 @@ class OfflineDataItem extends BaseModel {
 }
 
 /// Sync operation
-class SyncOperation extends BaseModel {
+class SyncOperation extends BaseModel with EquatableMixin {
   final String id;
   final String operationType; // create, update, delete
   final String dataType;
@@ -148,7 +148,7 @@ class SyncOperation extends BaseModel {
 }
 
 /// Offline file entry
-class OfflineFile extends BaseModel {
+class OfflineFile extends BaseModel with EquatableMixin {
   final String id;
   final String fileName;
   final String filePath;
@@ -215,7 +215,7 @@ class OfflineFile extends BaseModel {
 }
 
 /// Offline storage statistics
-class OfflineStorageStats extends BaseModel {
+class OfflineStorageStats extends BaseModel with EquatableMixin {
   final int totalItems;
   final int totalSizeBytes;
   final int availableSpaceBytes;
@@ -273,7 +273,7 @@ class OfflineService {
   static final Map<String, OfflineFile> _offlineFiles = {};
   static final LocalStorageService _storage = LocalStorageService();
   
-  static StreamSubscription<ConnectivityResult>? _connectivitySubscription;
+  static StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
   static Timer? _syncTimer;
   static bool _isOnline = false;
   static bool _isInitialized = false;
@@ -502,14 +502,14 @@ class OfflineService {
     final connectivity = Connectivity();
     
     // Check initial connectivity
-    final connectivityResult = await connectivity.checkConnectivity();
-    _isOnline = connectivityResult != ConnectivityResult.none;
+    final connectivityResults = await connectivity.checkConnectivity();
+    _isOnline = !connectivityResults.contains(ConnectivityResult.none);
 
     // Monitor connectivity changes
     _connectivitySubscription = connectivity.onConnectivityChanged.listen(
-      (ConnectivityResult result) {
+      (List<ConnectivityResult> results) {
         final wasOnline = _isOnline;
-        _isOnline = result != ConnectivityResult.none;
+        _isOnline = !results.contains(ConnectivityResult.none);
 
         if (!wasOnline && _isOnline) {
           AppLogger.info('🌐 Internet connection restored');
@@ -582,7 +582,7 @@ class OfflineService {
   /// Load offline data from storage
   static Future<void> _loadOfflineData() async {
     try {
-      final result = await _storage.read(_offlineDataKey);
+      final result = _storage.getString(_offlineDataKey);
       if (result.isSuccess && result.data != null) {
         final dataList = List<Map<String, dynamic>>.from(jsonDecode(result.data!));
         for (final itemData in dataList) {
@@ -600,7 +600,7 @@ class OfflineService {
   static Future<void> _saveOfflineData() async {
     try {
       final dataList = _offlineData.values.map((item) => item.toMap()).toList();
-      await _storage.write(_offlineDataKey, jsonEncode(dataList));
+      await _storage.setString(_offlineDataKey, jsonEncode(dataList));
     } catch (e) {
       AppLogger.error('❌ Failed to save offline data: $e');
     }
@@ -609,7 +609,7 @@ class OfflineService {
   /// Load sync queue from storage
   static Future<void> _loadSyncQueue() async {
     try {
-      final result = await _storage.read(_syncQueueKey);
+      final result = _storage.getString(_syncQueueKey);
       if (result.isSuccess && result.data != null) {
         final queueList = List<Map<String, dynamic>>.from(jsonDecode(result.data!));
         for (final operationData in queueList) {
@@ -627,7 +627,7 @@ class OfflineService {
   static Future<void> _saveSyncQueue() async {
     try {
       final queueList = _syncQueue.map((operation) => operation.toMap()).toList();
-      await _storage.write(_syncQueueKey, jsonEncode(queueList));
+      await _storage.setString(_syncQueueKey, jsonEncode(queueList));
     } catch (e) {
       AppLogger.error('❌ Failed to save sync queue: $e');
     }
@@ -636,7 +636,7 @@ class OfflineService {
   /// Load offline files from storage
   static Future<void> _loadOfflineFiles() async {
     try {
-      final result = await _storage.read(_offlineFilesKey);
+      final result = _storage.getString(_offlineFilesKey);
       if (result.isSuccess && result.data != null) {
         final filesList = List<Map<String, dynamic>>.from(jsonDecode(result.data!));
         for (final fileData in filesList) {
@@ -654,7 +654,7 @@ class OfflineService {
   static Future<void> _saveOfflineFiles() async {
     try {
       final filesList = _offlineFiles.values.map((file) => file.toMap()).toList();
-      await _storage.write(_offlineFilesKey, jsonEncode(filesList));
+      await _storage.setString(_offlineFilesKey, jsonEncode(filesList));
     } catch (e) {
       AppLogger.error('❌ Failed to save offline files: $e');
     }
@@ -682,7 +682,6 @@ class OfflineService {
     AppLogger.info('🧹 Starting offline data cleanup');
     
     final now = DateTime.now();
-    final cutoffDate = now.subtract(const Duration(days: 30));
     
     // Remove old data items (keep high priority items longer)
     final itemsToRemove = <String>[];
