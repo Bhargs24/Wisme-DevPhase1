@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart'; // TODO: Remove when provider migration complete
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';

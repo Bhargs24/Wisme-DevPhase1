@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'models/ai_coach.dart';
 import 'models/coaching_session.dart';
 import 'models/coach_relationship.dart';

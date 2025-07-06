@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:typed_data';
 import '../models/content_matching_model.dart';
 import '../models/lesson_model.dart';
@@ -50,7 +50,7 @@ class SmartContentOrchestrator {
     Map<String, dynamic>? userContext,
   }) async {
     final startTime = DateTime.now();
-    AppLogger.info('🚀 Starting smart content generation for: $topic');
+    AppLogger.info('ðŸš€ Starting smart content generation for: $topic');
 
     try {
       // Phase 1: Intelligent content analysis and matching
@@ -73,7 +73,7 @@ class SmartContentOrchestrator {
 
       // Phase 3: Determine optimal content strategy
       final strategy = _determineContentStrategy(rankedMatches, targetDuration);
-      AppLogger.info('📊 Content strategy: $strategy (${rankedMatches.length} matches found)');
+      AppLogger.info('ðŸ“Š Content strategy: $strategy (${rankedMatches.length} matches found)');
 
       // Phase 4: Execute content assembly based on strategy
       final result = await _executeContentStrategy(
@@ -96,12 +96,12 @@ class SmartContentOrchestrator {
         processingTime: DateTime.now().difference(startTime),
       );
 
-      AppLogger.info('✅ Smart content generation complete: ${DateTime.now().difference(startTime).inMilliseconds}ms (${(result.reuseRate * 100).toStringAsFixed(1)}% reuse)');
+      AppLogger.info('âœ… Smart content generation complete: ${DateTime.now().difference(startTime).inMilliseconds}ms (${(result.reuseRate * 100).toStringAsFixed(1)}% reuse)');
 
       return result;
 
     } catch (e) {
-      AppLogger.error('❌ Smart content generation failed: $e');
+      AppLogger.error('âŒ Smart content generation failed: $e');
       
       // Fallback to basic generation
       return await _fallbackContentGeneration(
@@ -137,7 +137,7 @@ class SmartContentOrchestrator {
     _operationCounts.clear();
     _costSavings.clear();
     _lastResetTime = DateTime.now();
-    AppLogger.info('📊 Analytics counters reset');
+    AppLogger.info('ðŸ“Š Analytics counters reset');
   }
 
   // Private implementation methods
@@ -390,7 +390,7 @@ class SmartContentOrchestrator {
       contentType: contentType ?? 'lesson',
     );
 
-    final newContent = ContentBlock(
+    final newContent = Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model(
       id: 'generated_${DateTime.now().millisecondsSinceEpoch}',
       category: category,
       topic: topic,
@@ -451,7 +451,7 @@ class SmartContentOrchestrator {
     Duration? targetDuration,
     String? preferredVoice,
   }) async {
-    AppLogger.info('🔄 Executing fallback content generation');
+    AppLogger.info('ðŸ”„ Executing fallback content generation');
     
     // Basic content generation without smart features
     try {
@@ -462,7 +462,7 @@ class SmartContentOrchestrator {
         contentType: contentType ?? 'lesson',
       );
 
-      final basicContent = ContentBlock(
+      final basicContent = Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model(
         id: 'fallback_${DateTime.now().millisecondsSinceEpoch}',
         category: category,
         topic: topic,
@@ -507,8 +507,8 @@ class SmartContentOrchestrator {
     return selected;
   }
 
-  Future<ContentBlock?> _enhanceContentWithAI({
-    required ContentBlock baseContent,
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model?> _enhanceContentWithAI({
+    required Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model baseContent,
     required String topic,
     required String category,
     required String level,
@@ -538,7 +538,7 @@ Generate enhanced version with better flow and additional insights.
         contentType: 'enhanced',
       );
 
-      return ContentBlock(
+      return Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model(
         id: 'enhanced_${baseContent.id}_${DateTime.now().millisecondsSinceEpoch}',
         category: baseContent.category,
         topic: baseContent.topic,
@@ -572,7 +572,7 @@ Generate enhanced version with better flow and additional insights.
     final savings = baseCost * reuseRate;
     _costSavings[strategy] = (_costSavings[strategy] ?? 0.0) + savings;
     
-    AppLogger.info('📊 Operation tracked: $strategy (${(reuseRate * 100).toStringAsFixed(1)}% reuse, \$${savings.toStringAsFixed(3)} saved)');
+    AppLogger.info('ðŸ“Š Operation tracked: $strategy (${(reuseRate * 100).toStringAsFixed(1)}% reuse, \$${savings.toStringAsFixed(3)} saved)');
   }
 
   double _calculateAverageReuseRate() {
@@ -592,7 +592,7 @@ Generate enhanced version with better flow and additional insights.
 /// Result of smart content generation
 class SmartContentResult {
   final String strategy;
-  final List<ContentBlock> contentBlocks;
+  final List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> contentBlocks;
   final Uint8List? audioData;
   final Duration estimatedDuration;
   final double reuseRate;
@@ -638,3 +638,5 @@ class ContentGenerationAnalytics {
   double get costSavingsPerOperation => 
       totalOperations > 0 ? totalCostSavings / totalOperations : 0.0;
 }
+
+

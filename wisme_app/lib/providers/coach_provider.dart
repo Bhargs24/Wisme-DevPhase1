@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
+﻿import 'package:flutter/foundation.dart';
 import '../models/coach_model.dart';
 import '../utils/logger.dart';
 
 class CoachProvider extends ChangeNotifier {
-  List<CoachModel> _availableCoaches = [];
-  CoachModel? _selectedCoach;
+  List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel> _availableCoaches = [];
+  Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel? _selectedCoach;
   bool _isLoading = false;
   String? _error;
 
@@ -13,8 +13,8 @@ class CoachProvider extends ChangeNotifier {
   }
 
   // Getters
-  List<CoachModel> get availableCoaches => _availableCoaches;
-  CoachModel? get selectedCoach => _selectedCoach;
+  List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel> get availableCoaches => _availableCoaches;
+  Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel? get selectedCoach => _selectedCoach;
   bool get isLoading => _isLoading;
   String? get error => _error;
 
@@ -31,7 +31,7 @@ class CoachProvider extends ChangeNotifier {
 
     try {
       // Load default coaches for now
-      _availableCoaches = CoachModel.predefinedCoaches;
+      _availableCoaches = Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel.predefinedCoaches;
       AppLogger.info('Loaded ${_availableCoaches.length} available coaches');
     } catch (e) {
       AppLogger.error('Failed to load coaches: $e');
@@ -43,7 +43,7 @@ class CoachProvider extends ChangeNotifier {
   }
 
   // Select a coach
-  void selectCoach(CoachModel coach) {
+  void selectCoach(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel coach) {
     _selectedCoach = coach;
     notifyListeners();
     AppLogger.info('Selected coach: ${coach.name}');
@@ -52,12 +52,12 @@ class CoachProvider extends ChangeNotifier {
   // Set selected coach from Map data
   void setSelectedCoach(Map<String, dynamic> coachData) {
     try {
-      final coach = CoachModel(
+      final coach = Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel(
         id: coachData['id'] ?? '',
         name: coachData['name'] ?? '',
         personality: coachData['personality'] ?? '',
         voiceId: coachData['id'] ?? 'default',
-        avatarUrl: coachData['avatar'] ?? '👨‍🏫',
+        avatarUrl: coachData['avatar'] ?? 'ðŸ‘¨â€ðŸ«',
         description: coachData['description'] ?? '',
         specialties: List<String>.from(coachData['specialties'] ?? []),
         isCustom: false,
@@ -74,12 +74,12 @@ class CoachProvider extends ChangeNotifier {
   }
 
   // Get coach by ID
-  Future<CoachModel?> getCoach(String coachId) async {
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel?> getCoach(String coachId) async {
     try {
       // Return coach from predefined coaches
       return _availableCoaches.firstWhere(
         (coach) => coach.id == coachId,
-        orElse: () => CoachModel.kai, // Default fallback
+        orElse: () => Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel.kai, // Default fallback
       );
     } catch (e) {
       AppLogger.error('Failed to get coach: $e');
@@ -88,13 +88,13 @@ class CoachProvider extends ChangeNotifier {
   }
 
   // Get coaches by category
-  List<CoachModel> getCoachesByCategory(String category) {
+  List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel> getCoachesByCategory(String category) {
     return _availableCoaches.where((coach) => 
         coach.specialties.contains(category)).toList();
   }
 
   // Get coaches by expertise
-  List<CoachModel> getCoachesByExpertise(String expertise) {
+  List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel> getCoachesByExpertise(String expertise) {
     return _availableCoaches.where((coach) => 
         coach.specialties.contains(expertise)).toList();
   }
@@ -105,3 +105,4 @@ class CoachProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+

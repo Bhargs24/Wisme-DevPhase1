@@ -1,4 +1,4 @@
-/// User Personalization Service
+﻿/// User Personalization Service
 /// 
 /// Analyzes user behavior and learning patterns to create personalized
 /// learning experiences through data-driven insights.
@@ -16,7 +16,7 @@ class PersonalizationService {
   /// Generate user personality profile from behavior data
   static UserPersonalityProfile generateUserProfile({
     required String userId,
-    required List<ContentBlock> consumedContent,
+    required List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> consumedContent,
     required Map<String, double> ratings,
     required Map<String, Duration> listeningTimes,
     Map<String, dynamic>? additionalData,
@@ -60,7 +60,7 @@ class PersonalizationService {
     }
   }
 
-  static LearningStyle _analyzeLearningStyle(List<ContentBlock> content, Map<String, Duration> times) {
+  static LearningStyle _analyzeLearningStyle(List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> content, Map<String, Duration> times) {
     final avgDuration = times.values.isEmpty ? 0 : 
         times.values.map((d) => d.inMinutes).reduce((a, b) => a + b) / times.length;
     
@@ -73,7 +73,7 @@ class PersonalizationService {
     return LearningStyle.balanced;
   }
 
-  static ContentPreferences _analyzeContentPreferences(List<ContentBlock> content, Map<String, double> ratings) {
+  static ContentPreferences _analyzeContentPreferences(List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> content, Map<String, double> ratings) {
     final categoryScores = <String, double>{};
     final formatScores = <String, double>{};
     
@@ -103,7 +103,7 @@ class PersonalizationService {
     return EngagementPattern.explorer;
   }
 
-  static List<String> _predictFutureInterests(List<ContentBlock> content, Map<String, double> ratings) {
+  static List<String> _predictFutureInterests(List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> content, Map<String, double> ratings) {
     final interests = <String>[];
     final topRatedContent = content.where((c) => (ratings[c.id] ?? 0) >= 4.0).toList();
     
@@ -116,7 +116,7 @@ class PersonalizationService {
     return interests.toSet().take(10).toList();
   }
 
-  static Map<String, double> _calculatePersonalityScores(List<ContentBlock> content, Map<String, double> ratings) {
+  static Map<String, double> _calculatePersonalityScores(List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> content, Map<String, double> ratings) {
     final scores = <String, double>{
       'curiosity': 0.5,
       'patience': 0.5,
@@ -159,3 +159,5 @@ class PersonalizationService {
     return _userProfiles[userId];
   }
 }
+
+

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
 // TODO: Replace with AudioManager import
@@ -13,7 +13,7 @@ class VoiceSettingsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Voice Settings'),
       ),
-      body: Consumer<VoiceProvider>(
+      body: // TODO: Replace // TODO: Replace Consumer<VoiceProvider> with manager pattern with manager pattern(
         builder: (context, voiceProvider, child) {
           return ListView(
             padding: const EdgeInsets.all(16),
@@ -67,3 +67,5 @@ class VoiceSettingsScreen extends StatelessWidget {
     );
   }
 }
+
+

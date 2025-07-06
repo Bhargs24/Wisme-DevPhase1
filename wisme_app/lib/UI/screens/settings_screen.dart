@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
-// TODO: Replace with AppRouter import
-import '../services/cache_service.dart';
-import '../services/performance_service.dart';
-import '../services/analytics_service.dart';
-import '../services/auth_services.dart';
+import '../../routes.dart';
+// TODO: Replace with new manager imports when ready
+// import '../services/cache_service.dart';
+// import '../services/performance_service.dart';
+// import '../services/analytics_service.dart';
+// import '../services/auth_services.dart';
 // TODO: Replace with UserManager import
 
 class SettingsScreen extends StatefulWidget {
@@ -94,7 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   subtitle: const Text('Manage voice preferences'),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.voiceSettings);
+                    Navigator.pushNamed(context, '/voice-settings'); // TODO: Fix route
                   },
                 ),
               ],
@@ -113,7 +114,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   subtitle: const Text('Manage your profile information'),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.profile);
+                    Navigator.pushNamed(context, '/profile'); // TODO: Fix route
                   },
                 ),
                 const Divider(height: 1),
@@ -122,7 +123,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   subtitle: const Text('View your learning progress and statistics'),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.learningData);
+                    Navigator.pushNamed(context, '/learning-data'); // TODO: Fix route
                   },
                 ),
                 const Divider(height: 1),
@@ -269,12 +270,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onPressed: () async {
               try {
                 // Clear all caches using production services
-                await context.read<CacheService>().clearCache();
-                await PerformanceService.clearAllCache();
-                await AnalyticsService.clearLocalAnalytics();
+                await // TODO: Implement cache clearing with new CacheService
+                await // TODO: PerformanceService.clearAllCache();
+                await // TODO: AnalyticsService.clearLocalAnalytics();
                 
                 // Track cache clearing
-                AnalyticsService.trackEvent('cache_cleared', {
+                // TODO: AnalyticsService.trackEvent('cache_cleared', {
                   'user_action': true,
                   'timestamp': DateTime.now().toIso8601String(),
                 });
@@ -322,16 +323,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onPressed: () async {
               try {
                 // End analytics session before sign out
-                final userProvider = context.read<UserProvider>();
+                final userProvider = // TODO: Replace with UserManager;
                 if (userProvider.currentUser?.id != null) {
-                  AnalyticsService.endSession(userProvider.currentUser!.id);
+                  // TODO: AnalyticsService.endSession(userProvider.currentUser!.id);
                 }
                 
                 // Sign out using auth service
-                await context.read<AuthService>().signOut();
+                await // TODO: Implement sign out with new AuthService
                 
                 // Track sign out event
-                AnalyticsService.trackEvent('user_signed_out', {
+                // TODO: AnalyticsService.trackEvent('user_signed_out', {
                   'user_action': true,
                   'timestamp': DateTime.now().toIso8601String(),
                 });
@@ -340,7 +341,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Navigator.pop(context);
                   Navigator.pushNamedAndRemoveUntil(
                     context, 
-                    AppRoutes.login, 
+                    '/login', // TODO: Fix route
                     (route) => false
                   );
                 }
@@ -363,3 +364,4 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 }
+

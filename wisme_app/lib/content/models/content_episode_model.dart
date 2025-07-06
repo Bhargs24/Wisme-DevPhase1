@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+﻿import 'dart:typed_data';
 import '../../shared/models/base_model.dart';
 import 'content_block_model.dart';
 

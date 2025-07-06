@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../constants/app_colors.dart';
-// TODO: Replace with UserManager
-// TODO: Replace with ContentManager
-// TODO: Replace with AudioManager
-// TODO: Replace with new topic models
+import '../../constants/app_colors.dart';
+import '../../models/topic_model.dart';
+import '../../providers/lesson_provider.dart';
+import '../../providers/user_provider.dart';
+import '../../providers/voice_provider.dart';
 import '../../app/navigation/app_router.dart';
 import '../widgets/lesson_card.dart';
 import '../widgets/voice_selector_widget.dart';
-import '../../../ui/widgets/app_text_field.dart';
+import '../../ui/widgets/app_text_field.dart';
 import 'lesson_screen.dart';
 
 class HomeScreen extends StatefulWidget {

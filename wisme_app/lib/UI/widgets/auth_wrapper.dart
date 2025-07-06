@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+
 // TODO: Replace with UserManager import
 import '../screens/login_screen.dart';
 import '../screens/onboarding_screen.dart';
@@ -12,7 +12,7 @@ class AuthWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(
+    return // TODO: Replace // TODO: Replace Consumer<UserProvider> with manager pattern with manager pattern(
       builder: (context, userProvider, child) {
         // Show loading screen while checking authentication
         if (userProvider.isLoading) {
@@ -35,3 +35,5 @@ class AuthWrapper extends StatelessWidget {
     );
   }
 }
+
+

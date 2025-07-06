@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
-import '../../_old_structure_backup/services/analytics_service.dart';
+// TODO: Replace with AnalyticsManager import
 
 /// Production-ready Favorites Screen
 class FavoritesScreen extends StatefulWidget {
@@ -146,3 +146,4 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     });
   }
 }
+

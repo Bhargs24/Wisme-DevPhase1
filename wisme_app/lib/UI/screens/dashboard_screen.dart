@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../constants/app_colors.dart';
-import '../../../constants/app_text_styles.dart';
-// TODO: Replace with UserManager import
-// TODO: Replace with AppRouter import
+import '../../constants/app_colors.dart';
+import '../../constants/app_text_styles.dart';
+import '../../routes.dart';
+import '../../providers/user_provider.dart';
 import '../widgets/modern_components.dart';
 
 /// Premium dashboard with comprehensive learning analytics and personalized recommendations

@@ -1,4 +1,4 @@
-﻿import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import '../models/stored_audio_file.dart';
 import '../models/local_audio_cache.dart';
 import '../models/audio_hashtag_system.dart';

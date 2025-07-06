@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../../shared/ui/widgets/widgets.dart';
 import '../../../shared/ui/theme/app_theme.dart';
 import '../../user_manager.dart';

@@ -1,4 +1,4 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:flutter_tts/flutter_tts.dart';
@@ -221,14 +221,14 @@ class TTSService {
   }
 
   /// Get the appropriate coach model
-  CoachModel _getCoachById(String coachId) {
+  Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel _getCoachById(String coachId) {
     switch (coachId) {
       case 'kai':
-        return CoachModel.kai;
+        return Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel.kai;
       case 'vee':
-        return CoachModel.vee;
+        return Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel.vee;
       default:
-        return CoachModel.kai; // Default fallback
+        return Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with CoachModel.kai; // Default fallback
     }
   }
 
@@ -265,3 +265,5 @@ class TTSService {
     }
   }
 }
+
+

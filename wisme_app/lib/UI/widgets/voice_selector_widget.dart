@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+
 // TODO: Replace with AudioManager import
-import '../../_old_structure_backup/providers/audio_provider.dart';
+// TODO: Replace with AudioManager import
 
 class VoiceSelectorWidget extends StatefulWidget {
   const VoiceSelectorWidget({super.key});
@@ -12,12 +12,12 @@ class VoiceSelectorWidget extends StatefulWidget {
 
 class _VoiceSelectorWidgetState extends State<VoiceSelectorWidget> {
   final Map<String, String> _availableVoices = {
-    'zen_coach': '🧘 Zen Coach',
-    'startup_buddy': '🚀 Startup Buddy', 
-    'science_guide': '🔬 Science Guide',
-    'default': '🎙️ Default',
-    'motivational': '💪 Motivational',
-    'storyteller': '📚 Storyteller',
+    'zen_coach': 'ðŸ§˜ Zen Coach',
+    'startup_buddy': 'ðŸš€ Startup Buddy', 
+    'science_guide': 'ðŸ”¬ Science Guide',
+    'default': 'ðŸŽ™ï¸ Default',
+    'motivational': 'ðŸ’ª Motivational',
+    'storyteller': 'ðŸ“š Storyteller',
   };
 
   List<String> _availableForLesson = [];
@@ -29,7 +29,7 @@ class _VoiceSelectorWidgetState extends State<VoiceSelectorWidget> {
   }
 
   Future<void> _loadAvailableVoices() async {
-    final voiceProvider = context.read<VoiceProvider>();
+    final voiceProvider = // TODO: Replace with AudioManager usage;
     await voiceProvider.refreshVoices();
     
     setState(() {
@@ -226,3 +226,5 @@ class _VoiceOption extends StatelessWidget {
     );
   }
 }
+
+

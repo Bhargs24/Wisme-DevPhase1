@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
-import '../../_old_structure_backup/services/analytics_service.dart';
+// TODO: Replace with AnalyticsManager import
 
 /// Production-ready Learning History Screen
 class LearningHistoryScreen extends StatefulWidget {
@@ -144,7 +144,7 @@ class _LearningHistoryScreenState extends State<LearningHistoryScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${item['type'] ?? 'lesson'} • ${item['duration'] ?? 'Unknown duration'}',
+                  '${item['type'] ?? 'lesson'} â€¢ ${item['duration'] ?? 'Unknown duration'}',
                   style: AppTextStyles.textTheme.bodySmall?.copyWith(
                     color: AppColors.textSecondary,
                   ),
@@ -338,3 +338,4 @@ class _LearningHistoryScreenState extends State<LearningHistoryScreen> {
     );
   }
 }
+

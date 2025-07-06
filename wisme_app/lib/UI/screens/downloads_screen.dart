@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
-import '../../_old_structure_backup/services/offline_service.dart';
-import '../../_old_structure_backup/services/analytics_service.dart';
-import '../../_old_structure_backup/models/lesson_model.dart';
+import '../../core/offline/offline_service.dart';
+// TODO: Replace with AnalyticsManager import
+// TODO: Replace with new lesson models
 
 /// Production-ready Downloads Screen
 /// Shows offline content and download management
@@ -16,7 +16,7 @@ class DownloadsScreen extends StatefulWidget {
 
 class _DownloadsScreenState extends State<DownloadsScreen> {
   bool _isLoading = true;
-  List<ContentBlock> _downloadedContent = [];
+  List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> _downloadedContent = [];
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class _DownloadsScreenState extends State<DownloadsScreen> {
       final offlineContent = await OfflineService.getOfflineContent();
       
       setState(() {
-        _downloadedContent = offlineContent.cast<ContentBlock>();
+        _downloadedContent = offlineContent.cast<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model>();
         _isLoading = false;
       });
 
@@ -213,7 +213,7 @@ class _DownloadsScreenState extends State<DownloadsScreen> {
     );
   }
 
-  void _playContent(ContentBlock content) {
+  void _playContent(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model content) {
     // Navigate to lesson player
     Navigator.pushNamed(
       context,
@@ -225,7 +225,7 @@ class _DownloadsScreenState extends State<DownloadsScreen> {
     );
   }
 
-  void _deleteContent(ContentBlock content) {
+  void _deleteContent(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model content) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -288,3 +288,5 @@ class _DownloadsScreenState extends State<DownloadsScreen> {
     );
   }
 }
+
+

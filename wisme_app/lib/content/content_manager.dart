@@ -1,4 +1,4 @@
-/// Content Manager - Orchestrates all content-related operations with AI
+﻿/// Content Manager - Orchestrates all content-related operations with AI
 /// 
 /// Manages content generation, storage, retrieval, and caching with advanced features
 library;

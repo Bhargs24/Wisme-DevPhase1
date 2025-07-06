@@ -18,6 +18,7 @@ import 'UI/screens/content_library_screen.dart';
 import 'UI/screens/social_leaderboard_screen.dart';
 import 'UI/screens/achievements_gallery_screen.dart';
 import 'UI/screens/advanced_settings_screen.dart';
+import 'UI/screens/topic_analysis_screen.dart';
 // TODO: Add missing screen imports as they are created
 
 class AppRoutes {
@@ -41,6 +42,7 @@ class AppRoutes {
   static const String socialLeaderboard = '/social-leaderboard';
   static const String achievementsGallery = '/achievements-gallery';
   static const String advancedSettings = '/advanced-settings';
+  static const String topicAnalysis = '/topic-analysis';
   
   // Route mappings (basic implementation)
   static final Map<String, WidgetBuilder> routes = {
@@ -80,6 +82,14 @@ class AppRoutes {
       case topicSelection:
         return MaterialPageRoute(
           builder: (context) => const TopicSelectionScreen(searchQuery: ''),
+          settings: settings,
+        );
+      case topicAnalysis:
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        return MaterialPageRoute(
+          builder: (context) => TopicAnalysisScreen(
+            searchQuery: args['searchQuery'] ?? '',
+          ),
           settings: settings,
         );
       case coachSelection:

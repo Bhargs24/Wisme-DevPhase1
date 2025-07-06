@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+﻿import 'package:flutter/foundation.dart';
 import '../services/firestore_service.dart';
 import '../services/gpt_service.dart';
 import '../services/tts_service.dart';
@@ -18,10 +18,10 @@ class LessonProvider extends ChangeNotifier {
   final ContentMatchingService _contentMatchingService;
   final CacheService? _cacheService;
 
-  List<ContentBlock> _contentBlocks = [];
+  List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> _contentBlocks = [];
   List<LearningJourney> _userJourneys = [];
-  List<TopicAnalysis> _availableTopics = [];
-  ContentBlock? _currentBlock;
+  List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with TopicAnalysis model model> _availableTopics = [];
+  Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model? _currentBlock;
   LearningJourney? _currentJourney;
   List<BlockProgress> _currentProgress = [];
   
@@ -47,16 +47,16 @@ class LessonProvider extends ChangeNotifier {
        _cacheService = cacheService;
 
   // Getters
-  List<ContentBlock> get contentBlocks => _contentBlocks;
+  List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> get contentBlocks => _contentBlocks;
   List<LearningJourney> get userJourneys => _userJourneys;
-  List<TopicAnalysis> get availableTopics => _availableTopics;
-  ContentBlock? get currentBlock => _currentBlock;
+  List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with TopicAnalysis model model> get availableTopics => _availableTopics;
+  Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model? get currentBlock => _currentBlock;
   LearningJourney? get currentJourney => _currentJourney;
   List<BlockProgress> get currentProgress => _currentProgress;
   
   // Add missing getters and aliases for UI compatibility
-  List<TopicAnalysis> get topics => _availableTopics;
-  List<ContentBlock> get lessons => _contentBlocks;
+  List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with TopicAnalysis model model> get topics => _availableTopics;
+  List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> get lessons => _contentBlocks;
   
   bool get isLoading => _isLoading;
   bool get isGenerating => _isGenerating;
@@ -69,7 +69,7 @@ class LessonProvider extends ChangeNotifier {
   }
 
   // Analyze topic intent using AI
-  Future<TopicAnalysis> analyzeTopicIntent(String topic) async {
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with TopicAnalysis model model> analyzeTopicIntent(String topic) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -79,7 +79,7 @@ class LessonProvider extends ChangeNotifier {
       
       // Use GPT service to analyze the topic
       final analysisData = await _gptService.analyzeTopicIntent(topic);
-      final analysis = TopicAnalysis.fromGPTResponse(analysisData);
+      final analysis = Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with TopicAnalysis model model.fromGPTResponse(analysisData);
       
       AppLogger.info('Topic analysis complete: ${analysis.suggestedCategory}');
       return analysis;
@@ -89,7 +89,7 @@ class LessonProvider extends ChangeNotifier {
       _error = 'Failed to analyze topic';
       
       // Return a fallback analysis
-      return TopicAnalysis(
+      return Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with TopicAnalysis model model(
         originalTopic: topic,
         category: 'General',
         intent: 'Learn about $topic',
@@ -169,7 +169,7 @@ class LessonProvider extends ChangeNotifier {
     try {
       // For now, create placeholder topics - in a real app these would come from Firestore
       _availableTopics = [
-        TopicAnalysis(
+        Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with TopicAnalysis model model(
           originalTopic: 'AI & Machine Learning',
           category: category,
           intent: 'learn',
@@ -188,7 +188,7 @@ class LessonProvider extends ChangeNotifier {
   }
 
   // Set current content block
-  void setCurrentBlock(ContentBlock block) {
+  void setCurrentBlock(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model block) {
     _currentBlock = block;
     notifyListeners();
     
@@ -212,7 +212,7 @@ class LessonProvider extends ChangeNotifier {
   }
 
   // Generate new content block using AI
-  Future<ContentBlock?> generateContentBlock({
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model?> generateContentBlock({
     required String topic,
     required String category,
     required String contentType,
@@ -233,7 +233,7 @@ class LessonProvider extends ChangeNotifier {
       );
 
       // Create content block
-      final block = ContentBlock(
+      final block = Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model(
         id: '', // Will be set by Firestore
         category: category,
         topic: topic,
@@ -325,7 +325,7 @@ class LessonProvider extends ChangeNotifier {
   }
 
   // Generate audio for content block
-  Future<bool> generateAudioForBlock(ContentBlock block, String voiceId) async {
+  Future<bool> generateAudioForBlock(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model block, String voiceId) async {
     try {
       final audioData = await _ttsService.generateSpeech(
         text: block.script,
@@ -435,7 +435,7 @@ class LessonProvider extends ChangeNotifier {
   }
 
   // Get recommendations based on user preferences
-  Future<List<ContentBlock>> getRecommendations(String userId, {int limit = 10}) async {
+  Future<List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model>> getRecommendations(String userId, {int limit = 10}) async {
     try {
       // This could be enhanced with AI-based recommendations
       // For now, return popular content blocks
@@ -493,7 +493,7 @@ class LessonProvider extends ChangeNotifier {
   }
 
   // Missing methods for UI compatibility
-  Future<void> loadLessonsByTopic(TopicAnalysis topic) async {
+  Future<void> loadLessonsByTopic(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with TopicAnalysis model model topic) async {
     await loadContentBlocksByTopic(topic.originalTopic);
   }
 
@@ -516,7 +516,7 @@ class LessonProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<ContentBlock?> generateLesson(String topic, String description) async {
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model?> generateLesson(String topic, String description) async {
     _isGenerating = true;
     _error = null;
     notifyListeners();
@@ -532,7 +532,7 @@ class LessonProvider extends ChangeNotifier {
       );
       
       // Create a new content block
-      final newLesson = ContentBlock(
+      final newLesson = Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         category: 'Generated',
         topic: topic,
@@ -568,7 +568,7 @@ class LessonProvider extends ChangeNotifier {
   ContentAssembly? get currentAssembly => _currentAssembly;
 
   /// Intelligent content generation with reuse optimization
-  Future<ContentBlock?> generateSmartContentBlock({
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model?> generateSmartContentBlock({
     required String userId,
     required String topic,
     required String category,
@@ -624,7 +624,7 @@ class LessonProvider extends ChangeNotifier {
                 contentId: existingBlock.id,
               );
 
-              AppLogger.info('✅ Reused existing content: ${existingBlock.id}');
+              AppLogger.info('âœ… Reused existing content: ${existingBlock.id}');
               notifyListeners();
               return existingBlock;
             }
@@ -653,7 +653,7 @@ class LessonProvider extends ChangeNotifier {
         
         await _contentMatchingService.saveContentTags(newBlock.id, contentTags);
         
-        AppLogger.info('✅ Generated new content with tags: ${newBlock.id}');
+        AppLogger.info('âœ… Generated new content with tags: ${newBlock.id}');
       }
 
       return newBlock;
@@ -691,7 +691,7 @@ class LessonProvider extends ChangeNotifier {
   }
 
   /// Get personalized content recommendations
-  Future<List<ContentBlock>> getSmartRecommendations({
+  Future<List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model>> getSmartRecommendations({
     required String userId,
     int maxResults = 5,
     List<String>? preferredCategories,
@@ -714,7 +714,7 @@ class LessonProvider extends ChangeNotifier {
         excludeRecentlyPlayed: false, // Include variety for recommendations
       );
 
-      List<ContentBlock> recommendations = [];
+      List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> recommendations = [];
       for (final match in matches) {
         final block = await _getContentBlockById(match.contentId);
         if (block != null) {
@@ -731,7 +731,7 @@ class LessonProvider extends ChangeNotifier {
   }
 
   // Helper methods
-  Future<ContentBlock?> _getContentBlockById(String blockId) async {
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model?> _getContentBlockById(String blockId) async {
     try {
       // Check if we already have it loaded
       final existingBlock = _contentBlocks.firstWhere(
@@ -755,7 +755,7 @@ class LessonProvider extends ChangeNotifier {
     }
   }
 
-  Future<ContentBlock?> _generateNewContentBlock({
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model?> _generateNewContentBlock({
     required String topic,
     required String category,
     required String level,
@@ -772,7 +772,7 @@ class LessonProvider extends ChangeNotifier {
     );
 
     // Create content block
-    final block = ContentBlock(
+    final block = Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       category: category,
       topic: topic,
@@ -829,7 +829,7 @@ class LessonProvider extends ChangeNotifier {
         cachedContent = await _checkCachedContent(query);
       }
 
-      List<ContentBlock> newBlocks;
+      List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> newBlocks;
       
       if (cachedContent != null) {
         // Use cached/reused content with adaptation
@@ -917,7 +917,7 @@ class LessonProvider extends ChangeNotifier {
   }
 
   /// Adapt cached content to new query
-  Future<List<ContentBlock>> _adaptCachedContent(String cachedContent, String query, String userId) async {
+  Future<List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model>> _adaptCachedContent(String cachedContent, String query, String userId) async {
     try {
       // Use GPT to adapt the cached content to the new query
       final response = await _gptService.generateContentBlock(
@@ -929,7 +929,7 @@ class LessonProvider extends ChangeNotifier {
       );
       
       // Create new content block
-      final block = ContentBlock(
+      final block = Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         category: response['category'] ?? 'general',
         topic: query,
@@ -955,7 +955,7 @@ class LessonProvider extends ChangeNotifier {
   }
 
   /// Generate completely new content
-  Future<List<ContentBlock>> _generateNewContent(String query, String userId) async {
+  Future<List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model>> _generateNewContent(String query, String userId) async {
     try {
       // Generate content block directly
       final response = await _gptService.generateContentBlock(
@@ -966,7 +966,7 @@ class LessonProvider extends ChangeNotifier {
         userContext: 'Generate fresh content for: $query',
       );
 
-      final block = ContentBlock(
+      final block = Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         category: response['category'] ?? 'general',
         topic: query,
@@ -991,7 +991,7 @@ class LessonProvider extends ChangeNotifier {
   }
 
   /// Cache generated content for future reuse
-  Future<void> _cacheGeneratedContent(String query, List<ContentBlock> blocks) async {
+  Future<void> _cacheGeneratedContent(String query, List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> blocks) async {
     try {
       for (final block in blocks) {
         // Store content in database for future reuse
@@ -1008,3 +1008,5 @@ class LessonProvider extends ChangeNotifier {
     }
   }
 }
+
+

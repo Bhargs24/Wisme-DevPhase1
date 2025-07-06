@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// Design tokens for colors - the single source of truth for all colors
 /// UI/UX developers: Modify these values to change the entire app's color scheme
@@ -100,7 +100,7 @@ class AppColors {
   }
 
   /// Get semantic color with opacity
-  static Color withOpacity(Color color, double opacity) {
+  static Color withValues(alpha: Color color, double opacity) {
     return color.withValues(alpha: opacity);
   }
 
@@ -154,3 +154,4 @@ class AppColorsDark {
   static const Color border = Color(0xFF334155);
   static const Color divider = Color(0xFF334155);
 }
+

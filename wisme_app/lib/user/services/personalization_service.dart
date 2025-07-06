@@ -1,4 +1,4 @@
-/// Advanced User Personalization Service
+﻿/// Advanced User Personalization Service
 /// 
 /// Analyzes user behavior and learning patterns to create personalized
 /// learning experiences through data-driven insights.

@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
-import '../../_old_structure_backup/providers/lesson_provider.dart';
-import '../../_old_structure_backup/services/analytics_service.dart';
-import '../../_old_structure_backup/models/topic_model.dart';
+// TODO: Replace with ContentManager import
+// TODO: Replace with AnalyticsManager import
+// TODO: Replace with new topic models
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -17,7 +17,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   final List<String> _searchHistory = [];
-  final List<TopicAnalysis> _searchResults = [];
+  final List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with TopicAnalysis model model> _searchResults = [];
   bool _isSearching = false;
 
   @override
@@ -72,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
       });
 
       // Use content matching service to find relevant topics
-      final lessonProvider = context.read<LessonProvider>();
+      final lessonProvider = // TODO: Replace with ContentManager usage;
       final results = await lessonProvider.analyzeTopicIntent(query);
       
       setState(() {
@@ -218,7 +218,7 @@ class _SearchScreenState extends State<SearchScreen> {
           child: ListTile(
             title: Text(result.originalTopic),
             subtitle: Text(
-              '${result.category} • ${(result.confidence * 100).toInt()}% match',
+              '${result.category} â€¢ ${(result.confidence * 100).toInt()}% match',
             ),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () {
@@ -244,3 +244,5 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
   }
 }
+
+

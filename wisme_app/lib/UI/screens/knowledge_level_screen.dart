@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
 // TODO: Replace with UserManager import
@@ -30,7 +30,7 @@ class _KnowledgeLevelScreenState extends State<KnowledgeLevelScreen>
   final List<Map<String, dynamic>> knowledgeLevels = [
     {
       'level': 'beginner',
-      'title': '🌱 Complete Beginner',
+      'title': 'ðŸŒ± Complete Beginner',
       'subtitle': 'I\'m new to this topic',
       'description': 'Start from the basics with simple explanations',
       'icon': Icons.school,
@@ -39,7 +39,7 @@ class _KnowledgeLevelScreenState extends State<KnowledgeLevelScreen>
     },
     {
       'level': 'intermediate',
-      'title': '🎯 Some Experience',
+      'title': 'ðŸŽ¯ Some Experience',
       'subtitle': 'I know the basics',
       'description': 'Build on existing knowledge with deeper insights',
       'icon': Icons.trending_up,
@@ -48,7 +48,7 @@ class _KnowledgeLevelScreenState extends State<KnowledgeLevelScreen>
     },
     {
       'level': 'advanced',
-      'title': '🚀 Advanced Learner',
+      'title': 'ðŸš€ Advanced Learner',
       'subtitle': 'I want expert-level content',
       'description': 'Dive deep into complex concepts and applications',
       'icon': Icons.rocket_launch,
@@ -57,7 +57,7 @@ class _KnowledgeLevelScreenState extends State<KnowledgeLevelScreen>
     },
     {
       'level': 'expert',
-      'title': '💎 Industry Expert',
+      'title': 'ðŸ’Ž Industry Expert',
       'subtitle': 'I want cutting-edge insights',
       'description': 'Latest trends, research, and advanced techniques',
       'icon': Icons.diamond,
@@ -370,7 +370,7 @@ class _KnowledgeLevelScreenState extends State<KnowledgeLevelScreen>
     if (selectedLevel == null) return;
 
     // Save the selected knowledge level
-    context.read<UserProvider>().updateKnowledgeLevel(selectedLevel!);
+    // TODO: Replace with UserManager usage.updateKnowledgeLevel(selectedLevel!);
 
     // Navigate to coach selection
     Navigator.pushNamed(
@@ -384,3 +384,5 @@ class _KnowledgeLevelScreenState extends State<KnowledgeLevelScreen>
     );
   }
 }
+
+

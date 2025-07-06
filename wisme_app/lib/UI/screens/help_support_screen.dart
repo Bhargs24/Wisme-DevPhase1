@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
-import '../../_old_structure_backup/services/analytics_service.dart';
+// TODO: Replace with AnalyticsManager import
 
 /// Production-ready Help and Support Screen
 class HelpSupportScreen extends StatefulWidget {
@@ -84,11 +84,11 @@ Use analytics to optimize your learning!
       content: '''
 Common solutions:
 
-• Audio not playing: Check volume and network
-• Slow loading: Clear cache in settings
-• Login issues: Reset password or contact support
-• Sync problems: Check internet connection
-• App crashes: Restart app or update to latest version
+â€¢ Audio not playing: Check volume and network
+â€¢ Slow loading: Clear cache in settings
+â€¢ Login issues: Reset password or contact support
+â€¢ Sync problems: Check internet connection
+â€¢ App crashes: Restart app or update to latest version
 
 Still having issues? Contact our support team.
 ''',
@@ -302,9 +302,9 @@ Still having issues? Contact our support team.
           children: [
             Text('Get in touch with our support team:'),
             SizedBox(height: 16),
-            Text('📧 Email: support@wisme.app'),
-            Text('🌐 Website: help.wisme.app'),
-            Text('💬 In-app chat: Available 24/7'),
+            Text('ðŸ“§ Email: support@wisme.app'),
+            Text('ðŸŒ Website: help.wisme.app'),
+            Text('ðŸ’¬ In-app chat: Available 24/7'),
             SizedBox(height: 16),
             Text('We typically respond within 24 hours.'),
           ],
@@ -436,3 +436,4 @@ class HelpItem {
     required this.content,
   });
 }
+

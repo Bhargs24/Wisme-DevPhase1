@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
-import '../../_old_structure_backup/providers/lesson_provider.dart';
+// TODO: Replace with ContentManager import
 // TODO: Replace with AppRouter import
 import '../widgets/modern_components.dart';
 
@@ -42,21 +42,21 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
   final List<Map<String, dynamic>> paceOptions = [
     {
       'id': 'relaxed',
-      'title': '🌱 Relaxed',
+      'title': 'ðŸŒ± Relaxed',
       'subtitle': '10-15 min/day',
       'description': 'Perfect for busy schedules',
       'color': Colors.green,
     },
     {
       'id': 'balanced',
-      'title': '⚖️ Balanced',
+      'title': 'âš–ï¸ Balanced',
       'subtitle': '15-20 min/day',
       'description': 'Steady progress with flexibility',
       'color': Colors.blue,
     },
     {
       'id': 'intensive',
-      'title': '🚀 Intensive',
+      'title': 'ðŸš€ Intensive',
       'subtitle': '20-30 min/day',
       'description': 'Fast-track learning',
       'color': Colors.orange,
@@ -64,12 +64,12 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
   ];
 
   final List<Map<String, String>> learningGoals = [
-    {'id': 'practical', 'title': 'Practical Skills', 'icon': '🛠️'},
-    {'id': 'concepts', 'title': 'Core Concepts', 'icon': '🧠'},
-    {'id': 'examples', 'title': 'Real Examples', 'icon': '📊'},
-    {'id': 'stories', 'title': 'Success Stories', 'icon': '📖'},
-    {'id': 'trends', 'title': 'Latest Trends', 'icon': '📈'},
-    {'id': 'tools', 'title': 'Tools & Resources', 'icon': '⚒️'},
+    {'id': 'practical', 'title': 'Practical Skills', 'icon': 'ðŸ› ï¸'},
+    {'id': 'concepts', 'title': 'Core Concepts', 'icon': 'ðŸ§ '},
+    {'id': 'examples', 'title': 'Real Examples', 'icon': 'ðŸ“Š'},
+    {'id': 'stories', 'title': 'Success Stories', 'icon': 'ðŸ“–'},
+    {'id': 'trends', 'title': 'Latest Trends', 'icon': 'ðŸ“ˆ'},
+    {'id': 'tools', 'title': 'Tools & Resources', 'icon': 'âš’ï¸'},
   ];
 
   @override
@@ -205,7 +205,7 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
                         ),
                       ),
                       Text(
-                        '${widget.category} • ${widget.knowledgeLevel.toUpperCase()} Level',
+                        '${widget.category} â€¢ ${widget.knowledgeLevel.toUpperCase()} Level',
                         style: AppTextStyles.textTheme.bodySmall?.copyWith(
                           color: Colors.grey[500],
                         ),
@@ -630,7 +630,7 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
     };
 
     // Save journey to provider
-    context.read<LessonProvider>().createLearningJourney(
+    // TODO: Replace with ContentManager usage.createLearningJourney(
       userId: 'current_user', // Retrieved from authentication service
       topic: widget.topic,
       category: widget.category,
@@ -650,3 +650,5 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
     );
   }
 }
+
+

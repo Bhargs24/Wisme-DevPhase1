@@ -1,4 +1,4 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'dart:math';
 import '../models/content_matching_model.dart';
 import '../models/lesson_model.dart';
@@ -31,7 +31,7 @@ class ContentMatchingService {
     String? userContext,
   }) async {
     try {
-      AppLogger.info('🏷️ Generating AI hashtags for content: $topic');
+      AppLogger.info('ðŸ·ï¸ Generating AI hashtags for content: $topic');
 
       final hashtagPrompt = '''SYSTEM: You are an expert content analyzer for Wisme's learning platform. Analyze the generated content and create comprehensive hashtags for intelligent content matching and reuse.
 
@@ -90,7 +90,7 @@ REQUIREMENTS:
         mood: _parseHashtagsWithWeights(tagsData['keywords'], 'keywords', 2.8),
       );
 
-      AppLogger.info('🏷️ Generated ${contentTags.allTags.length} hashtags for content');
+      AppLogger.info('ðŸ·ï¸ Generated ${contentTags.allTags.length} hashtags for content');
       return contentTags;
 
     } catch (e) {
@@ -410,7 +410,7 @@ REQUIREMENTS:
     }
   }
 
-  Future<ContentTags> _getContentTags(ContentBlock content) async {
+  Future<ContentTags> _getContentTags(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model content) async {
     if (_contentTagsCache.containsKey(content.id)) {
       return _contentTagsCache[content.id]!;
     }
@@ -458,7 +458,7 @@ REQUIREMENTS:
     return totalWords > 0 ? commonWords / totalWords : 0.0;
   }
 
-  double _calculateFreshnessScore(ContentBlock content, UserListeningHistory history) {
+  double _calculateFreshnessScore(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model content, UserListeningHistory history) {
     final lastPlayed = history.lastPlayedDates[content.id];
     if (lastPlayed == null) return 1.0; // Fresh content gets full score
     
@@ -477,3 +477,5 @@ REQUIREMENTS:
     return searchStrings.intersection(contentStrings).toList();
   }
 }
+
+

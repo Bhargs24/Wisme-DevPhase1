@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+
 // TODO: Replace with UserManager import
-import '../../_old_structure_backup/services/analytics_service.dart';
+// TODO: Replace with AnalyticsManager import
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
 
@@ -26,7 +26,7 @@ class _LearningDataScreenState extends State<LearningDataScreen> {
 
   Future<void> _loadLearningData() async {
     try {
-      final userProvider = context.read<UserProvider>();
+      final userProvider = // TODO: Replace with UserManager usage;
       
       // Get comprehensive learning statistics
       final stats = await AnalyticsService.getUserLearningStats(
@@ -445,3 +445,5 @@ class _LearningDataScreenState extends State<LearningDataScreen> {
     );
   }
 }
+
+

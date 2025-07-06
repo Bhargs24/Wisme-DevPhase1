@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
 // TODO: Replace with CoachManager
@@ -36,7 +36,7 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
       'description': 'Calm, thoughtful, and encouraging. Perfect for deep learning.',
       'voice': 'Professional male voice with warm undertones',
       'strengths': ['Complex concepts', 'Patient explanations', 'Motivational'],
-      'avatar': '👨‍🏫',
+      'avatar': 'ðŸ‘¨â€ðŸ«',
       'color': Colors.blue,
       'specialties': ['Technology', 'Business', 'Science'],
     },
@@ -47,7 +47,7 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
       'description': 'Upbeat, engaging, and fun. Makes learning feel like play.',
       'voice': 'Energetic female voice with enthusiasm',
       'strengths': ['Creative topics', 'Engagement', 'Storytelling'],
-      'avatar': '👩‍🎓',
+      'avatar': 'ðŸ‘©â€ðŸŽ“',
       'color': Colors.pink,
       'specialties': ['Creativity', 'Self-Growth', 'Skills'],
     },
@@ -58,7 +58,7 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
       'description': 'Analytical, precise, and goal-oriented. Great for structured learning.',
       'voice': 'Clear, authoritative voice with confidence',
       'strengths': ['Business strategy', 'Analytics', 'Problem-solving'],
-      'avatar': '👨‍💼',
+      'avatar': 'ðŸ‘¨â€ðŸ’¼',
       'color': Colors.green,
       'specialties': ['Business', 'Career', 'Strategy'],
     },
@@ -69,7 +69,7 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
       'description': 'Curious, inspiring, and forward-thinking. Pushes boundaries.',
       'voice': 'Dynamic voice with inspirational energy',
       'strengths': ['Innovation', 'Future trends', 'Creative thinking'],
-      'avatar': '🚀',
+      'avatar': 'ðŸš€',
       'color': Colors.purple,
       'specialties': ['Technology', 'Creativity', 'Future Skills'],
     },
@@ -194,7 +194,7 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${widget.topic} • ${widget.category} • ${widget.knowledgeLevel.toUpperCase()}',
+                        '${widget.topic} â€¢ ${widget.category} â€¢ ${widget.knowledgeLevel.toUpperCase()}',
                         style: AppTextStyles.textTheme.bodyMedium?.copyWith(
                           color: Colors.grey[600],
                         ),
@@ -555,7 +555,7 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
     final selectedCoach = coaches.firstWhere((coach) => coach['id'] == selectedCoachId);
 
     // Save the selected coach
-    context.read<CoachProvider>().setSelectedCoach(selectedCoach);
+    // TODO: Replace with CoachManager usage.setSelectedCoach(selectedCoach);
 
     // Navigate to coach naming screen
     Navigator.pushNamed(
@@ -571,4 +571,5 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
     );
   }
 }
+
 

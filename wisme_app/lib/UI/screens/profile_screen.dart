@@ -1,6 +1,6 @@
-// User profile management screen
+﻿// User profile management screen
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
 // TODO: Replace with UserManager
@@ -265,4 +265,5 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
+
 

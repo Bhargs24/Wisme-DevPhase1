@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
-import '../../_old_structure_backup/providers/lesson_provider.dart';
+// TODO: Replace with ContentManager import
 // TODO: Replace with CoachManager import
 import '../widgets/modern_components.dart';
 
@@ -192,7 +192,7 @@ class _EnhancedAudioPlayerScreenState extends State<EnhancedAudioPlayerScreen>
                   ),
                   child: Center(
                     child: Text(
-                      coach.avatarUrl.isNotEmpty ? coach.avatarUrl : '👨‍🏫',
+                      coach.avatarUrl.isNotEmpty ? coach.avatarUrl : 'ðŸ‘¨â€ðŸ«',
                       style: const TextStyle(fontSize: 64),
                     ),
                   ),
@@ -206,7 +206,7 @@ class _EnhancedAudioPlayerScreenState extends State<EnhancedAudioPlayerScreen>
   }
 
   Widget _buildLessonInfo() {
-    return Consumer<LessonProvider>(
+    return // TODO: Replace // TODO: Replace Consumer<LessonProvider> with manager pattern with manager pattern(
       builder: (context, lessonProvider, child) {
         return ModernCard(
           backgroundColor: Colors.white,
@@ -657,3 +657,5 @@ class _EnhancedAudioPlayerScreenState extends State<EnhancedAudioPlayerScreen>
     );
   }
 }
+
+

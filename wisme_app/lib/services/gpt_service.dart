@@ -1,4 +1,4 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../utils/api_keys.dart';
 import '../models/topic_model.dart';
@@ -79,12 +79,15 @@ Return JSON format:
         final analysisData = jsonDecode(content);
         
         return TopicAnalysis(
-          originalTopic: userInput,
-          category: analysisData['category'] ?? 'Technology',
-          intent: analysisData['intent'] ?? 'concepts',
-          difficulty: analysisData['difficulty'] ?? 'beginner',
-          keywords: List<String>.from(analysisData['keywords'] ?? []),
-          clarificationQuestions: List<String>.from(analysisData['clarification'] ?? []),
+          originalQuery: userInput,
+          detectedCategory: analysisData['category'] ?? 'Technology',
+          knowledgeLevel: analysisData['knowledge_level'] ?? 'Mixed Approach',
+          suggestedTags: List<String>.from(analysisData['tags'] ?? ['beginner']),
+          confidenceScore: (analysisData['confidence'] ?? 0.8).toDouble(),
+          estimatedSessions: analysisData['estimated_sessions'] ?? 5,
+          recommendedCoach: analysisData['recommended_coach'] ?? 'kai',
+          analysisMetadata: Map<String, dynamic>.from(analysisData),
+          analyzedAt: DateTime.now(),
         );
       } else {
         throw Exception('Failed to analyze topic: ${response.statusCode}');

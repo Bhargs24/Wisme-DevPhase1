@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../_old_structure_backup/design_system/design_system.dart';
-import '../../_old_structure_backup/models/lesson_model.dart';
+import '../../constants/app_colors.dart';
+import '../../constants/app_text_styles.dart';
+import '../../content/models/content_models.dart';
 
 /// Highly reusable lesson card widget
 /// Can be customized with different layouts, sizes, and interaction behaviors
 class LessonCard extends StatelessWidget {
-  final ContentBlock lesson;
+  final dynamic lesson;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
   final VoidCallback? onPlayPressed;
@@ -180,21 +181,21 @@ class LessonCard extends StatelessWidget {
       children: [
         Icon(
           Icons.topic,
-          size: AppSizing.iconXS,
+          size: 16.0,
           color: AppColors.textSecondary,
         ),
-        AppSpacing.horizontalSpaceXS,
+        const SizedBox(width: 4),
         Text(
           lesson.topic,
           style: Theme.of(context).textTheme.bodySmall,
         ),
-        AppSpacing.horizontalSpaceM,
+        const SizedBox(width: 16),
         Icon(
           Icons.record_voice_over,
-          size: AppSizing.iconXS,
+          size: 16.0,
           color: AppColors.textSecondary,
         ),
-        AppSpacing.horizontalSpaceXS,
+        const SizedBox(width: 4),
         Text(
           _getVoiceDisplayName('default'),
           style: Theme.of(context).textTheme.bodySmall,
@@ -203,19 +204,19 @@ class LessonCard extends StatelessWidget {
         if (lesson.accessCount > 0) ...[
           Icon(
             Icons.play_circle_outline,
-            size: AppSizing.iconXS,
+            size: 16.0,
             color: AppColors.textSecondary,
           ),
-          AppSpacing.horizontalSpaceXS,
+          const SizedBox(width: 4),
           Text(
             '${lesson.accessCount}',
             style: Theme.of(context).textTheme.bodySmall,
           ),
-          AppSpacing.horizontalSpaceS,
+          const SizedBox(width: 8),
         ],
         if (showPlayButton && onPlayPressed != null) _buildPlayButton(),
         if (showFavoriteButton && onFavoritePressed != null) ...[
-          AppSpacing.horizontalSpaceS,
+          const SizedBox(width: 8),
           _buildFavoriteButton(),
         ],
       ],
@@ -224,17 +225,17 @@ class LessonCard extends StatelessWidget {
 
   Widget _buildTags(BuildContext context) {
     return Wrap(
-      spacing: AppSpacing.s,
-      runSpacing: AppSpacing.xs,
+      spacing: 8.0,
+      runSpacing: 4.0,
       children: lesson.tags.take(3).map((tag) {
         return Container(
           padding: EdgeInsets.symmetric(
-            horizontal: AppSpacing.s,
-            vertical: AppSpacing.xs / 2,
+            horizontal: 8.0,
+            vertical: 4.0 / 2,
           ),
           decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.circular(AppSizing.radiusM),
+            borderRadius: BorderRadius.circular(12.0),
             border: Border.all(
               color: AppColors.divider,
             ),
@@ -255,12 +256,12 @@ class LessonCard extends StatelessWidget {
   Widget _buildDurationChip(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: AppSpacing.s,
-        vertical: AppSpacing.xs,
+        horizontal: 8.0,
+        vertical: 4.0,
       ),
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(AppSizing.radiusS),
+        borderRadius: BorderRadius.circular(8.0),
       ),
       child: Text(
         "${lesson.duration.inMinutes} min",

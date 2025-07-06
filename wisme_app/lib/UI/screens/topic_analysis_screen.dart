@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
-import '../../_old_structure_backup/models/topic_model.dart';
-import '../../_old_structure_backup/providers/lesson_provider.dart';
+// TODO: Replace with new topic models
+// TODO: Replace with ContentManager import
 // TODO: Replace with AppRouter import
 import '../widgets/modern_components.dart';
 
@@ -61,7 +61,7 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
     await Future.delayed(const Duration(seconds: 3));
     
     if (mounted) {
-      final lessonProvider = context.read<LessonProvider>();
+      final lessonProvider = // TODO: Replace with ContentManager usage;
       final analysis = await lessonProvider.analyzeTopicIntent(widget.searchQuery);
       
       setState(() {
@@ -162,9 +162,9 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
   Widget _buildThinkingSteps() {
     return Column(
       children: [
-        _buildThinkingStep('🔍 Understanding your topic...', 0),
-        _buildThinkingStep('🎯 Finding the best category...', 1),
-        _buildThinkingStep('📚 Preparing learning options...', 2),
+        _buildThinkingStep('ðŸ” Understanding your topic...', 0),
+        _buildThinkingStep('ðŸŽ¯ Finding the best category...', 1),
+        _buildThinkingStep('ðŸ“š Preparing learning options...', 2),
       ],
     );
   }
@@ -440,3 +440,5 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
     );
   }
 }
+
+

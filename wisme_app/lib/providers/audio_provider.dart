@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+﻿import 'package:flutter/foundation.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:io';
 import '../models/lesson_model.dart';
@@ -14,7 +14,7 @@ class AudioProvider extends ChangeNotifier {
   final CacheService? _cacheService;
 
   // Current state
-  ContentBlock? _currentBlock;
+  Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model? _currentBlock;
   bool _isPlaying = false;
   bool _isLoading = false;
   Duration _currentPosition = Duration.zero;
@@ -39,7 +39,7 @@ class AudioProvider extends ChangeNotifier {
   }
 
   // Getters
-  ContentBlock? get currentBlock => _currentBlock;
+  Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model? get currentBlock => _currentBlock;
   bool get isPlaying => _isPlaying;
   bool get isLoading => _isLoading;
   Duration get currentPosition => _currentPosition;
@@ -79,7 +79,7 @@ class AudioProvider extends ChangeNotifier {
   }
 
   // Set current block and user
-  Future<void> setCurrentBlock(ContentBlock block, String userId) async {
+  Future<void> setCurrentBlock(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model block, String userId) async {
     _currentBlock = block;
     _userId = userId;
     _currentPosition = Duration.zero;
@@ -365,3 +365,5 @@ class AudioProvider extends ChangeNotifier {
     super.dispose();
   }
 }
+
+

@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+﻿import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:logger/logger.dart';
 import '../models/lesson_model.dart';
@@ -20,13 +20,13 @@ class FirestoreService {
       if (Firebase.apps.isNotEmpty) {
         _firestore = FirebaseFirestore.instance;
         _isFirebaseAvailable = true;
-        _logger.i('✅ FirestoreService: Firebase is available');
+        _logger.i('âœ… FirestoreService: Firebase is available');
       } else {
-        _logger.w('⚠️ FirestoreService: Firebase not initialized - Firestore features disabled');
+        _logger.w('âš ï¸ FirestoreService: Firebase not initialized - Firestore features disabled');
         _isFirebaseAvailable = false;
       }
     } catch (e) {
-      _logger.w('⚠️ FirestoreService: Firebase initialization check failed: $e');
+      _logger.w('âš ï¸ FirestoreService: Firebase initialization check failed: $e');
       _isFirebaseAvailable = false;
     }
   }
@@ -38,16 +38,16 @@ class FirestoreService {
   }
 
   // User operations
-  Future<void> createUser(UserModel user) async {
+  Future<void> createUser(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel user) async {
     _checkFirebaseAvailability();
     await _firestore!.collection('users').doc(user.id).set(user.toFirestore());
   }
 
-  Future<UserModel?> getUser(String userId) async {
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel?> getUser(String userId) async {
     _checkFirebaseAvailability();
     final doc = await _firestore!.collection('users').doc(userId).get();
     if (doc.exists) {
-      return UserModel.fromFirestore(doc);
+      return Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel.fromFirestore(doc);
     }
     return null;
   }
@@ -63,17 +63,17 @@ class FirestoreService {
   }
 
   // Content Block operations
-  Future<String> createContentBlock(ContentBlock block) async {
+  Future<String> createContentBlock(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model block) async {
     _checkFirebaseAvailability();
     final docRef = await _firestore!.collection('content_blocks').add(block.toFirestore());
     return docRef.id;
   }
 
-  Future<ContentBlock?> getContentBlock(String blockId) async {
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model?> getContentBlock(String blockId) async {
     _checkFirebaseAvailability();
     final doc = await _firestore!.collection('content_blocks').doc(blockId).get();
     if (doc.exists) {
-      return ContentBlock.fromFirestore(doc);
+      return Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model.fromFirestore(doc);
     }
     return null;
   }
@@ -88,7 +88,7 @@ class FirestoreService {
     await _firestore!.collection('content_blocks').doc(blockId).delete();
   }
 
-  Future<List<ContentBlock>> getContentBlocks({
+  Future<List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model>> getContentBlocks({
     String? category,
     String? level,
     int? limit,
@@ -108,7 +108,7 @@ class FirestoreService {
 
     final snapshot = await query.get();
     return snapshot.docs
-        .map((doc) => ContentBlock.fromFirestore(doc))
+        .map((doc) => Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model.fromFirestore(doc))
         .toList();
   }
 
@@ -236,7 +236,7 @@ class FirestoreService {
   }
 
   // Batch operations
-  Future<void> batchUpdateBlocks(List<ContentBlock> blocks) async {
+  Future<void> batchUpdateBlocks(List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model> blocks) async {
     _checkFirebaseAvailability();
     final batch = _firestore!.batch();
     
@@ -249,7 +249,7 @@ class FirestoreService {
   }
 
   // Search operations
-  Future<List<ContentBlock>> searchContentBlocks(String query) async {
+  Future<List<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model>> searchContentBlocks(String query) async {
     _checkFirebaseAvailability();
     final snapshot = await _firestore!
         .collection('content_blocks')
@@ -258,7 +258,7 @@ class FirestoreService {
         .get();
     
     return snapshot.docs
-        .map((doc) => ContentBlock.fromFirestore(doc))
+        .map((doc) => Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model.fromFirestore(doc))
         .toList();
   }
 
@@ -320,3 +320,4 @@ class FirestoreService {
     return null;
   }
 }
+

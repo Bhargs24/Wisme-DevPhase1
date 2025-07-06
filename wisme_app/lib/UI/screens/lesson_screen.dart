@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../constants/app_colors.dart';
-import '../../../constants/app_text_styles.dart';
-// TODO: Replace with new lesson models
-// TODO: Replace with AudioManager
-// TODO: Replace with AudioManager
+import '../../constants/app_colors.dart';
+import '../../constants/app_text_styles.dart';
+import '../../models/content_block.dart' as cb;
+import '../../providers/audio_provider.dart';
 import '../widgets/voice_selector_widget.dart';
 
 class LessonScreen extends StatefulWidget {
-  final ContentBlock lesson;
+  final cb.ContentBlock lesson;
 
   const LessonScreen({
     super.key,

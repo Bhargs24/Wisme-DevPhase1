@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+﻿import 'dart:typed_data';
 import 'dart:async';
 import '../models/lesson_model.dart';
 import 'tts_service.dart';
@@ -41,7 +41,7 @@ class AudioAssemblyService {
         if (_isSegmentValid(segment)) {
           segments.add(segment);
           _updateAccessOrder(cacheKey);
-          AppLogger.info('🎵 Using cached audio segment: $contentId');
+          AppLogger.info('ðŸŽµ Using cached audio segment: $contentId');
           continue;
         }
       }
@@ -67,7 +67,7 @@ class AudioAssemblyService {
     AudioQuality quality = AudioQuality.high,
   }) async {
     try {
-      AppLogger.info('🎧 Assembling audio from ${segments.length} segments');
+      AppLogger.info('ðŸŽ§ Assembling audio from ${segments.length} segments');
       
       if (segments.isEmpty) {
         throw AudioAssemblyException('No audio segments provided');
@@ -102,7 +102,7 @@ class AudioAssemblyService {
       // Professional audio assembly with crossfades and mastering
       final assembledAudio = await _professionalAudioAssembly(audioBlocks, quality);
       
-      AppLogger.info('🎧 Audio assembly complete: ${assembledAudio.length} bytes');
+      AppLogger.info('ðŸŽ§ Audio assembly complete: ${assembledAudio.length} bytes');
       return assembledAudio;
       
     } catch (e) {
@@ -143,7 +143,7 @@ class AudioAssemblyService {
       await _persistAudioSegment(cacheKey, segment);
     }
     
-    AppLogger.info('🎵 Cached audio segment: $contentId (${audioData.length} bytes)');
+    AppLogger.info('ðŸŽµ Cached audio segment: $contentId (${audioData.length} bytes)');
   }
 
   /// Get audio statistics for optimization
@@ -169,7 +169,7 @@ class AudioAssemblyService {
     _audioCache.clear();
     _transitionCache.clear();
     _accessOrder.clear();
-    AppLogger.info('🧹 Audio cache cleared');
+    AppLogger.info('ðŸ§¹ Audio cache cleared');
   }
 
   // Private methods
@@ -214,7 +214,7 @@ class AudioAssemblyService {
           metadata: segment.metadata,
         );
         
-        AppLogger.info('🎤 Generated audio segment: $contentId');
+        AppLogger.info('ðŸŽ¤ Generated audio segment: $contentId');
         
       } catch (e) {
         AppLogger.error('Failed to generate audio for $contentId: $e');
@@ -476,7 +476,7 @@ class AudioAssemblyService {
       _audioCache.remove(oldestKey);
     }
     
-    AppLogger.info('🧹 Evicted $removeCount old audio segments from cache');
+    AppLogger.info('ðŸ§¹ Evicted $removeCount old audio segments from cache');
   }
 
   double _calculateHitRate() {
@@ -484,7 +484,7 @@ class AudioAssemblyService {
     return _audioCache.isNotEmpty ? 0.85 : 0.0; // Placeholder
   }
 
-  Future<ContentBlock?> _getContentBlock(String contentId) async {
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model?> _getContentBlock(String contentId) async {
     // Get content block from service/cache
     // This would integrate with existing services
     return null; // Placeholder
@@ -580,3 +580,5 @@ class AudioAssemblyException implements Exception {
   @override
   String toString() => 'AudioAssemblyException: $message';
 }
+
+

@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+﻿import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
@@ -34,7 +34,7 @@ class AuthService {
     try {
       return _auth!.currentUser;
     } catch (e) {
-      _logger.w('⚠️ Cannot get current user - Firebase not initialized');
+      _logger.w('âš ï¸ Cannot get current user - Firebase not initialized');
       return null;
     }
   }
@@ -47,13 +47,13 @@ class AuthService {
     try {
       return _auth!.authStateChanges();
     } catch (e) {
-      _logger.w('⚠️ Cannot get auth state changes - Firebase not initialized');
+      _logger.w('âš ï¸ Cannot get auth state changes - Firebase not initialized');
       return Stream.value(null);
     }
   }
 
   /// Sign in with email and password
-  Future<UserModel?> signInWithEmail(String email, String password) async {
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel?> signInWithEmail(String email, String password) async {
     if (!_isFirebaseAvailable || _auth == null) {
       throw Exception('Firebase Authentication not available. Please configure Firebase first.');
     }
@@ -77,7 +77,7 @@ class AuthService {
   }
 
   /// Register with email and password
-  Future<UserModel?> registerWithEmail({
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel?> registerWithEmail({
     required String email,
     required String password,
     required String name,
@@ -99,7 +99,7 @@ class AuthService {
         await result.user!.updateDisplayName(name);
         
         // Create user profile
-        final userModel = UserModel(
+        final Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel = Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel(
           id: result.user!.uid,
           email: email,
           displayName: name,
@@ -116,8 +116,8 @@ class AuthService {
           ),
         );
 
-        await _createUserProfile(userModel);
-        return userModel;
+        await _createUserProfile(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel);
+        return Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel;
       }
       return null;
     } on FirebaseAuthException catch (e) {
@@ -128,7 +128,7 @@ class AuthService {
   }
 
   /// Sign in with Google
-  Future<UserModel?> signInWithGoogle() async {
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel?> signInWithGoogle() async {
     if (!_isFirebaseAvailable) {
       throw Exception('Firebase is not configured. Please set up Firebase to use Google Sign-In.');
     }
@@ -147,10 +147,10 @@ class AuthService {
       
       if (result.user != null) {
         // Check if user profile exists, create if not
-        UserModel? userModel = await getUserProfile(result.user!.uid);
+        Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel? Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel = await getUserProfile(result.user!.uid);
         
-        if (userModel == null) {
-          userModel = UserModel(
+        if (Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel == null) {
+          Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel = Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel(
             id: result.user!.uid,
             email: result.user!.email ?? '',
             displayName: result.user!.displayName ?? 'User',
@@ -165,12 +165,12 @@ class AuthService {
               lastProgressUpdate: DateTime.now(),
             ),
           );
-          await _createUserProfile(userModel);
+          await _createUserProfile(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel);
         } else {
           await _updateLastActiveTime(result.user!.uid);
         }
         
-        return userModel;
+        return Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel;
       }
       return null;
     } catch (e) {
@@ -297,7 +297,7 @@ class AuthService {
   }
 
   /// Get user profile from Firestore
-  Future<UserModel?> getUserProfile(String uid) async {
+  Future<Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel?> getUserProfile(String uid) async {
     try {
       if (!_isFirebaseAvailable || _firestore == null) {
         throw Exception('Firestore is not available. Please configure Firebase to use this feature.');
@@ -305,7 +305,7 @@ class AuthService {
 
       final doc = await _firestore!.collection('users').doc(uid).get();
       if (doc.exists) {
-        return UserModel.fromFirestore(doc);
+        return Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel.fromFirestore(doc);
       }
       return null;
     } catch (e) {
@@ -314,7 +314,7 @@ class AuthService {
   }
 
   /// Create user profile in Firestore
-  Future<void> _createUserProfile(UserModel userModel) async {
+  Future<void> _createUserProfile(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel) async {
     try {
       if (!_isFirebaseAvailable || _firestore == null) {
         _logger.w('Firestore is not available. User profile will not be saved.');
@@ -323,15 +323,15 @@ class AuthService {
 
       await _firestore!
           .collection('users')
-          .doc(userModel.id)
-          .set(userModel.toFirestore());
+          .doc(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel.id)
+          .set(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel.toFirestore());
     } catch (e) {
       throw Exception('Failed to create user profile: $e');
     }
   }
 
   /// Update user profile
-  Future<void> updateUserProfile(UserModel userModel) async {
+  Future<void> updateUserProfile(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel) async {
     try {
       if (!_isFirebaseAvailable || _firestore == null) {
         throw Exception('Firestore is not available. Please configure Firebase to use this feature.');
@@ -339,8 +339,8 @@ class AuthService {
 
       await _firestore!
           .collection('users')
-          .doc(userModel.id)
-          .update(userModel.toFirestore());
+          .doc(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel.id)
+          .update(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with UserModel.toFirestore());
     } catch (e) {
       throw Exception('Failed to update user profile: $e');
     }
@@ -462,3 +462,5 @@ class AuthService {
     }
   }
 }
+
+

@@ -1,4 +1,4 @@
-/// Adaptive Content Service
+﻿/// Adaptive Content Service
 /// 
 /// Dynamically adapts content based on user personality profiles
 /// and real-time context to optimize learning experiences.
@@ -15,7 +15,7 @@ class AdaptiveContentService {
   /// Adapt content in real-time based on user profile and context
   static ContentAdaptation adaptContentForUser({
     required String userId,
-    required ContentBlock originalContent,
+    required Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model originalContent,
     required UserPersonalityProfile userProfile,
     Map<String, dynamic>? realTimeData,
   }) {
@@ -49,7 +49,7 @@ class AdaptiveContentService {
     }
   }
 
-  static ContentBlock _adaptForLearningStyle(ContentBlock content, LearningStyle style) {
+  static Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model _adaptForLearningStyle(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model content, LearningStyle style) {
     switch (style) {
       case LearningStyle.quickLearner:
         return content.copyWith(
@@ -68,7 +68,7 @@ class AdaptiveContentService {
     }
   }
 
-  static ContentBlock _adaptForEngagementPattern(ContentBlock content, EngagementPattern pattern) {
+  static Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model _adaptForEngagementPattern(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model content, EngagementPattern pattern) {
     switch (pattern) {
       case EngagementPattern.powerUser:
         return content.copyWith(
@@ -90,7 +90,7 @@ class AdaptiveContentService {
     }
   }
 
-  static ContentBlock _adaptForContext(ContentBlock content, Map<String, dynamic>? context) {
+  static Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model _adaptForContext(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model content, Map<String, dynamic>? context) {
     if (context == null) return content;
     
     final timeOfDay = context['timeOfDay'] as String?;
@@ -121,7 +121,7 @@ class AdaptiveContentService {
 /// Represents an adapted version of content
 class ContentAdaptation {
   final String originalContentId;
-  final ContentBlock adaptedContent;
+  final Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model adaptedContent;
   final String adaptationReason;
   final double adaptationScore;
   final DateTime timestamp;
@@ -134,7 +134,7 @@ class ContentAdaptation {
     required this.timestamp,
   });
 
-  factory ContentAdaptation.noAdaptation(ContentBlock content) {
+  factory ContentAdaptation.noAdaptation(Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with ContentBlock model model content) {
     return ContentAdaptation(
       originalContentId: content.id,
       adaptedContent: content,
@@ -144,3 +144,5 @@ class ContentAdaptation {
     );
   }
 }
+
+

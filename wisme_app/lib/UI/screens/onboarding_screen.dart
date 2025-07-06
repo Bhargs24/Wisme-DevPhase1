@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+﻿import 'package:flutter/material.dart';
+
 // TODO: Replace with UserManager import
 
 class OnboardingScreen extends StatefulWidget {
@@ -327,7 +327,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 name: 'Kai',
                 personality: 'Strategic & Analytical',
                 description: 'Perfect for business, technology, and strategic thinking',
-                avatar: '🧠',
+                avatar: 'ðŸ§ ',
                 isSelected: true,
               ),
               
@@ -337,7 +337,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 name: 'Vee',
                 personality: 'Creative & Energetic',
                 description: 'Great for creativity, psychology, and personal growth',
-                avatar: '✨',
+                avatar: 'âœ¨',
                 isSelected: false,
               ),
               
@@ -636,10 +636,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   }
 
   void _completeOnboarding() async {
-    final userProvider = context.read<UserProvider>();
+    final userProvider = // TODO: Replace with UserManager usage;
     await userProvider.completeOnboarding();
     if (mounted) {
       Navigator.of(context).pushReplacementNamed('/');
     }
   }
 }
+
+

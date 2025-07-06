@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_text_styles.dart';
 // TODO: Replace with AppRouter import
@@ -311,7 +311,7 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
         children: [
           _buildTrendingHeatmap(),
           const SizedBox(height: 24),
-          _buildSectionHeader('🔥 Hot Topics', 'Most popular this week'),
+          _buildSectionHeader('ðŸ”¥ Hot Topics', 'Most popular this week'),
           const SizedBox(height: 16),
           _buildTrendingList(),
         ],
@@ -1062,7 +1062,7 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
   }
 
   void _startContent(String contentId) {
-    Navigator.pushNamed(context, AppRoutes.topicAnalysis, arguments: {
+    Navigator.pushNamed(context, AppRoutes.Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with TopicAnalysis model model, arguments: {
       'searchQuery': contentId,
     });
   }
@@ -1085,12 +1085,14 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
     final randomTopics = ['Quantum Physics', 'Behavioral Psychology', 'Renewable Energy', 'Digital Art'];
     final randomTopic = (randomTopics..shuffle()).first;
     
-    Navigator.pushNamed(context, AppRoutes.topicAnalysis, arguments: {
+    Navigator.pushNamed(context, AppRoutes.Map<String, dynamic> // TODO: Replace with Map<String, dynamic> // TODO: Replace with TopicAnalysis model model, arguments: {
       'searchQuery': randomTopic,
     });
     
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Discovering: $randomTopic! 🎲')),
+      SnackBar(content: Text('Discovering: $randomTopic! ðŸŽ²')),
     );
   }
 }
+
+
