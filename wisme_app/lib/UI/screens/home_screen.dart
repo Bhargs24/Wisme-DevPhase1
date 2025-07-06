@@ -1,12 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../providers/user_provider.dart';
-import '../../providers/lesson_provider.dart';
-import '../../providers/voice_provider.dart';
-import '../../models/topic_model.dart';
-import '../../routes.dart';
-import '../widgets/lesson_card.dart';
+import '../../core/exports.dart';
 import '../widgets/voice_selector_widget.dart';
 import '../widgets/app_text_field.dart';
 import 'lesson_screen.dart';
@@ -141,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: FilterChip(
-                  label: Text(topic.originalTopic),
+                  label: Text(topic.originalQuery),
                   selected: isSelected,
                   onSelected: (selected) {
                     if (selected) {
@@ -208,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () => lessonProvider.refreshLessons(),
+                  onPressed: () => lessonProvider.refresh(),
                   child: const Text('Retry'),
                 ),
               ],
@@ -216,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }
 
-        if (lessonProvider.lessons.isEmpty) {
+        if (lessonProvider.contentBlocks.isEmpty) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -241,9 +233,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
         return ListView.builder(
           padding: const EdgeInsets.all(16),
-          itemCount: lessonProvider.lessons.length,
+          itemCount: lessonProvider.contentBlocks.length,
           itemBuilder: (context, index) {
-            final lesson = lessonProvider.lessons[index];
+            final lesson = lessonProvider.contentBlocks[index];
             return LessonCard(
               lesson: lesson,
               onTap: () => _openLesson(lesson),
@@ -308,9 +300,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }) async {
     final lessonProvider = context.read<LessonProvider>();
 
-    final lesson = await lessonProvider.generateLesson(
-      topic,
-      userQuery,
+    final lesson = await lessonProvider.generateContentBlock(
+      topic: topic,
+      category: userQuery,
     );
 
     if (lesson != null && mounted) {
@@ -408,3 +400,4 @@ class _GenerateLessonDialogState extends State<GenerateLessonDialog> {
     super.dispose();
   }
 }
+

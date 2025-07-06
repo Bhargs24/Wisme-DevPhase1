@@ -1,11 +1,6 @@
+import '../core/exports.dart';
 import 'dart:async';
 import 'dart:math' as math;
-import '../models/content_matching_model.dart';
-import '../models/lesson_model.dart';
-import '../services/firestore_service.dart';
-import '../utils/logger.dart';
-
-/// Content reuse engine for intelligent content matching and assembly
 class ContentReuseEngine {
   final FirestoreService _firestoreService;
   
@@ -387,3 +382,4 @@ enum AssemblyStrategy {
   hybridGeneration,
   generateNew,
 }
+

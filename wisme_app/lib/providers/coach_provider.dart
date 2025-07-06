@@ -1,7 +1,4 @@
-import 'package:flutter/foundation.dart';
-import '../models/coach_model.dart';
-import '../utils/logger.dart';
-
+import '../core/exports.dart';
 class CoachProvider extends ChangeNotifier {
   List<CoachModel> _availableCoaches = [];
   CoachModel? _selectedCoach;

@@ -2,6 +2,7 @@
 /// 
 /// Dynamically adapts content based on user personality profiles
 /// and real-time context to optimize learning experiences.
+library;
 
 import '../models/lesson_model.dart';
 import '../models/personalization_model.dart';

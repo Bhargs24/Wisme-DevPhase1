@@ -1,12 +1,11 @@
 /// Production-Ready Performance Service
 /// 
 /// Comprehensive performance optimization and monitoring for thousands of users
+library;
 
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../utils/logger.dart';

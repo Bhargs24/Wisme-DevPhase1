@@ -1,13 +1,6 @@
-import 'package:flutter/foundation.dart';
+import '../core/exports.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:io';
-import '../models/lesson_model.dart';
-import '../services/firestore_service.dart';
-import '../services/cache_service.dart';
-import '../services/performance_service.dart';
-import '../services/analytics_service.dart';
-import '../utils/logger.dart';
-
 class AudioProvider extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
   final FirestoreService _firestoreService;
@@ -129,14 +122,14 @@ class AudioProvider extends ChangeNotifier {
         AppLogger.info('Audio loaded from cache for block: ${_currentBlock!.id}');
         
         // Track cache hit
-        PerformanceService.recordMetric('cache_hit', 1.0);
+        // PerformanceService.recordMetric('cache_hit', 1.0);
       } else {
         // Load from network
-        await _audioPlayer.setSource(UrlSource(_currentBlock!.audioUrl!));
+        await _audioPlayer.setSource(UrlSource(_currentBlock!.audioUrl));
         AppLogger.info('Audio loaded from network for block: ${_currentBlock!.id}');
         
         // Track cache miss
-        PerformanceService.recordMetric('cache_miss', 1.0);
+        // PerformanceService.recordMetric('cache_miss', 1.0);
       }
       
       // Set playback speed
@@ -149,8 +142,8 @@ class AudioProvider extends ChangeNotifier {
 
       // Track load time
       if (_loadStartTime != null) {
-        final loadTime = DateTime.now().difference(_loadStartTime!);
-        PerformanceService.recordMetric('audio_load_time_ms', loadTime.inMilliseconds.toDouble());
+        // final loadTime = DateTime.now().difference(_loadStartTime!);
+        // PerformanceService.recordMetric('audio_load_time_ms', loadTime.inMilliseconds.toDouble());
       }
 
       // Track analytics
@@ -365,3 +358,4 @@ class AudioProvider extends ChangeNotifier {
     super.dispose();
   }
 }
+

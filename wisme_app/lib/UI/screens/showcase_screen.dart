@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
-/// Interactive feature showcase highlighting app capabilities
 class ShowcaseScreen extends StatefulWidget {
   const ShowcaseScreen({super.key});
 
@@ -287,3 +283,4 @@ class ShowcaseFeature {
     required this.description,
   });
 }
+

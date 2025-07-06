@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../providers/lesson_provider.dart';
-import '../../routes.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
 class JourneyPlanningScreen extends StatefulWidget {
   final String topic;
@@ -650,3 +644,4 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
     );
   }
 }
+

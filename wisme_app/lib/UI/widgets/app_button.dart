@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_dimensions.dart';
-
-/// Highly reusable button component with multiple variants
-/// Supports different styles, sizes, and states for maximum flexibility
+import '../../core/exports.dart';
 class AppButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
@@ -218,3 +213,4 @@ enum ButtonSize {
   medium,
   large,
 }
+

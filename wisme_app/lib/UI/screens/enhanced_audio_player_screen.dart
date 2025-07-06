@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../providers/lesson_provider.dart';
-import '../../providers/coach_provider.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
 class EnhancedAudioPlayerScreen extends StatefulWidget {
   final String lessonId;
@@ -657,3 +651,4 @@ class _EnhancedAudioPlayerScreenState extends State<EnhancedAudioPlayerScreen>
     );
   }
 }
+

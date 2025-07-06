@@ -1,16 +1,6 @@
+import '../core/exports.dart';
 import 'dart:async';
 import 'dart:typed_data';
-import '../models/content_matching_model.dart';
-import '../models/lesson_model.dart';
-import '../services/content_matching_service.dart';
-import '../services/content_reuse_service_v2.dart';
-import '../services/audio_assembly_service.dart';
-import '../services/firestore_service.dart';
-import '../services/gpt_service.dart';
-import '../services/tts_service.dart';
-import '../utils/logger.dart';
-
-/// Smart content orchestration service - coordinates all content generation and reuse
 class SmartContentOrchestrator {
   final ContentMatchingService _matchingService;
   final ContentReuseService _reuseService;
@@ -525,7 +515,7 @@ Original Content:
 Requirements:
 - Keep the core concepts but make it more engaging
 - Add practical examples or applications
-- Ensure it matches the ${level} level
+- Ensure it matches the $level level
 - Target duration: ${targetDuration?.inMinutes ?? 10} minutes
 
 Generate enhanced version with better flow and additional insights.
@@ -638,3 +628,4 @@ class ContentGenerationAnalytics {
   double get costSavingsPerOperation => 
       totalOperations > 0 ? totalCostSavings / totalOperations : 0.0;
 }
+

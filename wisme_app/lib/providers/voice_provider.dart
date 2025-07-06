@@ -1,14 +1,8 @@
-import 'package:flutter/foundation.dart';
+import '../core/exports.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../services/tts_service.dart';
-import '../services/cache_service.dart';
-import '../models/voice_model.dart';
-import '../utils/logger.dart';
-
 class VoiceProvider extends ChangeNotifier {
   final TTSService _ttsService;
   final SharedPreferences _prefs;
-  final CacheService? _cacheService;
 
   String _selectedVoiceId = 'default';
   List<ElevenLabsVoice> _availableVoices = [];
@@ -19,10 +13,8 @@ class VoiceProvider extends ChangeNotifier {
   VoiceProvider({
     required TTSService ttsService,
     required SharedPreferences prefs,
-    CacheService? cacheService,
   }) : _ttsService = ttsService, 
-       _prefs = prefs,
-       _cacheService = cacheService {
+       _prefs = prefs {
     _loadSavedVoice();
     _loadAvailableVoices();
   }
@@ -180,3 +172,4 @@ class VoiceProvider extends ChangeNotifier {
     return voice?.name ?? 'Unknown Voice';
   }
 }
+

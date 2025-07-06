@@ -1,6 +1,7 @@
 /// Production-Ready Error Handling and Resilience Service
 /// 
 /// Comprehensive error handling, retry logic, circuit breakers, and monitoring
+library;
 
 import 'dart:async';
 import 'dart:math';

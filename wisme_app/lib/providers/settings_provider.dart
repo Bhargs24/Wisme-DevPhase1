@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
+import '../core/exports.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 class SettingsProvider extends ChangeNotifier {
   final SharedPreferences _prefs;
   
@@ -139,3 +138,4 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+

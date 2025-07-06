@@ -1,12 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import '../../core/exports.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../providers/lesson_provider.dart';
-import '../../services/analytics_service.dart';
-import '../../models/topic_model.dart';
-
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -17,7 +10,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   final List<String> _searchHistory = [];
-  List<TopicAnalysis> _searchResults = [];
+  final List<TopicAnalysis> _searchResults = [];
   bool _isSearching = false;
 
   @override
@@ -97,6 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
       }
     }
   }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -215,9 +209,9 @@ class _SearchScreenState extends State<SearchScreen> {
         return Card(
           margin: const EdgeInsets.only(bottom: 8),
           child: ListTile(
-            title: Text(result.originalTopic),
+            title: Text(result.originalQuery),
             subtitle: Text(
-              '${result.category} • ${(result.confidence * 100).toInt()}% match',
+              '${result.detectedCategory} • ${(result.confidenceScore * 100).toInt()}% match',
             ),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () {
@@ -226,8 +220,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 context,
                 '/topic-analysis',
                 arguments: {
-                  'searchQuery': result.originalTopic,
-                  'topic': result.originalTopic,
+                  'searchQuery': result.originalQuery,
+                  'topic': result.originalQuery,
                 },
               );
             },
@@ -243,3 +237,4 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
   }
 }
+

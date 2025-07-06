@@ -1,11 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../models/topic_model.dart';
-import '../../providers/lesson_provider.dart';
-import '../../routes.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
 class TopicAnalysisScreen extends StatefulWidget {
   final String searchQuery;
@@ -250,7 +243,7 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    _analysis!.interpretation,
+                    _analysis!.originalQuery,
                     style: AppTextStyles.textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
@@ -272,7 +265,6 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
             ModernCard(
               padding: const EdgeInsets.all(24),
               backgroundColor: AppColors.primary.withValues(alpha: 0.05),
-              borderRadius: 20,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -288,7 +280,7 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Icon(
-                          _getCategoryIcon(_analysis!.suggestedCategory),
+                          _getCategoryIcon(_analysis!.detectedCategory),
                           color: Colors.white,
                           size: 28,
                         ),
@@ -299,13 +291,13 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              _analysis!.suggestedCategory,
+                              _analysis!.detectedCategory,
                               style: AppTextStyles.textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              _analysis!.reasoning,
+                              _analysis!.knowledgeLevel,
                               style: AppTextStyles.textTheme.bodyMedium?.copyWith(
                                 color: AppColors.textSecondary,
                               ),
@@ -320,7 +312,7 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          '${(_analysis!.confidence * 100).toInt()}% match',
+                          '${(_analysis!.confidenceScore * 100).toInt()}% match',
                           style: AppTextStyles.textTheme.bodySmall?.copyWith(
                             color: AppColors.success,
                             fontWeight: FontWeight.bold,
@@ -336,17 +328,17 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
             const SizedBox(height: 24),
             
             // Alternative Categories (if confidence < 90%)
-            if (_analysis!.confidence < 0.9) ...[
+            if (_analysis!.confidenceScore < 0.9) ...[
               Text(
                 'Or choose a different focus:',
                 style: AppTextStyles.textTheme.titleMedium,
               ),
               const SizedBox(height: 16),
               
-              ...(_analysis!.alternativeCategories ?? []).map((category) =>
+              ...(_analysis!.suggestedTags.take(3)).map((tag) =>
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: _buildAlternativeCategoryCard(category),
+                  child: _buildAlternativeCategoryCard(tag),
                 ),
               ),
               
@@ -355,9 +347,8 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
             
             // Continue Button
             ModernButton(
-              text: 'Continue with ${_analysis!.suggestedCategory}',
+              text: 'Continue with ${_analysis!.detectedCategory}',
               onPressed: () => _proceedToKnowledgeLevel(),
-              isPrimary: true,
             ),
           ],
         ),
@@ -369,7 +360,6 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
     return ModernCard(
       padding: const EdgeInsets.all(16),
       backgroundColor: Colors.grey.shade50,
-      borderRadius: 16,
       child: Row(
         children: [
           Icon(
@@ -425,7 +415,7 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
 
   void _selectAlternativeCategory(String category) {
     setState(() {
-      _analysis = _analysis!.copyWith(suggestedCategory: category);
+      _analysis = _analysis!.copyWith(detectedCategory: category);
     });
   }
 
@@ -440,3 +430,4 @@ class _TopicAnalysisScreenState extends State<TopicAnalysisScreen>
     );
   }
 }
+

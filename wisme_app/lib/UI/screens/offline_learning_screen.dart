@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
-/// Premium offline learning manager with download queues, storage optimization, and smart sync
 class OfflineLearningScreen extends StatefulWidget {
   const OfflineLearningScreen({super.key});
 
@@ -1226,3 +1222,4 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
     );
   }
 }
+

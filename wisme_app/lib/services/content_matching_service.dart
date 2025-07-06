@@ -1,12 +1,6 @@
+import '../core/exports.dart';
 import 'dart:convert';
 import 'dart:math';
-import '../models/content_matching_model.dart';
-import '../models/lesson_model.dart';
-import '../services/firestore_service.dart';
-import '../services/gpt_service.dart';
-import '../utils/logger.dart';
-
-/// Intelligent content matching service using hashtags and semantic similarity
 class ContentMatchingService {
   final FirestoreService _firestoreService;
   final GPTService _gptService;
@@ -477,3 +471,4 @@ REQUIREMENTS:
     return searchStrings.intersection(contentStrings).toList();
   }
 }
+

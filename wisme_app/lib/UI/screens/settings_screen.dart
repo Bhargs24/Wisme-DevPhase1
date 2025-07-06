@@ -1,14 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../routes.dart';
-import '../../services/cache_service.dart';
-import '../../services/performance_service.dart';
-import '../../services/analytics_service.dart';
-import '../../services/auth_services.dart';
-import '../../providers/user_provider.dart';
-
+import '../../core/exports.dart';
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -363,3 +353,4 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 }
+

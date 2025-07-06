@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../models/lesson_model.dart';
-import '../../providers/voice_provider.dart';
-import '../../providers/audio_provider.dart';
+import '../../core/exports.dart';
 import '../widgets/voice_selector_widget.dart';
 
 class LessonScreen extends StatefulWidget {
@@ -108,7 +102,7 @@ class _LessonScreenState extends State<LessonScreen> {
               const SizedBox(width: 12),
               _buildInfoChip(
                 icon: Icons.topic,
-                label: widget.lesson.topic,
+                label: widget.lesson.title,
               ),
               const SizedBox(width: 12),
               Consumer<VoiceProvider>(
@@ -349,7 +343,7 @@ class _LessonScreenState extends State<LessonScreen> {
               border: Border.all(color: AppColors.divider),
             ),
             child: Text(
-              widget.lesson.script,
+              widget.lesson.transcript,
               style: AppTextStyles.textTheme.bodyLarge?.copyWith(
                 height: 1.6,
               ),
@@ -452,3 +446,4 @@ class _LessonScreenState extends State<LessonScreen> {
     return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 }
+

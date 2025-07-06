@@ -1,10 +1,5 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../routes.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
-/// Feature showcase screen demonstrating all app capabilities
 class FeatureShowcaseScreen extends StatelessWidget {
   const FeatureShowcaseScreen({super.key});
 
@@ -372,3 +367,4 @@ class FeatureShowcaseScreen extends StatelessWidget {
     );
   }
 }
+

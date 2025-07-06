@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
+import '../../core/exports.dart';
 import '../../design_system/design_system.dart';
-import '../../models/lesson_model.dart';
-
-/// Highly reusable lesson card widget
-/// Can be customized with different layouts, sizes, and interaction behaviors
 class LessonCard extends StatelessWidget {
   final ContentBlock lesson;
   final VoidCallback onTap;
@@ -185,7 +181,7 @@ class LessonCard extends StatelessWidget {
         ),
         AppSpacing.horizontalSpaceXS,
         Text(
-          lesson.topic,
+          lesson.title,
           style: Theme.of(context).textTheme.bodySmall,
         ),
         AppSpacing.horizontalSpaceM,
@@ -200,7 +196,7 @@ class LessonCard extends StatelessWidget {
           style: Theme.of(context).textTheme.bodySmall,
         ),
         const Spacer(),
-        if (lesson.accessCount > 0) ...[
+        if (lesson.playCount > 0) ...[
           Icon(
             Icons.play_circle_outline,
             size: AppSizing.iconXS,
@@ -208,7 +204,7 @@ class LessonCard extends StatelessWidget {
           ),
           AppSpacing.horizontalSpaceXS,
           Text(
-            '${lesson.accessCount}',
+            '${lesson.playCount}',
             style: Theme.of(context).textTheme.bodySmall,
           ),
           AppSpacing.horizontalSpaceS,
@@ -327,3 +323,4 @@ class LessonCard extends StatelessWidget {
     return voiceNames[voiceId] ?? voiceId;
   }
 }
+

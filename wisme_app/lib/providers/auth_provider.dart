@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
+import '../core/exports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../services/auth_services.dart';
-import '../utils/logger.dart';
 
 class AuthProvider extends ChangeNotifier {
   final AuthService _authService;
@@ -194,3 +192,4 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 }
+

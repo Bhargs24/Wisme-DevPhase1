@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
-/// Comprehensive learning analytics and statistics dashboard
 class LearningStatsScreen extends StatefulWidget {
   const LearningStatsScreen({super.key});
 
@@ -1034,3 +1030,4 @@ class _LearningStatsScreenState extends State<LearningStatsScreen>
     );
   }
 }
+

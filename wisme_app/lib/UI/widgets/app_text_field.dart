@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_dimensions.dart';
-
-/// Highly customizable input field component
-/// Supports various input types, validation, and styling options
+import '../../core/exports.dart';
 class AppTextField extends StatefulWidget {
   final String? labelText;
   final String? hintText;
@@ -344,3 +339,4 @@ enum PasswordStrength {
   good,
   strong,
 }
+

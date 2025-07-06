@@ -1,4 +1,5 @@
 /// Data models for user personalization and adaptive learning
+library;
 
 /// User's learning style preferences
 enum LearningStyle { 

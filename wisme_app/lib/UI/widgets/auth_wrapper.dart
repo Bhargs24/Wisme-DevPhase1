@@ -1,12 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/user_provider.dart';
+import '../../core/exports.dart';
 import '../screens/login_screen.dart';
 import '../screens/onboarding_screen.dart';
 import '../screens/splash_screen.dart';
 import 'main_navigation.dart';
-
-/// Authentication wrapper that manages app flow based on authentication state
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
 
@@ -35,3 +31,4 @@ class AuthWrapper extends StatelessWidget {
     );
   }
 }
+

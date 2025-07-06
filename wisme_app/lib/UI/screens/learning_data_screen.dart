@@ -1,12 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/user_provider.dart';
-import '../../services/analytics_service.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-
-/// Production-ready Learning Data Screen
-/// Shows comprehensive learning analytics and progress
+import '../../core/exports.dart';
 class LearningDataScreen extends StatefulWidget {
   const LearningDataScreen({super.key});
 
@@ -218,7 +210,7 @@ class _LearningDataScreenState extends State<LearningDataScreen> {
             style: AppTextStyles.textTheme.headlineSmall?.copyWith(color: AppColors.textPrimary),
           ),
           const SizedBox(height: 16),
-          Container(
+          SizedBox(
             height: 200,
             child: const Center(
               child: Text(
@@ -294,7 +286,7 @@ class _LearningDataScreenState extends State<LearningDataScreen> {
                   ],
                 ),
               );
-            }).toList(),
+            }),
         ],
       ),
     );
@@ -365,7 +357,7 @@ class _LearningDataScreenState extends State<LearningDataScreen> {
                   ],
                 ),
               );
-            }).toList(),
+            }),
         ],
       ),
     );
@@ -445,3 +437,4 @@ class _LearningDataScreenState extends State<LearningDataScreen> {
     );
   }
 }
+

@@ -1,10 +1,10 @@
 /// Production-Ready Offline Support Service
 /// 
 /// Comprehensive offline functionality, sync queues, and graceful degradation
+library;
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/performance_service.dart';

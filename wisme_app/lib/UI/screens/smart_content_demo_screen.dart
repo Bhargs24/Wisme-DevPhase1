@@ -1,11 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/lesson_provider.dart';
-import '../../models/content_matching_model.dart';
-import '../../constants/app_colors.dart';
-
+import '../../core/exports.dart';
 class SmartContentDemoScreen extends StatefulWidget {
-  const SmartContentDemoScreen({Key? key}) : super(key: key);
+  const SmartContentDemoScreen({super.key});
 
   @override
   State<SmartContentDemoScreen> createState() => _SmartContentDemoScreenState();
@@ -500,3 +495,4 @@ class _SmartContentDemoScreenState extends State<SmartContentDemoScreen> {
     }
   }
 }
+

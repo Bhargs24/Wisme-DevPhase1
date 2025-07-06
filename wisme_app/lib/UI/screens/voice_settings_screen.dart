@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../providers/voice_provider.dart';
-
+import '../../core/exports.dart';
 class VoiceSettingsScreen extends StatelessWidget {
   const VoiceSettingsScreen({super.key});
 
@@ -67,3 +62,4 @@ class VoiceSettingsScreen extends StatelessWidget {
     );
   }
 }
+

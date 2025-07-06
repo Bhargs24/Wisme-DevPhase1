@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-
+import '../../core/exports.dart';
 class TopicScreen extends StatelessWidget {
   const TopicScreen({super.key});
 
@@ -35,3 +33,4 @@ class TopicScreen extends StatelessWidget {
     );
   }
 }
+

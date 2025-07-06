@@ -1,12 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../services/offline_service.dart';
-import '../../services/analytics_service.dart';
-import '../../models/lesson_model.dart';
-
-/// Production-ready Downloads Screen
-/// Shows offline content and download management
+import '../../core/exports.dart';
 class DownloadsScreen extends StatefulWidget {
   const DownloadsScreen({super.key});
 
@@ -288,3 +280,4 @@ class _DownloadsScreenState extends State<DownloadsScreen> {
     );
   }
 }
+

@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-
-/// Splash screen that shows while the app is initializing
+import '../../core/exports.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -166,3 +162,4 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
+

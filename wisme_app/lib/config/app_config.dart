@@ -1,6 +1,7 @@
 /// Production-Ready App Configuration
 /// 
 /// This file contains all configuration for deployment-ready features
+library;
 
 class AppConfig {
   // API Configuration - to be filled during deployment

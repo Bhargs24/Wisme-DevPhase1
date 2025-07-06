@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
-/// Premium analytics screen showing detailed app usage insights
 class AnalyticsScreen extends StatefulWidget {
   const AnalyticsScreen({super.key});
 
@@ -881,3 +877,4 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     );
   }
 }
+

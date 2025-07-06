@@ -1,14 +1,9 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../routes.dart';
+import '../../core/exports.dart';
 import '../screens/home_screen.dart';
 import '../screens/content_library_screen.dart';
 import '../screens/dashboard_screen.dart';
 import '../screens/social_leaderboard_screen.dart';
 import '../screens/profile_screen.dart';
-
-/// Main navigation wrapper that provides bottom navigation and manages the app's primary flows
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
 
@@ -382,3 +377,4 @@ class NavigationTab {
     required this.screen,
   });
 }
+

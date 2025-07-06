@@ -1,10 +1,7 @@
+import '../core/exports.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:logger/logger.dart';
-import '../models/lesson_model.dart';
-import '../models/user_model.dart' hide UserProgress;
-
-/// Service for Firestore database operations
 class FirestoreService {
   FirebaseFirestore? _firestore;
   bool _isFirebaseAvailable = false;

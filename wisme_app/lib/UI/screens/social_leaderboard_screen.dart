@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
 class SocialLeaderboardScreen extends StatefulWidget {
   const SocialLeaderboardScreen({super.key});
@@ -618,7 +615,6 @@ class _SocialLeaderboardScreenState extends State<SocialLeaderboardScreen>
                     text: 'Social Media',
                     onPressed: () {},
                     icon: Icons.share,
-                    isPrimary: false,
                   ),
                 ),
               ],
@@ -629,3 +625,4 @@ class _SocialLeaderboardScreenState extends State<SocialLeaderboardScreen>
     );
   }
 }
+

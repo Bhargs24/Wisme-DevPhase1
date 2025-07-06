@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/user_provider.dart';
-import '../../constants/app_colors.dart';
-import '../../services/analytics_service.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -510,3 +505,4 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 }
+

@@ -262,4 +262,40 @@ class CacheService {
       return {};
     }
   }
+
+  /// Get cached content blocks
+  Future<List<Map<String, dynamic>>?> getCachedContentBlocks() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final cachedData = prefs.getString('cached_content_blocks');
+      if (cachedData != null) {
+        final List<dynamic> decoded = json.decode(cachedData);
+        return decoded.map((item) => Map<String, dynamic>.from(item)).toList();
+      }
+      return null;
+    } catch (e) {
+      _logger.e('Error getting cached content blocks: $e');
+      return null;
+    }
+  }
+
+  /// Cache content blocks
+  Future<void> cacheContentBlocks(List<dynamic> contentBlocks) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final serializable = contentBlocks.map((block) {
+        if (block is Map<String, dynamic>) {
+          return block;
+        } else {
+          // Convert object to map if it has toJson method
+          return (block as dynamic).toJson();
+        }
+      }).toList();
+      
+      await prefs.setString('cached_content_blocks', json.encode(serializable));
+      _logger.i('Cached ${contentBlocks.length} content blocks');
+    } catch (e) {
+      _logger.e('Error caching content blocks: $e');
+    }
+  }
 }

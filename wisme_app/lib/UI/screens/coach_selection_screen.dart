@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../providers/coach_provider.dart';
-import '../../routes.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
 class CoachSelectionScreen extends StatefulWidget {
   final String topic;
@@ -571,3 +565,4 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
     );
   }
 }
+

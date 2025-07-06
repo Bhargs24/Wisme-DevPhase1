@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/voice_provider.dart';
-import '../../providers/audio_provider.dart';
-
+import '../../core/exports.dart';
 class VoiceSelectorWidget extends StatefulWidget {
   const VoiceSelectorWidget({super.key});
 
@@ -226,3 +222,4 @@ class _VoiceOption extends StatelessWidget {
     );
   }
 }
+

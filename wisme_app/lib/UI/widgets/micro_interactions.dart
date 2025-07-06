@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-/// Premium micro-interactions and animations
+import '../../core/exports.dart';
 class MicroInteractions {
   MicroInteractions._();
 
@@ -466,3 +463,4 @@ class _StaggeredAnimationState extends State<_StaggeredAnimation>
     );
   }
 }
+

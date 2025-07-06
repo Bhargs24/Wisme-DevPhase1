@@ -2,6 +2,7 @@
 /// 
 /// Analyzes user behavior and learning patterns to create personalized
 /// learning experiences through data-driven insights.
+library;
 
 import 'dart:math';
 import '../models/lesson_model.dart';

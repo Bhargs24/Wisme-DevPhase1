@@ -1,11 +1,9 @@
+import '../core/exports.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:logger/logger.dart';
-import '../utils/api_keys.dart';
-import '../models/coach_model.dart';
-
 class TTSService {
   static const String _baseUrl = 'https://api.elevenlabs.io/v1';
   final FlutterTts _flutterTts = FlutterTts();
@@ -264,4 +262,27 @@ class TTSService {
       await _flutterTts.setVolume(volume);
     }
   }
+
+  /// Generate audio URL for content blocks - alias for generateSpeech
+  Future<String?> generateAudio(
+    String text, {
+    String? voiceId,
+    String? coachId,
+  }) async {
+    try {
+      final audioData = await generateSpeech(
+        text: text,
+        coachId: coachId ?? 'default',
+        customVoiceId: voiceId,
+      );
+      
+      // For now, return a temporary file path or URL
+      // In production, this should upload to storage and return URL
+      return 'temp_audio_url';
+    } catch (e) {
+      _logger.e('Error generating audio: $e');
+      return null;
+    }
+  }
 }
+

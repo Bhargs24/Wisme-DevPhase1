@@ -1,10 +1,5 @@
-import 'package:flutter/material.dart';
+import '../../core/exports.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../services/analytics_service.dart';
-
-/// Production-ready Favorites Screen
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
 
@@ -146,3 +141,4 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     });
   }
 }
+

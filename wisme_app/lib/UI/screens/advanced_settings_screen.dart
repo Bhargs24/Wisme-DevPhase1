@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../providers/user_provider.dart';
-import '../../providers/voice_provider.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
 class AdvancedSettingsScreen extends StatefulWidget {
   const AdvancedSettingsScreen({super.key});
@@ -578,7 +572,6 @@ class _AdvancedSettingsScreenState extends State<AdvancedSettingsScreen>
           text: 'Reset to Defaults',
           width: double.infinity,
           onPressed: () => _resetSettings(),
-          isPrimary: false,
           icon: Icons.restore,
         ),
         const SizedBox(height: 24),
@@ -588,7 +581,6 @@ class _AdvancedSettingsScreenState extends State<AdvancedSettingsScreen>
               child: ModernButton(
                 text: 'Help & Support',
                 onPressed: () => _showSupport(),
-                isPrimary: false,
                 icon: Icons.help,
               ),
             ),
@@ -597,7 +589,6 @@ class _AdvancedSettingsScreenState extends State<AdvancedSettingsScreen>
               child: ModernButton(
                 text: 'About Wisme',
                 onPressed: () => _showAbout(),
-                isPrimary: false,
                 icon: Icons.info,
               ),
             ),
@@ -815,3 +806,4 @@ class _AdvancedSettingsScreenState extends State<AdvancedSettingsScreen>
     );
   }
 }
+

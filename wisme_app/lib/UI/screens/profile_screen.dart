@@ -1,11 +1,4 @@
-// User profile management screen
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../providers/user_provider.dart';
-import '../../routes.dart';
-
+import '../../core/exports.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -265,3 +258,4 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
+

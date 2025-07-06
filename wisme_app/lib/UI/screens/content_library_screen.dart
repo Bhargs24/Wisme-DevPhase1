@@ -1,10 +1,5 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../routes.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
-/// Premium content library with curated collections, trending topics, and AI recommendations
 class ContentLibraryScreen extends StatefulWidget {
   const ContentLibraryScreen({super.key});
 
@@ -1094,3 +1089,4 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
     );
   }
 }
+

@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-
-/// Global error handler widget for graceful error display
+import '../../core/exports.dart';
 class ErrorBoundary extends StatelessWidget {
   final Widget child;
   final String? errorMessage;
@@ -174,3 +170,4 @@ class NotFoundError extends StatelessWidget {
     );
   }
 }
+

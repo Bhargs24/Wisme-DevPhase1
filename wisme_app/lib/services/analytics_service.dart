@@ -1,6 +1,7 @@
 /// Production-Ready Analytics and Monitoring Service
 /// 
 /// Comprehensive user analytics, usage tracking, and business intelligence
+library;
 
 import 'dart:async';
 import 'dart:convert';

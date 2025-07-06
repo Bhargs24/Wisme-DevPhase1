@@ -1,6 +1,7 @@
 /// Production-Ready Security Service
 /// 
 /// Comprehensive security measures, encryption, and data protection
+library;
 
 import 'dart:async';
 import 'dart:convert';

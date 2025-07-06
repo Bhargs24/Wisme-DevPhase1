@@ -2,6 +2,7 @@
 /// 
 /// Manages user achievements, rewards, and challenges to increase
 /// engagement and motivation in the learning experience.
+library;
 
 import '../utils/logger.dart';
 

@@ -11,6 +11,7 @@
 /// - Dynamic pricing optimization
 /// - Social learning networks
 /// - Gamification and achievement system
+library;
 
 import 'dart:math';
 import '../models/lesson_model.dart';

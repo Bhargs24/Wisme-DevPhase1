@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
 class AchievementsGalleryScreen extends StatefulWidget {
   const AchievementsGalleryScreen({super.key});
@@ -672,3 +669,4 @@ class _AchievementsGalleryScreenState extends State<AchievementsGalleryScreen>
     );
   }
 }
+

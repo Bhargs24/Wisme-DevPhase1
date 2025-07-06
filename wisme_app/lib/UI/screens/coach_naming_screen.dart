@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../providers/coach_provider.dart';
-import '../../routes.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
 class CoachNamingScreen extends StatefulWidget {
   final String topic;
@@ -222,11 +216,11 @@ class _CoachNamingScreenState extends State<CoachNamingScreen>
           ),
         ),
         const SizedBox(height: 12),
-        ModernTextField(
-          label: 'Enter a name for your coach',
+        AppTextField(
+          labelText: 'Enter a name for your coach',
           controller: _nameController,
-          prefixIcon: Icons.person,
-          hint: 'e.g., Alex, Chris, Sam...',
+          prefixIcon: Icon(Icons.person),
+          hintText: 'e.g., Alex, Chris, Sam...',
         ),
         const SizedBox(height: 8),
         Text(
@@ -428,8 +422,7 @@ class _CoachNamingScreenState extends State<CoachNamingScreen>
 
     // Navigate to journey planning
     Navigator.pushNamed(
-      context,
-      AppRoutes.journeyPlanning,
+      context,            AppRoutes.knowledgeLevel,
       arguments: {
         'topic': widget.topic,
         'category': widget.category,
@@ -439,3 +432,4 @@ class _CoachNamingScreenState extends State<CoachNamingScreen>
     );
   }
 }
+

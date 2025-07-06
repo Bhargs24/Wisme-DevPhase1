@@ -1,13 +1,7 @@
-import 'package:flutter/material.dart';
+import '../../core/exports.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_text_field.dart';
 import '../widgets/lesson_card.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_dimensions.dart';
-import '../../models/lesson_model.dart';
-
-/// Component showcase screen for development and testing
-/// Demonstrates all reusable components in different states
 class ComponentShowcaseScreen extends StatefulWidget {
   const ComponentShowcaseScreen({super.key});
 
@@ -369,3 +363,4 @@ class _ComponentShowcaseScreenState extends State<ComponentShowcaseScreen> {
     super.dispose();
   }
 }
+

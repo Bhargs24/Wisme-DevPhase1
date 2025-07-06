@@ -1,6 +1,7 @@
 /// Production Monitoring Dashboard Service
 /// 
 /// Real-time operational metrics and system health monitoring
+library;
 
 import 'dart:async';
 import 'dart:convert';

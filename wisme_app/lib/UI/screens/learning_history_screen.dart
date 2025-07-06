@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../services/analytics_service.dart';
-
-/// Production-ready Learning History Screen
+import '../../core/exports.dart';
 class LearningHistoryScreen extends StatefulWidget {
   const LearningHistoryScreen({super.key});
 
@@ -338,3 +333,4 @@ class _LearningHistoryScreenState extends State<LearningHistoryScreen> {
     );
   }
 }
+

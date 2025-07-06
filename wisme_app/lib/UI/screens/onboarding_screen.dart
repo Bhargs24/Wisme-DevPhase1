@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/user_provider.dart';
-
+import '../../core/exports.dart';
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -16,8 +13,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
   int _currentPage = 0;
-  final Set<String> _selectedInterests = {};
-  final Set<String> _selectedGoals = {};
 
   @override
   void initState() {

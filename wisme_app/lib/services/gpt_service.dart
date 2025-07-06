@@ -1,8 +1,6 @@
+import '../core/exports.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../utils/api_keys.dart';
-import '../models/topic_model.dart';
-
 class GPTService {
   static const String _baseUrl = 'https://api.openai.com/v1/chat/completions';
 
@@ -78,14 +76,7 @@ Return JSON format:
         final content = data['choices'][0]['message']['content'];
         final analysisData = jsonDecode(content);
         
-        return TopicAnalysis(
-          originalTopic: userInput,
-          category: analysisData['category'] ?? 'Technology',
-          intent: analysisData['intent'] ?? 'concepts',
-          difficulty: analysisData['difficulty'] ?? 'beginner',
-          keywords: List<String>.from(analysisData['keywords'] ?? []),
-          clarificationQuestions: List<String>.from(analysisData['clarification'] ?? []),
-        );
+        return TopicAnalysis.fromGPTResponse(analysisData, userInput);
       } else {
         throw Exception('Failed to analyze topic: ${response.statusCode}');
       }

@@ -1,11 +1,6 @@
+import '../core/exports.dart';
 import 'dart:typed_data';
 import 'dart:async';
-import '../models/lesson_model.dart';
-import '../services/tts_service.dart';
-import '../services/storage_service.dart';
-import '../utils/logger.dart';
-
-/// Professional audio assembly service for content reuse
 class AudioAssemblyService {
   final TTSService _ttsService;
   final StorageService? _storageService;
@@ -580,3 +575,4 @@ class AudioAssemblyException implements Exception {
   @override
   String toString() => 'AudioAssemblyException: $message';
 }
+

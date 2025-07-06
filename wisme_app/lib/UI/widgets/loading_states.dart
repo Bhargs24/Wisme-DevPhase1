@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-
-/// Premium loading states for the app
+import '../../core/exports.dart';
 class LoadingStates {
   LoadingStates._();
 
@@ -267,3 +263,4 @@ class _ShimmerEffectState extends State<_ShimmerEffect>
     );
   }
 }
+

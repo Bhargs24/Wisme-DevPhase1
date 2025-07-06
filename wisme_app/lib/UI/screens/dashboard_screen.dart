@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../providers/user_provider.dart';
-import '../../routes.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
 /// Premium dashboard with comprehensive learning analytics and personalized recommendations
 class DashboardScreen extends StatefulWidget {
@@ -104,7 +98,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                         Text(
                           'Ready to expand your mind today?',
                           style: AppTextStyles.textTheme.bodyMedium?.copyWith(
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                           ),
                         ),
                       ],
@@ -112,7 +106,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                   ),
                   CircleAvatar(
                     radius: 25,
-                    backgroundColor: Colors.white.withOpacity(0.2),
+                    backgroundColor: Colors.white.withValues(alpha: 0.2),
                     child: Text(
                       userProvider.currentUser?.displayName?.substring(0, 1).toUpperCase() ?? '😊',
                       style: const TextStyle(
@@ -155,7 +149,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: const Icon(
@@ -180,7 +174,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                       Text(
                         '7 days strong! Keep going!',
                         style: AppTextStyles.textTheme.bodyMedium?.copyWith(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                         ),
                       ),
                     ],
@@ -189,7 +183,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -409,14 +403,14 @@ class _DashboardScreenState extends State<DashboardScreen>
   Widget _buildRecommendationItem(String title, String reason, IconData icon, Color color) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.topicAnalysis, arguments: {'searchQuery': title});
+        Navigator.pushNamed(context, AppRoutes.topicSelection, arguments: {'searchQuery': title});
       },
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Row(
           children: [
@@ -526,7 +520,7 @@ class _DashboardScreenState extends State<DashboardScreen>
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         child: ModernCard(
-          backgroundColor: AppColors.accent.withOpacity(0.1),
+          backgroundColor: AppColors.accent.withValues(alpha: 0.1),
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -635,9 +629,9 @@ class _DashboardScreenState extends State<DashboardScreen>
           width: 60,
           height: 60,
           decoration: BoxDecoration(
-            color: AppColors.accent.withOpacity(0.1),
+            color: AppColors.accent.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(30),
-            border: Border.all(color: AppColors.accent.withOpacity(0.3)),
+            border: Border.all(color: AppColors.accent.withValues(alpha: 0.3)),
           ),
           child: Center(
             child: Text(

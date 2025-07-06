@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_text_styles.dart';
-import '../../providers/user_provider.dart';
-import '../../routes.dart';
-import '../widgets/modern_components.dart';
+import '../../core/exports.dart';
 
 class KnowledgeLevelScreen extends StatefulWidget {
   final String topic;
@@ -384,3 +378,4 @@ class _KnowledgeLevelScreenState extends State<KnowledgeLevelScreen>
     );
   }
 }
+

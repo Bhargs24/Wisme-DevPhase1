@@ -1,6 +1,7 @@
 /// Production-Ready App Initialization Service
 /// 
 /// Handles all startup concerns for deployment to thousands of users
+library;
 
 import 'dart:async';
 import 'dart:io';
