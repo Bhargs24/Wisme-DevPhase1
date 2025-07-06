@@ -420,10 +420,10 @@ REQUIREMENTS:
 
       // Generate tags if not found
       final generatedTags = await generateHashtagsWithContent(
-        topic: content.topic,
+        topic: content.category, // Using category as topic
         category: content.category,
-        level: content.difficulty,
-        generatedScript: content.script,
+        level: content.difficultyLevel.toString(),
+        generatedScript: content.transcript,
         contentType: content.contentType,
       );
 
@@ -432,7 +432,7 @@ REQUIREMENTS:
       return generatedTags;
     } catch (e) {
       AppLogger.error('Failed to get content tags: $e');
-      return _generateFallbackTags(content.topic, content.category, content.difficulty, content.contentType);
+      return _generateFallbackTags(content.category, content.category, content.difficultyLevel.toString(), content.contentType);
     }
   }
 

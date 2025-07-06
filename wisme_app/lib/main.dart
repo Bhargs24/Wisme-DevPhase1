@@ -80,14 +80,12 @@ void main() async {
         ChangeNotifierProvider<UserProvider>(
           create: (context) => UserProvider(
             authService: context.read<AuthService>(),
-            prefs: prefs,
           ),
         ),
         ChangeNotifierProvider<VoiceProvider>(
           create: (context) => VoiceProvider(
             ttsService: context.read<TTSService>(),
             prefs: prefs,
-            cacheService: context.read<CacheService>(),
           ),
         ),
         ChangeNotifierProvider<LessonProvider>(

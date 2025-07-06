@@ -30,6 +30,8 @@ import 'UI/screens/privacy_policy_screen.dart';
 import 'UI/screens/component_showcase_screen.dart';
 import 'UI/screens/login_screen.dart';
 import 'UI/screens/knowledge_level_screen.dart';
+import 'UI/screens/journey_planning_screen.dart';
+import 'UI/screens/offline_learning_screen.dart';
 import 'models/content_block.dart';
 
 class AppRoutes {
@@ -65,6 +67,8 @@ class AppRoutes {
   static const String componentShowcase = '/component-showcase';
   static const String login = '/login';
   static const String knowledgeLevel = '/knowledge-level';
+  static const String journeyPlanning = '/journey-planning';
+  static const String offlineLearning = '/offline-learning';
   
   // Route mappings (basic implementation)
   static final Map<String, WidgetBuilder> routes = {
@@ -91,6 +95,7 @@ class AppRoutes {
     termsOfService: (context) => const TermsOfServiceScreen(),
     splash: (context) => const SplashScreen(),
     login: (context) => const LoginScreen(),
+    offlineLearning: (context) => const OfflineLearningScreen(),
   };
   
   // Generate route method
@@ -164,6 +169,17 @@ class AppRoutes {
           builder: (context) => KnowledgeLevelScreen(
             topic: args['topic'] ?? '',
             category: args['category'] ?? '',
+          ),
+          settings: settings,
+        );
+      case journeyPlanning:
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        return MaterialPageRoute(
+          builder: (context) => JourneyPlanningScreen(
+            topic: args['topic'] ?? '',
+            category: args['category'] ?? '',
+            knowledgeLevel: args['knowledgeLevel'] ?? '',
+            coachData: args['coachData'] ?? {},
           ),
           settings: settings,
         );

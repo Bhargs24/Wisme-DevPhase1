@@ -324,7 +324,6 @@ class _LoginScreenState extends State<LoginScreen>
     return ModernCard(
       backgroundColor: Colors.white,
       padding: const EdgeInsets.all(32),
-      borderRadius: 24,
       child: Form(
         key: _formKey,
         child: Column(
@@ -332,11 +331,11 @@ class _LoginScreenState extends State<LoginScreen>
           children: [
             // Name Field (Sign Up only)
             if (!_isLogin) ...[
-              ModernTextField(
+              AppTextField(
                 controller: _nameController,
-                label: 'Full Name',
-                hint: 'Enter your full name',
-                prefixIcon: Icons.person_outline,
+                labelText: 'Full Name',
+                hintText: 'Enter your full name',
+                prefixIcon: const Icon(Icons.person_outline),
                 validator: (value) {
                   if (!_isLogin && (value == null || value.isEmpty)) {
                     return 'Please enter your name';
@@ -348,11 +347,11 @@ class _LoginScreenState extends State<LoginScreen>
             ],
             
             // Email Field
-            ModernTextField(
+            AppTextField(
               controller: _emailController,
-              label: 'Email',
-              hint: 'Enter your email address',
-              prefixIcon: Icons.email_outlined,
+              labelText: 'Email',
+              hintText: 'Enter your email address',
+              prefixIcon: const Icon(Icons.email_outlined),
               keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -368,11 +367,11 @@ class _LoginScreenState extends State<LoginScreen>
             const SizedBox(height: 20),
             
             // Password Field
-            ModernTextField(
+            AppTextField(
               controller: _passwordController,
-              label: 'Password',
-              hint: 'Enter your password',
-              prefixIcon: Icons.lock_outline,
+              labelText: 'Password',
+              hintText: 'Enter your password',
+              prefixIcon: const Icon(Icons.lock_outline),
               suffixIcon: IconButton(
                 icon: Icon(
                   _obscurePassword 
@@ -398,13 +397,12 @@ class _LoginScreenState extends State<LoginScreen>
             const SizedBox(height: 32),
             
             // Submit Button
-            ModernButton(
+            AppButton(
               text: _isLogin ? 'Sign In' : 'Create Account',
               onPressed: _submit,
               isLoading: _isLoading,
               icon: _isLogin ? Icons.login : Icons.person_add,
-              width: double.infinity,
-              height: 56,
+              isFullWidth: true,
             ),
             
             // Forgot Password (Login only)
@@ -452,15 +450,14 @@ class _LoginScreenState extends State<LoginScreen>
         const SizedBox(height: 24),
         
         // Google Sign In Button
-        ModernButton(
+        AppButton(
           text: 'Continue with Google',
           onPressed: () async {
             _performGoogleSignIn();
           },
           icon: Icons.g_mobiledata,
-          isPrimary: false,
-          width: double.infinity,
-          height: 56,
+          variant: AppButtonVariant.secondary,
+          isFullWidth: true,
         ),
       ],
     );

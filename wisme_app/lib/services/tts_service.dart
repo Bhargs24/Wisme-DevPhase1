@@ -1,6 +1,5 @@
 import '../core/exports.dart';
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:logger/logger.dart';
@@ -270,7 +269,7 @@ class TTSService {
     String? coachId,
   }) async {
     try {
-      final audioData = await generateSpeech(
+      await generateSpeech(
         text: text,
         coachId: coachId ?? 'default',
         customVoiceId: voiceId,

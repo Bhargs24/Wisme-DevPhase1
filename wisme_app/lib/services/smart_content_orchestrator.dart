@@ -1,6 +1,5 @@
 import '../core/exports.dart';
 import 'dart:async';
-import 'dart:typed_data';
 
 /// Extension of ContentMatch with additional ranking information
 class RankedContentMatch {
@@ -20,7 +19,6 @@ class RankedContentMatch {
 }
 
 class SmartContentOrchestrator {
-  final ContentMatchingService _matchingService;
   final ContentReuseEngine _reuseEngine;
   final FirestoreService _firestoreService;
   final GPTService _gptService;
@@ -32,13 +30,11 @@ class SmartContentOrchestrator {
   DateTime _lastResetTime = DateTime.now();
 
   SmartContentOrchestrator({
-    required ContentMatchingService matchingService,
     required ContentReuseEngine reuseEngine,
     required FirestoreService firestoreService,
     required GPTService gptService,
     required TTSService ttsService,
-  }) : _matchingService = matchingService,
-       _reuseEngine = reuseEngine,
+  }) : _reuseEngine = reuseEngine,
        _firestoreService = firestoreService,
        _gptService = gptService,
        _ttsService = ttsService;

@@ -8,7 +8,7 @@ class LessonProvider extends ChangeNotifier {
 
   // State management
   List<ContentBlock> _contentBlocks = [];
-  List<TopicAnalysis> _availableTopics = [];
+  final List<TopicAnalysis> _availableTopics = [];
   ContentBlock? _currentBlock;
   bool _isLoading = false;
   String? _error;
@@ -16,7 +16,7 @@ class LessonProvider extends ChangeNotifier {
   // Search and filtering
   String _currentSearchQuery = '';
   String _selectedCategory = '';
-  List<String> _selectedTags = [];
+  final List<String> _selectedTags = [];
 
   LessonProvider({
     required FirestoreService firestoreService,
@@ -476,8 +476,61 @@ class LessonProvider extends ChangeNotifier {
 
   /// Refresh content
   Future<void> refresh() async {
-    clearData();
+    _setLoading(true);
     await loadContentBlocks();
+  }
+
+  /// Create a learning journey based on user preferences
+  Future<void> createLearningJourney({
+    required String userId,
+    required String topic,
+    required String category,
+    required String level,
+    required List<String> specificInterests,
+  }) async {
+    _setLoading(true);
+    _error = null;
+
+    try {
+      AppLogger.info('Creating learning journey for user $userId');
+      AppLogger.info('Topic: $topic, Category: $category, Level: $level');
+      AppLogger.info('Interests: ${specificInterests.join(', ')}');
+
+      // In a real implementation, this would:
+      // 1. Create a LearningJourney object with the provided parameters
+      // 2. Generate a personalized curriculum using GPT
+      // 3. Save the journey to Firestore
+      // 4. Generate initial content blocks for the journey
+      
+      // For now, generate some sample content related to the topic
+      final topicAnalysis = TopicAnalysis(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        originalQuery: topic,
+        detectedCategory: category,
+        knowledgeLevel: level,
+        suggestedTags: specificInterests,
+        confidenceScore: 0.9,
+        estimatedSessions: 5,
+        recommendedCoach: 'alex',
+        metadata: {
+          'topic': topic,
+          'category': category,
+          'level': level,
+          'interests': specificInterests,
+        },
+        analyzedAt: DateTime.now(),
+      );
+
+      await loadLessonsByTopic(topicAnalysis);
+      
+      AppLogger.info('Learning journey created successfully');
+    } catch (e) {
+      AppLogger.error('Failed to create learning journey: $e');
+      _error = 'Failed to create learning journey: ${e.toString()}';
+      rethrow;
+    } finally {
+      _setLoading(false);
+    }
   }
 }
 

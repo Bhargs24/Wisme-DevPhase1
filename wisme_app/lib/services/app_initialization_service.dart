@@ -229,8 +229,13 @@ class AppInitializationService {
       final healthStatus = <String, dynamic>{};
       
       // Check available storage
-      final prefs = await SharedPreferences.getInstance();
-      healthStatus['preferences_available'] = prefs != null;
+      try {
+        await SharedPreferences.getInstance();
+        healthStatus['preferences_available'] = true;
+      } catch (e) {
+        healthStatus['preferences_available'] = false;
+        healthStatus['preferences_error'] = e.toString();
+      }
       
       // Check API configuration
       healthStatus['api_configured'] = AppConfig.isConfiguredForProduction;

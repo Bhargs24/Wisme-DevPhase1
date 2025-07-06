@@ -113,6 +113,66 @@ class ContentBlock {
     };
   }
 
+  /// Convert to Firestore document
+  Map<String, dynamic> toFirestore() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'duration': duration.inSeconds,
+      'audioUrl': audioUrl,
+      'localAudioPath': localAudioPath,
+      'category': category,
+      'knowledgeLevel': knowledgeLevel,
+      'tags': tags,
+      'contentType': contentType,
+      'difficultyLevel': difficultyLevel,
+      'coachPersonality': coachPersonality,
+      'voiceId': voiceId,
+      'transcript': transcript,
+      'keywords': keywords,
+      'prerequisites': prerequisites,
+      'learningOutcomes': learningOutcomes,
+      'playCount': playCount,
+      'averageRating': averageRating,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
+      'isDownloaded': isDownloaded,
+      'fileSizeBytes': fileSizeBytes,
+      'metadata': metadata,
+    };
+  }
+
+  /// Create from Firestore document
+  static ContentBlock fromFirestore(Map<String, dynamic> doc) {
+    return ContentBlock(
+      id: doc['id'] ?? '',
+      title: doc['title'] ?? '',
+      description: doc['description'] ?? '',
+      duration: Duration(seconds: doc['duration'] ?? 0),
+      audioUrl: doc['audioUrl'] ?? '',
+      localAudioPath: doc['localAudioPath'],
+      category: doc['category'] ?? '',
+      knowledgeLevel: doc['knowledgeLevel'] ?? '',
+      tags: List<String>.from(doc['tags'] ?? []),
+      contentType: doc['contentType'] ?? '',
+      difficultyLevel: doc['difficultyLevel'] ?? 1,
+      coachPersonality: doc['coachPersonality'] ?? '',
+      voiceId: doc['voiceId'] ?? '',
+      transcript: doc['transcript'] ?? '',
+      keywords: List<String>.from(doc['keywords'] ?? []),
+      prerequisites: List<String>.from(doc['prerequisites'] ?? []),
+      learningOutcomes: List<String>.from(doc['learningOutcomes'] ?? []),
+      playCount: doc['playCount'] ?? 0,
+      averageRating: (doc['averageRating'] ?? 0.0).toDouble(),
+      createdAt: DateTime.parse(doc['createdAt'] ?? DateTime.now().toIso8601String()),
+      updatedAt: DateTime.parse(doc['updatedAt'] ?? DateTime.now().toIso8601String()),
+      isDownloaded: doc['isDownloaded'] ?? false,
+      fileSizeBytes: doc['fileSizeBytes'] ?? 0,
+      metadata: Map<String, dynamic>.from(doc['metadata'] ?? {}),
+    );
+  }
+
   /// Create copy with modifications
   ContentBlock copyWith({
     String? id,

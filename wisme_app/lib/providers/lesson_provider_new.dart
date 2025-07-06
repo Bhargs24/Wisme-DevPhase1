@@ -10,15 +10,17 @@ import '../utils/logger.dart';
 
 /// Industrial-grade LessonProvider for AI-powered content management
 class LessonProvider extends ChangeNotifier {
-  final FirestoreService _firestoreService;
+  // ignore: unused_field
+  final FirestoreService _firestoreService; // For future Firestore integration
   final GPTService _gptService;
   final TTSService _ttsService;
-  final ContentMatchingService _contentMatchingService;
+  // ignore: unused_field
+  final ContentMatchingService _contentMatchingService; // For future content matching
   final CacheService? _cacheService;
 
   // State management
   List<ContentBlock> _contentBlocks = [];
-  List<TopicAnalysis> _availableTopics = [];
+  final List<TopicAnalysis> _availableTopics = [];
   ContentBlock? _currentBlock;
   bool _isLoading = false;
   String? _error;
@@ -26,7 +28,7 @@ class LessonProvider extends ChangeNotifier {
   // Search and filtering
   String _currentSearchQuery = '';
   String _selectedCategory = '';
-  List<String> _selectedTags = [];
+  final List<String> _selectedTags = [];
 
   LessonProvider({
     required FirestoreService firestoreService,
@@ -107,9 +109,10 @@ class LessonProvider extends ChangeNotifier {
       
       // Try cache first
       if (_cacheService != null) {
-        final cached = await _cacheService!.getCachedContentBlocks();
-        if (cached.isNotEmpty) {
-          _contentBlocks = cached;
+        final cached = await _cacheService.getCachedContentBlocks();
+        if (cached != null && cached.isNotEmpty) {
+          // Convert cached data to ContentBlock objects
+          _contentBlocks = cached.map((data) => ContentBlock.fromFirestore(data)).toList();
           notifyListeners();
           AppLogger.info('Loaded ${cached.length} blocks from cache');
           return;
@@ -122,7 +125,7 @@ class LessonProvider extends ChangeNotifier {
       
       // Cache the results
       if (_cacheService != null) {
-        await _cacheService!.cacheContentBlocks(_contentBlocks);
+        await _cacheService.cacheContentBlocks(_contentBlocks);
       }
       
       AppLogger.info('Loaded ${_contentBlocks.length} content blocks');
@@ -407,12 +410,12 @@ class LessonProvider extends ChangeNotifier {
   Future<void> _generateAudioForBlock(ContentBlock block) async {
     try {
       if (block.transcript.isNotEmpty) {
-        final audioUrl = await _ttsService.generateAudio(
-          text: block.transcript,
+        await _ttsService.generateAudio(
+          block.transcript,
           voiceId: block.voiceId,
         );
         
-        // Update block with audio URL (in a real implementation)
+        // Audio URL would be updated in the block in a real implementation
         AppLogger.info('Generated audio for block: ${block.title}');
       }
     } catch (e) {

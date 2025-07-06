@@ -207,15 +207,15 @@ class _SmartContentDemoScreenState extends State<SmartContentDemoScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: lessonProvider.isGenerating ? null : () => _generateContent(lessonProvider),
-                icon: lessonProvider.isGenerating 
+                onPressed: lessonProvider.isLoading ? null : () => _generateContent(lessonProvider),
+                icon: lessonProvider.isLoading 
                     ? const SizedBox(
                         width: 16,
                         height: 16,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
                     : const Icon(Icons.auto_awesome),
-                label: Text(lessonProvider.isGenerating 
+                label: Text(lessonProvider.isLoading 
                     ? 'Generating...' 
                     : 'Generate Smart Content'),
                 style: ElevatedButton.styleFrom(
@@ -232,7 +232,7 @@ class _SmartContentDemoScreenState extends State<SmartContentDemoScreen> {
   }
 
   Widget _buildMatchingResultsSection(LessonProvider lessonProvider) {
-    if (lessonProvider.lastMatches.isEmpty) {
+    if (lessonProvider.contentBlocks.isEmpty) {
       return const SizedBox.shrink();
     }
 
@@ -248,33 +248,28 @@ class _SmartContentDemoScreenState extends State<SmartContentDemoScreen> {
                 Icon(Icons.search, color: AppColors.accent),
                 const SizedBox(width: 8),
                 Text(
-                  'Content Matching Results',
+                  'Available Content',
                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
             const SizedBox(height: 16),
             
-            ...lessonProvider.lastMatches.take(3).map((match) => _buildMatchCard(match)),
-            
-            if (lessonProvider.currentAssembly != null) ...[
-              const SizedBox(height: 16),
-              _buildAssemblyCard(lessonProvider.currentAssembly!),
-            ],
+            ...lessonProvider.contentBlocks.take(3).map((block) => _buildContentBlockCard(block)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildMatchCard(ContentMatch match) {
+  Widget _buildContentBlockCard(ContentBlock block) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey.shade300),
         borderRadius: BorderRadius.circular(8),
-        color: match.isExactMatch ? Colors.green.shade50 : Colors.grey.shade50,
+        color: Colors.blue.shade50,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -283,107 +278,46 @@ class _SmartContentDemoScreenState extends State<SmartContentDemoScreen> {
             children: [
               Expanded(
                 child: Text(
-                  'Content ID: ${match.contentId}',
+                  block.title,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              if (match.isExactMatch)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Text(
-                    'EXACT MATCH',
-                    style: TextStyle(color: Colors.white, fontSize: 10),
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          
-          // Score indicators
-          Row(
-            children: [
-              _buildScoreChip('Similarity', match.similarityScore, Colors.blue),
-              const SizedBox(width: 8),
-              _buildScoreChip('Semantic', match.semanticScore, Colors.purple),
-              const SizedBox(width: 8),
-              _buildScoreChip('Total', match.totalScore, Colors.green),
-            ],
-          ),
-          const SizedBox(height: 8),
-          
-          // Matching tags
-          if (match.matchingTags.isNotEmpty) ...[
-            const Text('Matching Tags:', style: TextStyle(fontWeight: FontWeight.w500)),
-            const SizedBox(height: 4),
-            Wrap(
-              spacing: 4,
-              runSpacing: 4,
-              children: match.matchingTags.map((tag) => Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(4),
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  tag,
-                  style: TextStyle(fontSize: 10, color: AppColors.primary),
-                ),
-              )).toList(),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildScoreChip(String label, double score, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: color.withOpacity(0.3)),
-      ),
-      child: Text(
-        '$label: ${(score * 100).toInt()}%',
-        style: TextStyle(fontSize: 10, color: color, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-
-  Widget _buildAssemblyCard(ContentAssembly assembly) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.amber.shade50,
-        border: Border.all(color: Colors.amber.shade300),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.build_circle, color: Colors.amber.shade700),
-              const SizedBox(width: 8),
-              Text(
-                'Content Assembly',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.amber.shade700,
+                  block.knowledgeLevel.toUpperCase(),
+                  style: const TextStyle(color: Colors.white, fontSize: 10),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 8),
-          Text('Type: ${assembly.assemblyType.toUpperCase()}'),
-          Text('Content IDs: ${assembly.contentIds.join(", ")}'),
-          Text('Duration: ${assembly.estimatedDuration.inMinutes} minutes'),
-          Text('Confidence: ${(assembly.confidenceScore * 100).toInt()}%'),
+          Text(
+            'Category: ${block.category}',
+            style: TextStyle(color: Colors.grey[700]),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Duration: ${block.duration.inMinutes}min',
+            style: TextStyle(color: Colors.grey[600], fontSize: 12),
+          ),
+          if (block.tags.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 4,
+              children: block.tags.take(3).map((tag) => 
+                Chip(
+                  label: Text(tag, style: const TextStyle(fontSize: 10)),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: VisualDensity.compact,
+                ),
+              ).toList(),
+            ),
+          ],
         ],
       ),
     );
@@ -450,23 +384,18 @@ class _SmartContentDemoScreenState extends State<SmartContentDemoScreen> {
     }
 
     try {
-      await lessonProvider.generateSmartContentBlock(
-        userId: 'demo_user_123', // In real app, get from auth
-        topic: _topicController.text.trim(),
-        category: _selectedCategory,
-        level: _selectedLevel.toLowerCase(),
-        contentType: 'concept',
-        forceGeneration: _forceGeneration,
-      );
+      // Use the available method to analyze topic intent
+      await lessonProvider.analyzeTopicIntent(_topicController.text.trim());
+      
+      // Load content blocks based on the topic
+      await lessonProvider.loadContentBlocks();
 
-      if (lessonProvider.error == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('✅ Smart content generated successfully!'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('✅ Content loaded successfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
@@ -476,15 +405,16 @@ class _SmartContentDemoScreenState extends State<SmartContentDemoScreen> {
 
   void _getRecommendations(LessonProvider lessonProvider) async {
     try {
-      await lessonProvider.getSmartRecommendations(
-        userId: 'demo_user_123',
-        maxResults: 5,
-        preferredCategories: [_selectedCategory],
-      );
+      // Use available methods to get content based on category
+      if (_selectedCategory.isNotEmpty) {
+        await lessonProvider.loadContentBlocksByCategory(_selectedCategory);
+      } else {
+        await lessonProvider.loadContentBlocks();
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('📊 Recommendations updated!'),
+          content: Text('📊 Content recommendations updated!'),
           backgroundColor: Colors.blue,
         ),
       );

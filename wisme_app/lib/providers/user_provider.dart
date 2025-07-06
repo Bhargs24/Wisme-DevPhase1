@@ -250,4 +250,30 @@ class UserProvider extends ChangeNotifier {
   Future<void> completeOnboarding() async {
     await markOnboardingComplete();
   }
+
+  /// Update the user's knowledge level for a topic
+  Future<void> updateKnowledgeLevel(String level) async {
+    if (_currentUser == null) return;
+
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      // For now, just log the knowledge level update
+      // In a real implementation, this would update the user's profile
+      AppLogger.info('Knowledge level updated for user ${_currentUser!.id}: $level');
+      
+      // In the future, this should:
+      // 1. Update the UserProfile or UserModel with the knowledge level
+      // 2. Save to backend via _authService.updateUserProfile()
+      // 3. Refresh the local profile
+      await refreshUserProfile();
+    } catch (e) {
+      AppLogger.error('Failed to update knowledge level: $e');
+      _error = 'Failed to update knowledge level';
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }

@@ -121,10 +121,20 @@ class PerformanceService {
 
   static Future<void> _collectMetrics() async {
     try {
-      // Collect memory usage
-      final processInfo = await Process.run('free', ['-m']);
-      // Parse memory info (simplified)
-      recordMetric('memory_usage_mb', 128.0); // Placeholder
+      // Collect memory usage (cross-platform compatible)
+      if (Platform.isLinux || Platform.isMacOS) {
+        try {
+          await Process.run('free', ['-m']);
+          // TODO: Parse memory info from process output
+          recordMetric('memory_usage_mb', 128.0); // Placeholder until parsing implemented
+        } catch (e) {
+          // Fallback for when free command is not available
+          recordMetric('memory_usage_mb', 128.0);
+        }
+      } else {
+        // For Windows, iOS, Android - use alternative method or placeholder
+        recordMetric('memory_usage_mb', 128.0);
+      }
 
       // Collect cache statistics
       final cacheStats = await _getCacheStatistics();

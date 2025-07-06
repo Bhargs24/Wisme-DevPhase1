@@ -29,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
             children: [
               _buildProfileHeader(context, user.displayName ?? 'User', user.email),
               const SizedBox(height: 24),
-              _buildStatsCard(user.progress.completedBlocks, 0),
+              _buildStatsCard(user.completedLessons.length, user.totalLearningTime),
               const SizedBox(height: 16),
               _buildMenuItems(context, userProvider),
             ],

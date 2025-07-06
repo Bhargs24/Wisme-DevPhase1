@@ -1,4 +1,5 @@
-import '../core/exports.dart';
+import '../core/exports.dart' hide UserProgress; // Hide the conflicting UserProgress from user_model.dart
+import '../models/lesson_model.dart' show UserProgress; // Use UserProgress with id and userId
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:logger/logger.dart';
@@ -70,7 +71,7 @@ class FirestoreService {
     _checkFirebaseAvailability();
     final doc = await _firestore!.collection('content_blocks').doc(blockId).get();
     if (doc.exists) {
-      return ContentBlock.fromFirestore(doc);
+      return ContentBlock.fromFirestore(doc.data() as Map<String, dynamic>);
     }
     return null;
   }
@@ -105,7 +106,7 @@ class FirestoreService {
 
     final snapshot = await query.get();
     return snapshot.docs
-        .map((doc) => ContentBlock.fromFirestore(doc))
+        .map((doc) => ContentBlock.fromFirestore(doc.data() as Map<String, dynamic>))
         .toList();
   }
 
@@ -255,7 +256,7 @@ class FirestoreService {
         .get();
     
     return snapshot.docs
-        .map((doc) => ContentBlock.fromFirestore(doc))
+        .map((doc) => ContentBlock.fromFirestore(doc.data()))
         .toList();
   }
 

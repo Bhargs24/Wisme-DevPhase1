@@ -22,6 +22,10 @@ export '../constants/app_dimensions.dart';
 export '../design_system/tokens/app_colors.dart'; // Use modern design system colors
 export '../design_system/tokens/app_spacing.dart'; // Use modern design system spacing
 
+// Design System Atoms (Components)
+export '../design_system/atoms/app_button.dart';
+export '../design_system/atoms/app_text_field.dart';
+
 // Core Models
 export '../models/user_profile.dart';
 export '../models/content_block.dart';
@@ -45,8 +49,10 @@ export '../services/elevenlabs_service.dart';
 export '../services/audio_player_service.dart';
 export '../services/cache_service.dart';
 export '../services/analytics_service.dart';
+export '../services/performance_service.dart';
 export '../services/storage_service.dart';
 export '../services/tts_service.dart';
+export '../services/offline_service.dart';
 export '../services/content_matching_service.dart';
 export '../services/content_reuse_engine.dart';
 export '../services/smart_content_orchestrator.dart';
@@ -57,6 +63,7 @@ export '../services/smart_content_orchestrator.dart';
 // Providers
 export '../providers/user_provider.dart';
 export '../providers/lesson_provider.dart'; // Keep the provider version
+// export '../providers/lesson_provider_new.dart'; // New improved version - conflicts with lesson_provider.dart
 export '../providers/audio_provider.dart';
 export '../providers/auth_provider.dart';
 export '../providers/voice_provider.dart';
@@ -72,7 +79,7 @@ export '../routes.dart';
 // UI Widgets
 export '../UI/widgets/modern_components.dart';
 export '../UI/widgets/lesson_card.dart';
-export '../UI/widgets/app_text_field.dart';
+// export '../UI/widgets/app_text_field.dart'; // Replaced by design system version
 
 // Utilities
 export '../utils/helper_functions.dart';

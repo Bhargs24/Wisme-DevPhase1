@@ -1,5 +1,4 @@
 import '../core/exports.dart';
-import 'dart:typed_data';
 import 'dart:async';
 class AudioAssemblyService {
   final TTSService _ttsService;
@@ -180,7 +179,7 @@ class AudioAssemblyService {
         
         // Generate audio using TTS
         final audioData = await _ttsService.generateSpeech(
-          text: content.script,
+          text: content.transcript,
           coachId: voiceId,
         );
         
@@ -194,7 +193,7 @@ class AudioAssemblyService {
           metadata: {
             'content_type': content.contentType,
             'category': content.category,
-            'topic': content.topic,
+            'topic': content.category, // Using category as topic
           },
         );
         

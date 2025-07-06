@@ -245,20 +245,18 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (_currentPage > 0)
-                ModernButton(
+                AppButton(
                   text: 'Previous',
                   onPressed: _previousPage,
-                  width: 120,
-                  isPrimary: false,
+                  variant: AppButtonVariant.secondary,
                 )
               else
                 const SizedBox(width: 120),
               
-              ModernButton(
+              AppButton(
                 text: _currentPage == _totalPages - 1 ? 'Get Started' : 'Next',
                 onPressed: _nextPage,
-                width: 140,
-                isPrimary: true,
+                variant: AppButtonVariant.primary,
               ),
             ],
           ),

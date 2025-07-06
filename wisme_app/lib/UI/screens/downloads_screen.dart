@@ -139,16 +139,15 @@ class _DownloadsScreenState extends State<DownloadsScreen> {
             title: Text(
               content.title,
               style: AppTextStyles.textTheme.titleMedium,
-            ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  content.topic,
-                  style: AppTextStyles.textTheme.bodySmall?.copyWith(
-                    color: AppColors.textSecondary,
+            ),              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    content.category,
+                    style: AppTextStyles.textTheme.bodySmall?.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
                   ),
-                ),
                 const SizedBox(height: 4),
                 Row(
                   children: [

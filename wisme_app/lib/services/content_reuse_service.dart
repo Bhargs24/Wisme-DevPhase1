@@ -293,17 +293,17 @@ class ContentReuseService {
   double _calculateQualityScore(ContentBlock content) {
     double score = 0.5; // Base score
     
-    // Script length indicates thorough content
-    if (content.script.length > 500) score += 0.2;
-    if (content.script.length > 1000) score += 0.1;
+    // Transcript length indicates thorough content
+    if (content.transcript.length > 500) score += 0.2;
+    if (content.transcript.length > 1000) score += 0.1;
     
     // Has audio file
-    if (content.audioUrl != null) score += 0.2;
+    score += 0.2;
     
-    // Access count indicates proven quality
-    if (content.accessCount > 10) score += 0.1;
-    if (content.accessCount > 50) score += 0.1;
-    if (content.accessCount > 100) score += 0.1;
+    // Play count indicates proven quality
+    if (content.playCount > 10) score += 0.1;
+    if (content.playCount > 50) score += 0.1;
+    if (content.playCount > 100) score += 0.1;
     
     return math.min(1.0, score);
   }

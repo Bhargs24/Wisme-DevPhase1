@@ -1,7 +1,4 @@
 import '../../core/exports.dart';
-import '../widgets/app_button.dart';
-import '../widgets/app_text_field.dart';
-import '../widgets/lesson_card.dart';
 class ComponentShowcaseScreen extends StatefulWidget {
   const ComponentShowcaseScreen({super.key});
 
@@ -80,25 +77,25 @@ class _ComponentShowcaseScreenState extends State<ComponentShowcaseScreen> {
         AppButton(
           text: 'Primary Button',
           onPressed: () => _showSnackBar('Primary button pressed'),
-          variant: ButtonVariant.primary,
+          variant: AppButtonVariant.primary,
         ),
         const SizedBox(height: AppDimensions.spaceS),
         AppButton(
           text: 'Secondary Button',
           onPressed: () => _showSnackBar('Secondary button pressed'),
-          variant: ButtonVariant.secondary,
+          variant: AppButtonVariant.secondary,
         ),
         const SizedBox(height: AppDimensions.spaceS),
         AppButton(
           text: 'Ghost Button',
           onPressed: () => _showSnackBar('Ghost button pressed'),
-          variant: ButtonVariant.ghost,
+          variant: AppButtonVariant.ghost,
         ),
         const SizedBox(height: AppDimensions.spaceS),
         AppButton(
           text: 'Danger Button',
           onPressed: () => _showSnackBar('Danger button pressed'),
-          variant: ButtonVariant.danger,
+          variant: AppButtonVariant.danger,
         ),
         
         const SizedBox(height: AppDimensions.spaceL),
@@ -109,19 +106,19 @@ class _ComponentShowcaseScreenState extends State<ComponentShowcaseScreen> {
         AppButton(
           text: 'Small Button',
           onPressed: () => _showSnackBar('Small button pressed'),
-          size: ButtonSize.small,
+          size: AppButtonSize.small,
         ),
         const SizedBox(height: AppDimensions.spaceS),
         AppButton(
           text: 'Medium Button',
           onPressed: () => _showSnackBar('Medium button pressed'),
-          size: ButtonSize.medium,
+          size: AppButtonSize.medium,
         ),
         const SizedBox(height: AppDimensions.spaceS),
         AppButton(
           text: 'Large Button',
           onPressed: () => _showSnackBar('Large button pressed'),
-          size: ButtonSize.large,
+          size: AppButtonSize.large,
         ),
         
         const SizedBox(height: AppDimensions.spaceL),
@@ -219,15 +216,23 @@ class _ComponentShowcaseScreenState extends State<ComponentShowcaseScreen> {
   Widget _buildCardSection() {
     final sampleLesson = ContentBlock(
       id: 'sample_1',
-      category: 'Flutter Development',
-      topic: 'State Management',
-      contentType: 'concept',
-      difficulty: 'beginner',
       title: 'Understanding Provider Pattern',
-      script: 'This lesson covers the Provider pattern in Flutter, which is one of the most popular state management solutions.',
-      tags: ['flutter', 'state-management', 'provider'],
+      description: 'This lesson covers the Provider pattern in Flutter, which is one of the most popular state management solutions.',
       duration: const Duration(minutes: 3),
+      audioUrl: '',
+      category: 'Flutter Development',
+      knowledgeLevel: 'beginner',
+      tags: ['flutter', 'state-management', 'provider'],
+      contentType: 'concept',
+      difficultyLevel: 1,
+      coachPersonality: 'friendly',
+      voiceId: 'default',
+      transcript: 'This lesson covers the Provider pattern in Flutter, which is one of the most popular state management solutions.',
+      keywords: ['flutter', 'provider', 'state management'],
+      prerequisites: ['basic dart knowledge'],
+      learningOutcomes: ['understand provider pattern', 'implement provider in flutter'],
       createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     );
 
     return Column(
