@@ -288,3 +288,4 @@ class UserProvider extends ChangeNotifier {
     await markOnboardingComplete();
   }
 }
+

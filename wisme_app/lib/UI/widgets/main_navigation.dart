@@ -105,7 +105,7 @@ class _MainNavigationState extends State<MainNavigation> with TickerProviderStat
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha:0.1),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -133,7 +133,7 @@ class _MainNavigationState extends State<MainNavigation> with TickerProviderStat
                   duration: const Duration(milliseconds: 300),
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: isSelected ? AppColors.primary.withOpacity(0.1) : Colors.transparent,
+                    color: isSelected ? AppColors.primary.withValues(alpha:0.1) : Colors.transparent,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
@@ -179,7 +179,7 @@ class _MainNavigationState extends State<MainNavigation> with TickerProviderStat
           borderRadius: BorderRadius.circular(28),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withOpacity(0.3),
+              color: AppColors.primary.withValues(alpha:0.3),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -320,10 +320,10 @@ class _MainNavigationState extends State<MainNavigation> with TickerProviderStat
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha:0.1),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: color.withOpacity(0.2),
+            color: color.withValues(alpha:0.2),
             width: 1,
           ),
         ),
@@ -372,4 +372,5 @@ class NavigationTab {
     required this.screen,
   });
 }
+
 

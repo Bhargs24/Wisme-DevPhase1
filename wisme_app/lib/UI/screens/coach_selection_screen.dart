@@ -166,7 +166,7 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.primary.withValues(alpha:0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
@@ -281,18 +281,18 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
             color: isSelected ? coach['color'] : Colors.grey[300]!,
             width: isSelected ? 2 : 1,
           ),
-          color: isSelected ? coach['color'].withOpacity(0.05) : Colors.white,
+          color: isSelected ? coach['color'].withValues(alpha:0.05) : Colors.white,
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: coach['color'].withOpacity(0.3),
+                    color: coach['color'].withValues(alpha:0.3),
                     blurRadius: 16,
                     offset: const Offset(0, 8),
                   ),
                 ]
               : [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha:0.05),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -311,7 +311,7 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
                         width: 60,
                         height: 60,
                         decoration: BoxDecoration(
-                          color: coach['color'].withOpacity(0.1),
+                          color: coach['color'].withValues(alpha:0.1),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Center(
@@ -424,7 +424,7 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: coach['color'].withOpacity(0.1),
+                          color: coach['color'].withValues(alpha:0.1),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Text(
@@ -454,7 +454,7 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
       child: ModernCard(
-        backgroundColor: selectedCoach['color'].withOpacity(0.05),
+        backgroundColor: selectedCoach['color'].withValues(alpha:0.05),
         child: Column(
           children: [
             Row(
@@ -480,7 +480,7 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: selectedCoach['color'].withOpacity(0.2)),
+                border: Border.all(color: selectedCoach['color'].withValues(alpha:0.2)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -565,4 +565,5 @@ class _CoachSelectionScreenState extends State<CoachSelectionScreen>
     );
   }
 }
+
 

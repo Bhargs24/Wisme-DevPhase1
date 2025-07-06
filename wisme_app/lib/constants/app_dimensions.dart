@@ -141,3 +141,4 @@ class AppDimensions {
     return MediaQuery.of(context).size.height;
   }
 }
+

@@ -170,7 +170,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
                     width: 120,
                     height: 120,
                     decoration: BoxDecoration(
-                      color: feature.color.withOpacity(0.1),
+                      color: feature.color.withValues(alpha:0.1),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
@@ -232,7 +232,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
                 decoration: BoxDecoration(
                   color: _currentPage == index
                       ? AppColors.primary
-                      : AppColors.textSecondary.withOpacity(0.3),
+                      : AppColors.textSecondary.withValues(alpha:0.3),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -281,4 +281,5 @@ class ShowcaseFeature {
     required this.description,
   });
 }
+
 

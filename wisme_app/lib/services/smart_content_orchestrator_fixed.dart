@@ -614,3 +614,4 @@ class ContentGenerationAnalytics {
   double get costSavingsPerOperation => 
       totalOperations > 0 ? totalCostSavings / totalOperations : 0.0;
 }
+

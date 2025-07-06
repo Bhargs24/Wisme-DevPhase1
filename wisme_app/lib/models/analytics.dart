@@ -421,3 +421,4 @@ class DailyLearning {
     return days[date.weekday - 1];
   }
 }
+

@@ -57,3 +57,4 @@ class AppColors {
     colors: [surface, Color(0xFFFAFAFA)],
   );
 }
+

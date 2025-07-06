@@ -161,7 +161,7 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
     return FadeTransition(
       opacity: _fadeAnimation,
       child: ModernCard(
-        backgroundColor: widget.coachData['color'].withOpacity(0.05),
+        backgroundColor: widget.coachData['color'].withValues(alpha:0.05),
         child: Column(
           children: [
             Row(
@@ -170,7 +170,7 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: widget.coachData['color'].withOpacity(0.1),
+                    color: widget.coachData['color'].withValues(alpha:0.1),
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Center(
@@ -244,7 +244,7 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 decoration: BoxDecoration(
-                  color: isSelected ? AppColors.primary.withOpacity(0.1) : Colors.white,
+                  color: isSelected ? AppColors.primary.withValues(alpha:0.1) : Colors.white,
                   border: Border.all(
                     color: isSelected ? AppColors.primary : Colors.grey[300]!,
                     width: isSelected ? 2 : 1,
@@ -253,14 +253,14 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                            color: AppColors.primary.withOpacity(0.2),
+                            color: AppColors.primary.withValues(alpha:0.2),
                             blurRadius: 8,
                             offset: const Offset(0, 4),
                           ),
                         ]
                       : [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
+                            color: Colors.black.withValues(alpha:0.05),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -325,7 +325,7 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
                   duration: const Duration(milliseconds: 300),
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: isSelected ? option['color'].withOpacity(0.1) : Colors.white,
+                    color: isSelected ? option['color'].withValues(alpha:0.1) : Colors.white,
                     border: Border.all(
                       color: isSelected ? option['color'] : Colors.grey[300]!,
                       width: isSelected ? 2 : 1,
@@ -337,7 +337,7 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: option['color'].withOpacity(0.1),
+                          color: option['color'].withValues(alpha:0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
@@ -424,7 +424,7 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
                 duration: const Duration(milliseconds: 300),
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
-                  color: isSelected ? AppColors.accent.withOpacity(0.1) : Colors.white,
+                  color: isSelected ? AppColors.accent.withValues(alpha:0.1) : Colors.white,
                   border: Border.all(
                     color: isSelected ? AppColors.accent : Colors.grey[300]!,
                     width: isSelected ? 2 : 1,
@@ -644,4 +644,5 @@ class _JourneyPlanningScreenState extends State<JourneyPlanningScreen>
     );
   }
 }
+
 

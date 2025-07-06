@@ -216,7 +216,7 @@ class _AchievementsGalleryScreenState extends State<AchievementsGalleryScreen>
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 24),
         child: ModernCard(
-          backgroundColor: AppColors.primary.withOpacity(0.1),
+          backgroundColor: AppColors.primary.withValues(alpha:0.1),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -350,7 +350,7 @@ class _AchievementsGalleryScreenState extends State<AchievementsGalleryScreen>
                   ),
                   boxShadow: isUnlocked ? [
                     BoxShadow(
-                      color: rarityColor.withOpacity(0.2),
+                      color: rarityColor.withValues(alpha:0.2),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -369,7 +369,7 @@ class _AchievementsGalleryScreenState extends State<AchievementsGalleryScreen>
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: rarityColor.withOpacity(0.1),
+                            color: rarityColor.withValues(alpha:0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
@@ -390,7 +390,7 @@ class _AchievementsGalleryScreenState extends State<AchievementsGalleryScreen>
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: isUnlocked 
-                              ? rarityColor.withOpacity(0.1) 
+                              ? rarityColor.withValues(alpha:0.1) 
                               : Colors.grey[200],
                         ),
                         child: Center(
@@ -437,7 +437,7 @@ class _AchievementsGalleryScreenState extends State<AchievementsGalleryScreen>
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: rarityColor.withOpacity(0.1),
+                            color: rarityColor.withValues(alpha:0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -524,7 +524,7 @@ class _AchievementsGalleryScreenState extends State<AchievementsGalleryScreen>
                 height: 80,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: rarityColor.withOpacity(0.1),
+                  color: rarityColor.withValues(alpha:0.1),
                   border: Border.all(color: rarityColor, width: 2),
                 ),
                 child: Center(
@@ -549,7 +549,7 @@ class _AchievementsGalleryScreenState extends State<AchievementsGalleryScreen>
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: rarityColor.withOpacity(0.1),
+                  color: rarityColor.withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(
@@ -669,4 +669,5 @@ class _AchievementsGalleryScreenState extends State<AchievementsGalleryScreen>
     );
   }
 }
+
 

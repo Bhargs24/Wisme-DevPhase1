@@ -258,3 +258,4 @@ class LearningSession {
     return 'LearningSession{id: $id, topicId: $topicId, progress: $formattedProgress, completed: $isCompleted}';
   }
 }
+

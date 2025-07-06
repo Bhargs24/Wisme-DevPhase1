@@ -57,7 +57,7 @@ class FeatureShowcaseScreen extends StatelessWidget {
           Text(
             'The world\'s most advanced AI-powered microlearning platform',
             style: AppTextStyles.textTheme.bodyLarge?.copyWith(
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha:0.9),
             ),
           ),
           const SizedBox(height: 16),
@@ -79,7 +79,7 @@ class FeatureShowcaseScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
+        color: Colors.white.withValues(alpha:0.2),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -100,7 +100,7 @@ class FeatureShowcaseScreen extends StatelessWidget {
               Text(
                 label,
                 style: AppTextStyles.textTheme.bodySmall?.copyWith(
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha:0.8),
                   fontSize: 10,
                 ),
               ),
@@ -325,7 +325,7 @@ class FeatureShowcaseScreen extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: AppColors.primary.withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -367,4 +367,5 @@ class FeatureShowcaseScreen extends StatelessWidget {
     );
   }
 }
+
 

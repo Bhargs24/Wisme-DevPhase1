@@ -161,7 +161,7 @@ class _KnowledgeLevelScreenState extends State<KnowledgeLevelScreen>
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: AppColors.primary.withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -254,18 +254,18 @@ class _KnowledgeLevelScreenState extends State<KnowledgeLevelScreen>
             color: isSelected ? level['color'] : Colors.grey[300]!,
             width: isSelected ? 2 : 1,
           ),
-          color: isSelected ? level['color'].withOpacity(0.05) : Colors.white,
+          color: isSelected ? level['color'].withValues(alpha:0.05) : Colors.white,
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: level['color'].withOpacity(0.2),
+                    color: level['color'].withValues(alpha:0.2),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
                 ]
               : [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha:0.05),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -278,7 +278,7 @@ class _KnowledgeLevelScreenState extends State<KnowledgeLevelScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: level['color'].withOpacity(0.1),
+                  color: level['color'].withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -378,4 +378,5 @@ class _KnowledgeLevelScreenState extends State<KnowledgeLevelScreen>
     );
   }
 }
+
 

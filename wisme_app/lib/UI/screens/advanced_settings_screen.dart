@@ -132,7 +132,7 @@ class _AdvancedSettingsScreenState extends State<AdvancedSettingsScreen>
       child: Consumer<UserProvider>(
         builder: (context, userProvider, child) {
           return ModernCard(
-            backgroundColor: AppColors.primary.withOpacity(0.05),
+            backgroundColor: AppColors.primary.withValues(alpha:0.05),
             child: Column(
               children: [
                 Row(
@@ -174,7 +174,7 @@ class _AdvancedSettingsScreenState extends State<AdvancedSettingsScreen>
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: AppColors.accent.withOpacity(0.1),
+                              color: AppColors.accent.withValues(alpha:0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
@@ -806,4 +806,5 @@ class _AdvancedSettingsScreenState extends State<AdvancedSettingsScreen>
     );
   }
 }
+
 

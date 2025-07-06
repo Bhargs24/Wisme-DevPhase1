@@ -394,3 +394,4 @@ class AppInitializationService {
     'build_info': AppVersion.buildInfo,
   };
 }
+

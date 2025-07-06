@@ -55,10 +55,6 @@ export '../services/tts_service.dart';
 export '../services/offline_service.dart';
 export '../services/content_matching_service.dart';
 export '../services/content_reuse_engine.dart';
-export '../services/smart_content_orchestrator.dart';
-
-// Note: Temporarily excluding conflicting services:
-// export '../services/auth_service.dart'; // Conflicts with auth_services.dart
 
 // Providers
 export '../providers/user_provider.dart';
@@ -147,3 +143,4 @@ export '../UI/screens/component_showcase_screen.dart';
 // export 'package:shared_preferences/shared_preferences.dart';
 // export 'package:firebase_core/firebase_core.dart';
 // export 'package:firebase_auth/firebase_auth.dart';
+

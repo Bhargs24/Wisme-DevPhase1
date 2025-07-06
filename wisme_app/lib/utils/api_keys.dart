@@ -18,3 +18,4 @@ class ApiKeys {
 
 // Firebase configuration will be added during setup
 // Follow the Firebase setup guide in FINAL_SETUP.md
+

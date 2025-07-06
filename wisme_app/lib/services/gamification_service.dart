@@ -194,3 +194,4 @@ class Reward {
     required this.description,
   });
 }
+

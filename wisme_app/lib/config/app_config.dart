@@ -117,3 +117,4 @@ class AppVersion {
     'environment': EnvironmentConfig.environment,
   };
 }
+

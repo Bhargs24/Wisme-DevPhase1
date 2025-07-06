@@ -158,14 +158,14 @@ class _EnhancedAudioPlayerScreenState extends State<EnhancedAudioPlayerScreen>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      AppColors.primary.withOpacity(0.3),
-                      AppColors.secondary.withOpacity(0.3),
-                      AppColors.accent.withOpacity(0.3),
+                      AppColors.primary.withValues(alpha:0.3),
+                      AppColors.secondary.withValues(alpha:0.3),
+                      AppColors.accent.withValues(alpha:0.3),
                     ],
                   ),
                   boxShadow: isPlaying ? [
                     BoxShadow(
-                      color: AppColors.primary.withOpacity(0.3),
+                      color: AppColors.primary.withValues(alpha:0.3),
                       blurRadius: 20,
                       spreadRadius: 5,
                     ),
@@ -178,7 +178,7 @@ class _EnhancedAudioPlayerScreenState extends State<EnhancedAudioPlayerScreen>
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha:0.1),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -371,7 +371,7 @@ class _EnhancedAudioPlayerScreenState extends State<EnhancedAudioPlayerScreen>
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withOpacity(0.3),
+              color: AppColors.primary.withValues(alpha:0.3),
               blurRadius: 16,
               offset: const Offset(0, 8),
             ),
@@ -400,7 +400,7 @@ class _EnhancedAudioPlayerScreenState extends State<EnhancedAudioPlayerScreen>
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha:0.1),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -456,7 +456,7 @@ class _EnhancedAudioPlayerScreenState extends State<EnhancedAudioPlayerScreen>
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isActive ? AppColors.accent.withOpacity(0.1) : Colors.white,
+          color: isActive ? AppColors.accent.withValues(alpha:0.1) : Colors.white,
           border: Border.all(
             color: isActive ? AppColors.accent : Colors.grey[300]!,
           ),
@@ -651,4 +651,5 @@ class _EnhancedAudioPlayerScreenState extends State<EnhancedAudioPlayerScreen>
     );
   }
 }
+
 

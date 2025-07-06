@@ -119,3 +119,4 @@ extension AuthServiceSingleton on AuthService {
   static AuthService? _instance;
   static AuthService get instance => _instance ??= AuthService();
 }
+

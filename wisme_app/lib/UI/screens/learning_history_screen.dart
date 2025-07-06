@@ -123,7 +123,7 @@ class _LearningHistoryScreenState extends State<LearningHistoryScreen> {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: isCompleted ? Colors.green.withOpacity(0.1) : AppColors.primary.withOpacity(0.1),
+                color: isCompleted ? Colors.green.withValues(alpha:0.1) : AppColors.primary.withValues(alpha:0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
@@ -333,4 +333,5 @@ class _LearningHistoryScreenState extends State<LearningHistoryScreen> {
     );
   }
 }
+
 

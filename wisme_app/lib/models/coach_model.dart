@@ -143,3 +143,4 @@ class CoachModel {
     return 'CoachModel(id: $id, name: $name, description: $description)';
   }
 }
+

@@ -74,7 +74,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha:0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
@@ -95,7 +95,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                 Text(
                   'Track your learning journey with precision',
                   style: AppTextStyles.textTheme.bodyLarge?.copyWith(
-                    color: Colors.white.withOpacity(0.8),
+                    color: Colors.white.withValues(alpha:0.8),
                   ),
                 ),
               ],
@@ -104,7 +104,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha:0.2),
               borderRadius: BorderRadius.circular(16),
             ),
             child: const Icon(Icons.analytics_outlined, color: Colors.white),
@@ -118,7 +118,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(25),
       ),
       child: TabBar(
@@ -128,7 +128,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
           borderRadius: BorderRadius.circular(25),
         ),
         labelColor: AppColors.primary,
-        unselectedLabelColor: Colors.white.withOpacity(0.7),
+        unselectedLabelColor: Colors.white.withValues(alpha:0.7),
         labelStyle: AppTextStyles.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
         tabs: const [
           Tab(text: 'Learning'),
@@ -240,10 +240,10 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.05),
+        color: AppColors.primary.withValues(alpha:0.05),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.primary.withOpacity(0.1),
+          color: AppColors.primary.withValues(alpha:0.1),
         ),
       ),
       child: Column(
@@ -877,4 +877,5 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     );
   }
 }
+
 

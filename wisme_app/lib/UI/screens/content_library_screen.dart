@@ -123,13 +123,13 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
           const SizedBox(height: 12),
           Row(
             children: [
-              Icon(Icons.auto_awesome, color: Colors.white.withOpacity(0.8), size: 16),
+              Icon(Icons.auto_awesome, color: Colors.white.withValues(alpha:0.8), size: 16),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   'AI-powered recommendations based on your learning pattern',
                   style: AppTextStyles.textTheme.bodySmall?.copyWith(
-                    color: Colors.white.withOpacity(0.8),
+                    color: Colors.white.withValues(alpha:0.8),
                   ),
                 ),
               ),
@@ -221,7 +221,7 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
 
   Widget _buildHeroContent() {
     return ModernCard(
-      backgroundColor: AppColors.accent.withOpacity(0.1),
+      backgroundColor: AppColors.accent.withValues(alpha:0.1),
       child: Container(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -335,9 +335,9 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: topic['color'].withOpacity(0.1),
+                    color: topic['color'].withValues(alpha:0.1),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: topic['color'].withOpacity(0.3)),
+                    border: Border.all(color: topic['color'].withValues(alpha:0.3)),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -386,7 +386,7 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
           height: 60,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [content['color'], content['color'].withOpacity(0.7)],
+              colors: [content['color'], content['color'].withValues(alpha:0.7)],
             ),
             borderRadius: BorderRadius.circular(12),
           ),
@@ -409,7 +409,7 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
-                    color: AppColors.success.withOpacity(0.1),
+                    color: AppColors.success.withValues(alpha:0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -496,7 +496,7 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha:0.2),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -639,7 +639,7 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [topic['color'], topic['color'].withOpacity(0.7)],
+            colors: [topic['color'], topic['color'].withValues(alpha:0.7)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -670,7 +670,7 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
                   Text(
                     '${topic['count']} lessons',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.white.withValues(alpha:0.8),
                       fontSize: 12,
                     ),
                   ),
@@ -685,7 +685,7 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
 
   Widget _buildRandomDiscovery() {
     return ModernCard(
-      backgroundColor: AppColors.primary.withOpacity(0.1),
+      backgroundColor: AppColors.primary.withValues(alpha:0.1),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -783,7 +783,7 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
             height: 80,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [content['color'], content['color'].withOpacity(0.7)],
+                colors: [content['color'], content['color'].withValues(alpha:0.7)],
               ),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),
@@ -1089,4 +1089,5 @@ class _ContentLibraryScreenState extends State<ContentLibraryScreen>
     );
   }
 }
+
 

@@ -95,7 +95,7 @@ class _LearningStatsScreenState extends State<LearningStatsScreen>
                       margin: const EdgeInsets.only(right: 8),
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
-                        color: isSelected ? Colors.white : Colors.white.withOpacity(0.2),
+                        color: isSelected ? Colors.white : Colors.white.withValues(alpha:0.2),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -279,7 +279,7 @@ class _LearningStatsScreenState extends State<LearningStatsScreen>
                   end: Alignment.topCenter,
                   colors: [
                     AppColors.primary,
-                    AppColors.primary.withOpacity(0.7),
+                    AppColors.primary.withValues(alpha:0.7),
                   ],
                 ),
               ),
@@ -389,7 +389,7 @@ class _LearningStatsScreenState extends State<LearningStatsScreen>
 
   Widget _buildStreakCard() {
     return ModernCard(
-      backgroundColor: AppColors.accent.withOpacity(0.1),
+      backgroundColor: AppColors.accent.withValues(alpha:0.1),
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Row(
@@ -545,7 +545,7 @@ class _LearningStatsScreenState extends State<LearningStatsScreen>
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: AppColors.accent.withOpacity(0.1),
+              color: AppColors.accent.withValues(alpha:0.1),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
@@ -650,7 +650,7 @@ class _LearningStatsScreenState extends State<LearningStatsScreen>
             return Container(
               decoration: BoxDecoration(
                 color: isCompleted 
-                    ? AppColors.success.withOpacity(0.2)
+                    ? AppColors.success.withValues(alpha:0.2)
                     : Colors.grey[100],
                 borderRadius: BorderRadius.circular(8),
                 border: isToday 
@@ -833,7 +833,7 @@ class _LearningStatsScreenState extends State<LearningStatsScreen>
 
   Widget _buildAIInsights() {
     return ModernCard(
-      backgroundColor: AppColors.primary.withOpacity(0.1),
+      backgroundColor: AppColors.primary.withValues(alpha:0.1),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -1030,4 +1030,5 @@ class _LearningStatsScreenState extends State<LearningStatsScreen>
     );
   }
 }
+
 

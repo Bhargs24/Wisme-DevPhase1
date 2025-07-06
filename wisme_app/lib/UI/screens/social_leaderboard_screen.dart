@@ -188,7 +188,7 @@ class _SocialLeaderboardScreenState extends State<SocialLeaderboardScreen>
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 24),
         child: ModernCard(
-          backgroundColor: AppColors.primary.withOpacity(0.1),
+          backgroundColor: AppColors.primary.withValues(alpha:0.1),
           child: Column(
             children: [
               Row(
@@ -198,7 +198,7 @@ class _SocialLeaderboardScreenState extends State<SocialLeaderboardScreen>
                     height: 60,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.accent.withOpacity(0.2),
+                      color: AppColors.accent.withValues(alpha:0.2),
                       border: Border.all(color: AppColors.accent, width: 2),
                     ),
                     child: const Center(
@@ -390,14 +390,14 @@ class _SocialLeaderboardScreenState extends State<SocialLeaderboardScreen>
             child: Container(
               margin: const EdgeInsets.only(bottom: 12),
               decoration: BoxDecoration(
-                color: isCurrentUser ? AppColors.accent.withOpacity(0.1) : Colors.white,
+                color: isCurrentUser ? AppColors.accent.withValues(alpha:0.1) : Colors.white,
                 borderRadius: BorderRadius.circular(16),
                 border: isCurrentUser 
                     ? Border.all(color: AppColors.accent, width: 2)
                     : null,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha:0.05),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -412,7 +412,7 @@ class _SocialLeaderboardScreenState extends State<SocialLeaderboardScreen>
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: leader['color'].withOpacity(0.1),
+                        color: leader['color'].withValues(alpha:0.1),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Center(
@@ -437,7 +437,7 @@ class _SocialLeaderboardScreenState extends State<SocialLeaderboardScreen>
                       height: 50,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: leader['color'].withOpacity(0.1),
+                        color: leader['color'].withValues(alpha:0.1),
                         border: Border.all(color: leader['color'], width: 2),
                       ),
                       child: Center(
@@ -625,4 +625,5 @@ class _SocialLeaderboardScreenState extends State<SocialLeaderboardScreen>
     );
   }
 }
+
 

@@ -227,3 +227,4 @@ extension TextStyleExtension on TextStyle {
   /// Apply medium weight
   TextStyle get medium => copyWith(fontWeight: FontWeight.w500);
 }
+

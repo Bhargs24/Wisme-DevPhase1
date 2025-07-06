@@ -86,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen>
                   width: 120,
                   height: 120,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.15),
+                    color: Colors.white.withValues(alpha:0.15),
                     borderRadius: BorderRadius.circular(60),
                   ),
                   child: const Center(
@@ -121,7 +121,7 @@ class _SplashScreenState extends State<SplashScreen>
                       Text(
                         'AI-Powered Microlearning',
                         style: AppTextStyles.textTheme.titleMedium?.copyWith(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha:0.9),
                           letterSpacing: 1,
                         ),
                       ),
@@ -147,7 +147,7 @@ class _SplashScreenState extends State<SplashScreen>
                     Text(
                       'Preparing your learning experience...',
                       style: AppTextStyles.textTheme.bodyMedium?.copyWith(
-                        color: Colors.white.withOpacity(0.8),
+                        color: Colors.white.withValues(alpha:0.8),
                       ),
                     ),
                   ],
@@ -162,4 +162,5 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
+
 

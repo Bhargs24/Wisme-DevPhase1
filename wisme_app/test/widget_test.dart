@@ -46,3 +46,4 @@ void main() {
     expect(find.text('Home'), findsOneWidget);
   });
 }
+

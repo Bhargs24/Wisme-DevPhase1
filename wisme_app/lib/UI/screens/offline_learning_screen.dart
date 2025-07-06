@@ -114,7 +114,7 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
                     Text(
                       '${_storageUsed.toStringAsFixed(1)} GB of ${_storageLimit.toStringAsFixed(1)} GB used',
                       style: AppTextStyles.textTheme.bodyMedium?.copyWith(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha:0.9),
                       ),
                     ),
                   ],
@@ -123,7 +123,7 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha:0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -141,7 +141,7 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
             borderRadius: BorderRadius.circular(10),
             child: LinearProgressIndicator(
               value: storagePercentage,
-              backgroundColor: Colors.white.withOpacity(0.3),
+              backgroundColor: Colors.white.withValues(alpha:0.3),
               valueColor: AlwaysStoppedAnimation<Color>(
                 storagePercentage > 0.8 ? Colors.orange : Colors.white,
               ),
@@ -155,19 +155,19 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
               Text(
                 '${_getDownloadedLessonsCount()} lessons downloaded',
                 style: AppTextStyles.textTheme.bodySmall?.copyWith(
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha:0.8),
                 ),
               ),
               GestureDetector(
                 onTap: _optimizeStorage,
                 child: Row(
                   children: [
-                    Icon(Icons.auto_fix_high, color: Colors.white.withOpacity(0.8), size: 16),
+                    Icon(Icons.auto_fix_high, color: Colors.white.withValues(alpha:0.8), size: 16),
                     const SizedBox(width: 4),
                     Text(
                       'Optimize',
                       style: AppTextStyles.textTheme.bodySmall?.copyWith(
-                        color: Colors.white.withOpacity(0.8),
+                        color: Colors.white.withValues(alpha:0.8),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -292,7 +292,7 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
           width: 50,
           height: 50,
           decoration: BoxDecoration(
-            color: lesson['color'].withOpacity(0.1),
+            color: lesson['color'].withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(25),
           ),
           child: Icon(
@@ -526,7 +526,7 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: item['color'].withOpacity(0.1),
+                    color: item['color'].withValues(alpha:0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Icon(
@@ -608,7 +608,7 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
 
   Widget _buildQuickDownloads() {
     return ModernCard(
-      backgroundColor: AppColors.accent.withOpacity(0.1),
+      backgroundColor: AppColors.accent.withValues(alpha:0.1),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -649,9 +649,9 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: AppColors.accent.withOpacity(0.2),
+          color: AppColors.accent.withValues(alpha:0.2),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.accent.withOpacity(0.3)),
+          border: Border.all(color: AppColors.accent.withValues(alpha:0.3)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -723,9 +723,9 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: rec['color'].withOpacity(0.1),
+        color: rec['color'].withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: rec['color'].withOpacity(0.3)),
+        border: Border.all(color: rec['color'].withValues(alpha:0.3)),
       ),
       child: Row(
         children: [
@@ -761,7 +761,7 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
 
   Widget _buildOfflineOptimization() {
     return ModernCard(
-      backgroundColor: AppColors.success.withOpacity(0.1),
+      backgroundColor: AppColors.success.withValues(alpha:0.1),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -880,7 +880,7 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: selected ? AppColors.primary.withOpacity(0.1) : Colors.transparent,
+          color: selected ? AppColors.primary.withValues(alpha:0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: selected ? AppColors.primary : Colors.grey[300]!,
@@ -1222,4 +1222,5 @@ class _OfflineLearningScreenState extends State<OfflineLearningScreen>
     );
   }
 }
+
 

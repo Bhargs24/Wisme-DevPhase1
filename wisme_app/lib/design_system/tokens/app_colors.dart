@@ -157,3 +157,4 @@ class AppColorsDark {
   static const Color border = Color(0xFF334155);
   static const Color divider = Color(0xFF334155);
 }
+

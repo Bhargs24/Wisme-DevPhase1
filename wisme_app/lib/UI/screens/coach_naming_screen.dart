@@ -134,17 +134,17 @@ class _CoachNamingScreenState extends State<CoachNamingScreen>
       child: SlideTransition(
         position: _slideAnimation,
         child: ModernCard(
-          backgroundColor: widget.coachData['color'].withOpacity(0.05),
+          backgroundColor: widget.coachData['color'].withValues(alpha:0.05),
           child: Column(
             children: [
               Container(
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: widget.coachData['color'].withOpacity(0.1),
+                  color: widget.coachData['color'].withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(60),
                   border: Border.all(
-                    color: widget.coachData['color'].withOpacity(0.3),
+                    color: widget.coachData['color'].withValues(alpha:0.3),
                     width: 3,
                   ),
                 ),
@@ -271,7 +271,7 @@ class _CoachNamingScreenState extends State<CoachNamingScreen>
                 ),
                 decoration: BoxDecoration(
                   color: _nameController.text == name
-                      ? widget.coachData['color'].withOpacity(0.1)
+                      ? widget.coachData['color'].withValues(alpha:0.1)
                       : Colors.grey[100],
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
@@ -432,4 +432,5 @@ class _CoachNamingScreenState extends State<CoachNamingScreen>
     );
   }
 }
+
 

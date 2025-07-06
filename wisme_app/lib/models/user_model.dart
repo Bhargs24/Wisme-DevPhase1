@@ -371,3 +371,4 @@ class UserProgress {
     return (completedBlocks / totalBlocks) * 100;
   }
 }
+

@@ -191,7 +191,7 @@ Still having issues? Contact our support team.
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha:0.1),
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Icon(
@@ -431,4 +431,5 @@ class HelpItem {
     required this.content,
   });
 }
+
 

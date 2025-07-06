@@ -92,7 +92,7 @@ class LoadingStates {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha:0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -123,8 +123,8 @@ class LoadingStates {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.primary.withOpacity(0.1),
-              AppColors.secondary.withOpacity(0.05),
+              AppColors.primary.withValues(alpha:0.1),
+              AppColors.secondary.withValues(alpha:0.05),
             ],
           ),
         ),
@@ -136,7 +136,7 @@ class LoadingStates {
                 Icon(
                   icon,
                   size: 48,
-                  color: AppColors.primary.withOpacity(0.7),
+                  color: AppColors.primary.withValues(alpha:0.7),
                 ),
                 const SizedBox(height: 24),
               ],
@@ -168,7 +168,7 @@ class LoadingStates {
     Color? backgroundColor,
   }) {
     return Container(
-      color: backgroundColor ?? Colors.black.withOpacity(0.5),
+      color: backgroundColor ?? Colors.black.withValues(alpha:0.5),
       child: Center(
         child: Container(
           padding: const EdgeInsets.all(32),
@@ -263,4 +263,5 @@ class _ShimmerEffectState extends State<_ShimmerEffect>
     );
   }
 }
+
 

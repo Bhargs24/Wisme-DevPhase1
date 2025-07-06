@@ -96,3 +96,4 @@ class ElevenLabsVoice {
     return 'ElevenLabsVoice(voiceId: $voiceId, name: $name, category: $category)';
   }
 }
+

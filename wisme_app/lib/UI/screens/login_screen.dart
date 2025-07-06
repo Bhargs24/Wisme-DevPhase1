@@ -278,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen>
           width: 80,
           height: 80,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
+            color: Colors.white.withValues(alpha:0.15),
             borderRadius: BorderRadius.circular(40),
           ),
           child: const Center(
@@ -310,7 +310,7 @@ class _LoginScreenState extends State<LoginScreen>
               ? 'Sign in to continue your learning journey'
               : 'Join thousands of learners worldwide',
           style: TextStyle(
-            color: Colors.white.withOpacity(0.8),
+            color: Colors.white.withValues(alpha:0.8),
             fontSize: 16,
             fontWeight: FontWeight.w400,
           ),
@@ -432,18 +432,18 @@ class _LoginScreenState extends State<LoginScreen>
       children: [
         Row(
           children: [
-            Expanded(child: Divider(color: Colors.white.withOpacity(0.3))),
+            Expanded(child: Divider(color: Colors.white.withValues(alpha:0.3))),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'or continue with',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha:0.8),
                   fontSize: 14,
                 ),
               ),
             ),
-            Expanded(child: Divider(color: Colors.white.withOpacity(0.3))),
+            Expanded(child: Divider(color: Colors.white.withValues(alpha:0.3))),
           ],
         ),
         
@@ -472,7 +472,7 @@ class _LoginScreenState extends State<LoginScreen>
               ? "Don't have an account? " 
               : 'Already have an account? ',
           style: TextStyle(
-            color: Colors.white.withOpacity(0.8),
+            color: Colors.white.withValues(alpha:0.8),
             fontSize: 16,
           ),
         ),
@@ -483,7 +483,7 @@ class _LoginScreenState extends State<LoginScreen>
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha:0.8),
                   width: 1,
                 ),
               ),
@@ -502,4 +502,5 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 }
+
 

@@ -251,3 +251,4 @@ enum AppInitializationState {
   completed,
   failed,
 }
+

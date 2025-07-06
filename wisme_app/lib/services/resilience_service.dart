@@ -411,3 +411,4 @@ class MaxRetriesExceededException implements Exception {
   @override
   String toString() => 'Max retries ($maxRetries) exceeded for service: $serviceName. Last error: $lastException';
 }
+

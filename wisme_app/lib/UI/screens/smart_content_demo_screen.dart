@@ -112,7 +112,7 @@ class _SmartContentDemoScreenState extends State<SmartContentDemoScreen> {
       runSpacing: 8,
       children: features.map((feature) => Chip(
         label: Text(feature, style: const TextStyle(fontSize: 12)),
-        backgroundColor: AppColors.primary.withOpacity(0.1),
+        backgroundColor: AppColors.primary.withValues(alpha:0.1),
         labelStyle: TextStyle(color: AppColors.primary),
       )).toList(),
     );
@@ -425,4 +425,5 @@ class _SmartContentDemoScreenState extends State<SmartContentDemoScreen> {
     }
   }
 }
+
 

@@ -322,3 +322,4 @@ class AppThemeColors {
     required this.onError,
   });
 }
+
