@@ -247,47 +247,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showClearCacheDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: const Text('Clear Cache'),
         content: const Text('This will remove all downloaded content and cached data. You can re-download content later.'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
             child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () async {
               try {
-                // Clear all caches using production services
-                await context.read<CacheService>().clearCache();
+                await dialogContext.read<CacheService>().clearCache();
                 await PerformanceService.clearAllCache();
                 await AnalyticsService.clearLocalAnalytics();
-                
-                // Track cache clearing
+                if (!dialogContext.mounted) return;
                 AnalyticsService.trackEvent('cache_cleared', {
                   'user_action': true,
                   'timestamp': DateTime.now().toIso8601String(),
                 });
-                
-                if (mounted) {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Cache cleared successfully'),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
-                }
+                Navigator.pop(dialogContext);
+                ScaffoldMessenger.of(dialogContext).showSnackBar(
+                  const SnackBar(
+                    content: Text('Cache cleared successfully'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
               } catch (e) {
-                if (mounted) {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Failed to clear cache: $e'),
-                      backgroundColor: AppColors.error,
-                    ),
-                  );
-                }
+                if (!dialogContext.mounted) return;
+                Navigator.pop(dialogContext);
+                ScaffoldMessenger.of(dialogContext).showSnackBar(
+                  SnackBar(
+                    content: Text('Failed to clear cache: $e'),
+                    backgroundColor: AppColors.error,
+                  ),
+                );
               }
             },
             child: const Text('Clear'),
@@ -300,50 +294,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showSignOutDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: const Text('Sign Out'),
         content: const Text('Are you sure you want to sign out? Your learning progress will be saved.'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
             child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () async {
               try {
-                // End analytics session before sign out
-                final userProvider = context.read<UserProvider>();
+                final userProvider = dialogContext.read<UserProvider>();
                 if (userProvider.currentUser?.id != null) {
                   AnalyticsService.endSession(userProvider.currentUser!.id);
                 }
-                
-                // Sign out using auth service
-                await context.read<AuthService>().signOut();
-                
-                // Track sign out event
+                await dialogContext.read<AuthService>().signOut();
                 AnalyticsService.trackEvent('user_signed_out', {
                   'user_action': true,
                   'timestamp': DateTime.now().toIso8601String(),
                 });
-                
-                if (mounted) {
-                  Navigator.pop(context);
-                  Navigator.pushNamedAndRemoveUntil(
-                    context, 
-                    AppRoutes.login, 
-                    (route) => false
-                  );
-                }
+                if (!dialogContext.mounted) return;
+                Navigator.pop(dialogContext);
+                Navigator.pushNamedAndRemoveUntil(
+                  dialogContext, 
+                  AppRoutes.login, 
+                  (route) => false
+                );
               } catch (e) {
-                if (mounted) {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Sign out failed: $e'),
-                      backgroundColor: AppColors.error,
-                    ),
-                  );
-                }
+                if (!dialogContext.mounted) return;
+                Navigator.pop(dialogContext);
+                ScaffoldMessenger.of(dialogContext).showSnackBar(
+                  SnackBar(
+                    content: Text('Sign out failed: $e'),
+                    backgroundColor: AppColors.error,
+                  ),
+                );
               }
             },
             child: const Text('Sign Out'),
