@@ -1,7 +1,4 @@
 import '../../core/exports.dart';
-import '../screens/login_screen.dart';
-import '../screens/onboarding_screen.dart';
-import '../screens/splash_screen.dart';
 import 'main_navigation.dart';
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});

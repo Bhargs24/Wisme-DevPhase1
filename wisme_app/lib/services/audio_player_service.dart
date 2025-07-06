@@ -27,8 +27,8 @@ class AudioPlayerService {
   
   // Configuration
   double _playbackSpeed = 1.0;
-  bool _isRepeatMode = false;
-  bool _isShuffleMode = false;
+  final bool _isRepeatMode = false;
+  final bool _isShuffleMode = false;
   
   // Getters for streams
   Stream<ap.PlayerState> get playerStateStream => _playerStateController.stream;

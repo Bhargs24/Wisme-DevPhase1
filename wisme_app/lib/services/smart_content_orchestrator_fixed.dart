@@ -19,6 +19,7 @@ class RankedContentMatch {
 }
 
 class SmartContentOrchestrator {
+  final ContentMatchingService _matchingService;
   final ContentReuseEngine _reuseEngine;
   final FirestoreService _firestoreService;
   final GPTService _gptService;
@@ -30,11 +31,13 @@ class SmartContentOrchestrator {
   DateTime _lastResetTime = DateTime.now();
 
   SmartContentOrchestrator({
+    required ContentMatchingService matchingService,
     required ContentReuseEngine reuseEngine,
     required FirestoreService firestoreService,
     required GPTService gptService,
     required TTSService ttsService,
-  }) : _reuseEngine = reuseEngine,
+  }) : _matchingService = matchingService,
+       _reuseEngine = reuseEngine,
        _firestoreService = firestoreService,
        _gptService = gptService,
        _ttsService = ttsService;

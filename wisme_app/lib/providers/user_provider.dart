@@ -1,4 +1,5 @@
 import '../core/exports.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProvider extends ChangeNotifier {
   final AuthService _authService;
@@ -9,6 +10,7 @@ class UserProvider extends ChangeNotifier {
 
   UserProvider({
     required AuthService authService,
+    required SharedPreferences prefs,
   }) : _authService = authService {
     _initializeUser();
   }
@@ -247,33 +249,42 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> completeOnboarding() async {
-    await markOnboardingComplete();
-  }
-
-  /// Update the user's knowledge level for a topic
-  Future<void> updateKnowledgeLevel(String level) async {
+  Future<void> updateKnowledgeLevel(String knowledgeLevel) async {
     if (_currentUser == null) return;
 
     _isLoading = true;
     notifyListeners();
 
     try {
-      // For now, just log the knowledge level update
-      // In a real implementation, this would update the user's profile
-      AppLogger.info('Knowledge level updated for user ${_currentUser!.id}: $level');
+      // Update the knowledge level for the current topic/session
+      // For now, just log the update since we need to integrate with backend
+      AppLogger.info('Knowledge level updated for user: ${_currentUser!.id}, level: $knowledgeLevel');
       
-      // In the future, this should:
-      // 1. Update the UserProfile or UserModel with the knowledge level
-      // 2. Save to backend via _authService.updateUserProfile()
-      // 3. Refresh the local profile
-      await refreshUserProfile();
+      // In a real implementation, this would:
+      // 1. Get the current UserModel 
+      // 2. Update the learningProfile.currentLevel
+      // 3. Save to Firestore via AuthService
+      // await _authService.updateUserProfile(updatedUserModel);
+      
+      // For now, we'll store it in a simple way
+      final updates = {
+        'knowledgeLevel': knowledgeLevel,
+        'lastUpdated': DateTime.now().toIso8601String(),
+      };
+      
+      await updateProfile(updates);
+      
     } catch (e) {
       AppLogger.error('Failed to update knowledge level: $e');
       _error = 'Failed to update knowledge level';
+      rethrow;
     } finally {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  Future<void> completeOnboarding() async {
+    await markOnboardingComplete();
   }
 }

@@ -1,7 +1,5 @@
 import '../../core/exports.dart';
 import '../widgets/voice_selector_widget.dart';
-import '../widgets/app_text_field.dart';
-import 'lesson_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

@@ -35,11 +35,6 @@ class ProviderSetup {
             authService: context.read<AuthService>(),
           ),
         ),
-        ChangeNotifierProvider<UserProvider>(
-          create: (context) => UserProvider(
-            authService: context.read<AuthService>(),
-          ),
-        ),
         ChangeNotifierProvider<LessonProvider>(
           create: (context) => LessonProvider(
             firestoreService: context.read<FirestoreService>(),

@@ -102,6 +102,7 @@ sealed class Result<T> {
 
 /// Success result containing data
 final class Success<T> extends Result<T> {
+  @override
   final T data;
   
   const Success(this.data);
