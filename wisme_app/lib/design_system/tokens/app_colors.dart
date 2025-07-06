@@ -15,6 +15,9 @@ class AppColors {
   static const Color secondary = Color(0xFF10B981);
   static const Color secondaryLight = Color(0xFF34D399);
   static const Color secondaryDark = Color(0xFF059669);
+  
+  /// Accent color - used for highlights, special elements
+  static const Color accent = Color(0xFFFF9800);
 
   // === SEMANTIC COLORS ===
   /// Success states - confirmations, completed actions

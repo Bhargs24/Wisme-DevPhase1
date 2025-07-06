@@ -1,5 +1,4 @@
 import '../../core/exports.dart';
-import '../../design_system/design_system.dart';
 class LessonCard extends StatelessWidget {
   final ContentBlock lesson;
   final VoidCallback onTap;

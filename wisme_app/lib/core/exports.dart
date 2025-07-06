@@ -13,15 +13,19 @@ export 'package:flutter/foundation.dart';
 // State Management
 export 'package:provider/provider.dart';
 
-// App Constants
-export '../constants/app_colors.dart';
+// App Constants (Legacy - keeping for compatibility)
 export '../constants/app_text_styles.dart';
 export '../constants/app_assets.dart';
 export '../constants/app_dimensions.dart';
 
+// Design System (Modern design tokens)
+export '../design_system/tokens/app_colors.dart'; // Use modern design system colors
+export '../design_system/tokens/app_spacing.dart'; // Use modern design system spacing
+
 // Core Models
 export '../models/user_profile.dart';
 export '../models/content_block.dart';
+export '../models/content_matching_model.dart'; // ContentMatch, ContentTags, etc.
 export '../models/topic_model.dart';
 export '../models/learning_session.dart';
 export '../models/achievement.dart' hide Achievement; // Use Achievement from user_profile.dart
@@ -44,6 +48,8 @@ export '../services/analytics_service.dart';
 export '../services/storage_service.dart';
 export '../services/tts_service.dart';
 export '../services/content_matching_service.dart';
+export '../services/content_reuse_engine.dart';
+export '../services/smart_content_orchestrator.dart';
 
 // Note: Temporarily excluding conflicting services:
 // export '../services/auth_service.dart'; // Conflicts with auth_services.dart

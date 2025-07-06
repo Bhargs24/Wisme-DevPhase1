@@ -145,12 +145,15 @@ class ContentReuseEngine {
     }
     
     // Load from database
-    final tags = await _firestoreService.getContentTags(contentId);
-    if (tags != null) {
+    final tagsData = await _firestoreService.getContentTags(contentId);
+    if (tagsData != null) {
+      // Convert dynamic data to ContentTags object
+      final tags = ContentTags.fromMap(tagsData as Map<String, dynamic>);
       _contentTagsCache[contentId] = tags;
+      return tags;
     }
     
-    return tags;
+    return null;
   }
 
   Future<ContentTags> _generateSearchTags(String topic, String category, String level) async {
@@ -252,9 +255,9 @@ class ContentReuseEngine {
   }
 
   double _calculatePopularityScore(ContentBlock content) {
-    // Calculate based on access count and recent usage
-    final normalizedAccessCount = math.min(content.accessCount / 100.0, 1.0);
-    return normalizedAccessCount;
+    // Calculate based on play count and recent usage
+    final normalizedPlayCount = math.min(content.playCount / 100.0, 1.0);
+    return normalizedPlayCount;
   }
 
   List<String> _getMatchingTags(ContentTags searchTags, ContentTags contentTags) {
